@@ -52,26 +52,26 @@
           <div class="item">Open</div>
         </div>
       </div>
-      <a class="item">Subjects</a>
+      <a class="item" id="subjectsOption">Subjects</a>
       <div class="ui dropdown item">
         Score
         <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item">Behavior Parameters</div>
-          <div class="item">Start Scoring Session</div>
+          <div class="item" id="behaviourParametersOption">Behavior Parameters</div>
+          <div class="item" id="scoringOption">Start Scoring Session</div>
         </div>
       </div>
-      <a class="item">Analysis</a>
+      <a class="item" id="analysisOption">Analysis</a>
     </div>
 
     <!-- The Main Stuff -->
-    <div class="ui segment">
+    <div class="ui segment" id="experiment">
   <div class="ui two column very relaxed grid">
     <!-- Left Hand Side -->
     <div class="column">
       <!-- Start Behaviour Parameters Form -->
-      <h2 class="ui dividing header" id="left title">Behaviour Parameters</h2>
-      <div class="ui form" id="bpform">
+      <h2 class="ui dividing header" id="left title" style="display: none"></h2>
+      <div class="ui form" id="behaviourParametersForm" style="display: none">
         <div class="inline fields">
           <div class="two wide field">
             <label>1</label>
@@ -218,6 +218,11 @@
         </div>
       </div>
       <!-- End form-->
+      <div id="subjectsForm"></div>
+      <div id="scoringForm"></div>
+      <div id="analysisForm"></div>
+
+
     </div>
     <div class="column">
       <p></p>
@@ -228,6 +233,73 @@
   </div>
   <div class="ui vertical divider">&lt; &gt;</div>
 </div>
+
+    <script>
+      // Title of the left pane
+      const leftTitle = document.getElementById("left title");
+      // Objects of all the forms
+      const behaviourParametersForm = document.getElementById("behaviourParametersForm");
+      const subjectsForm            = document.getElementById("subjectsForm");
+      const scoringForm             = document.getElementById("scoringForm");
+      const analysisForm            = document.getElementById("analysisForm");
+
+      function clearTitleAndHideForms() {
+        let forms = [behaviourParametersForm, subjectsForm, scoringForm, analysisForm];
+
+        function hideForm(form) {
+          form.style.display = 'none';
+        };
+
+        leftTitle.style.display = 'none';
+        forms.forEach(hideForm);
+
+      };
+
+      const subjectsOption = document.getElementById("subjectsOption");
+      subjectsOption.addEventListener(
+        'click',
+        function showSubjectsForm() {
+          clearTitleAndHideForms();
+          leftTitle.innerHTML = "Subjects";
+          leftTitle.style.display = '';
+          subjectsForm.style.display = '';
+          }
+        );
+
+      const behaviourParametersOption = document.getElementById("behaviourParametersOption");
+      behaviourParametersOption.addEventListener(
+        'click',
+        function showBehaviorParametersForm() {
+          clearTitleAndHideForms();
+          leftTitle.innerHTML = "Behaviour Parameters";
+          leftTitle.style.display = '';
+          behaviourParametersForm.style.display = '';
+          }
+        );
+      
+      const scoringOption = document.getElementById("scoringOption");
+      scoringOption.addEventListener(
+        'click',
+        function showScoringForm() {
+          clearTitleAndHideForms();
+          leftTitle.innerHTML = "Scoring";
+          leftTitle.style.display = '';
+          scoringForm.style.display = '';
+          }
+        );
+
+      const analysisOption = document.getElementById("analysisOption");
+      analysisOption.addEventListener(
+        'click',
+        function showAnalysisForm() {
+          clearTitleAndHideForms();
+          leftTitle.innerHTML = "Analysis";
+          leftTitle.style.display = '';
+          analysisForm.style.display = '';
+          }
+        );
+    </script>
+
 
   </body>
 </html>
