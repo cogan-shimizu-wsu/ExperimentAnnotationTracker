@@ -3,41 +3,231 @@
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script src="lib/jquery-3.4.1.min.js"></script>
     <script src="semantic/dist/semantic.min.js"></script>
+
+    <!--- Site CSS -->
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/site.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/grid.css">
+
+    <!--- Component CSS -->
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/menu.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/input.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/icon.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/button.css">
+    <link rel="stylesheet" type="text/css" href="semantic/dist/components/transition.css">
+
+    <script type="text/javascript" src="semantic/dist/components/dropdown.js"></script>
+
+    <script>
+      $(document)
+        .ready(function() {
+          $('.ui.menu .ui.dropdown').dropdown({
+            on: 'hover'
+          });
+          $('.ui.menu a.item')
+            .on('click', function() {
+              $(this)
+                .addClass('active')
+                .siblings()
+                .removeClass('active')
+              ;
+            })
+          ;
+        })
+      ;
+    </script>
   </head>
 
   <body>
     
-
+    <!-- The Menu bar -->
     <div class="ui menu">
-      <div class="header item">Brand</div>
-      <a class="active item">Link</a>
-      <a class="item">Link</a>
+      <div class="header item">COOL</div>
       <div class="ui dropdown item">
-        Dropdown
+        Experiment
         <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item">Action</div>
-          <div class="item">Another Action</div>
-          <div class="item">Something else here</div>
-          <div class="divider"></div>
-          <div class="item">Separated Link</div>
-          <div class="divider"></div>
-          <div class="item">One more separated link</div>
+          <div class="item">New</div>
+          <div class="item">Open</div>
         </div>
       </div>
-      <div class="right menu">
-        <div class="item">
-          <div class="ui action left icon input">
-            <i class="search icon"></i>
-            <input type="text" placeholder="Search">
-            <button class="ui button">Submit</button>
-          </div>
+      <a class="item">Subjects</a>
+      <div class="ui dropdown item">
+        Score
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">Behavior Parameters</div>
+          <div class="item">Start Scoring Session</div>
         </div>
-        <a class="item">Link</a>
       </div>
+      <a class="item">Analysis</a>
     </div>
 
-
+    <!-- The Main Stuff -->
+    <div class="ui segment">
+  <div class="ui two column very relaxed grid">
+    <!-- Left Hand Side -->
+    <div class="column">
+      <!-- Start Behaviour Parameters Form -->
+      <h2 class="ui dividing header" id="left title">Behaviour Parameters</h2>
+      <div class="ui form" id="bpform">
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>1</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>2</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>3</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>4</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>5</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>6</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>7</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>8</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>9</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>10</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>11</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>12</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>13</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>14</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>15</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+        <div class="inline fields">
+          <div class="two wide field">
+            <label>16</label>
+            <input type="text" placeholder="Key">
+          </div>
+          <div class="five wide field">
+            <input type="text" placeholder="Behaviour">
+          </div>
+        </div>
+      </div>
+      <!-- End form-->
+    </div>
+    <div class="column">
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+  </div>
+  <div class="ui vertical divider">&lt; &gt;</div>
+</div>
 
   </body>
 </html>
