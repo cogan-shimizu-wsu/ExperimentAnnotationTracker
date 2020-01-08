@@ -20,6 +20,7 @@
 
   <script type="text/javascript" src="semantic/dist/components/dropdown.js"></script>
 
+  <!-- This is the code for opening and closing dropdowns. -->
   <script>
     $(document)
       .ready(function () {
@@ -65,7 +66,8 @@
     <a class="item" id="analysis-option">Analysis</a>
   </div>
 
-  <!-- The Main Stuff -->
+  <!-- The Main View -->
+  <!-- This should be hidden on start up and turned on only with javascript, that way we can tell users to enable javascript to run this program. -->
   <div class="ui segment" id="experiment-view">
     <div class="ui two column very relaxed grid">
       <!-- The Inputs Column is where most of the information is collected from the user. 
@@ -75,7 +77,10 @@
         <!-- This header of the left hand column displays the title of the form being viewed -->
         <h2 class="ui dividing header" id="left-title" style="display: none"></h2>
 
-        <!-- Start Behaviour Parameters Form -->
+        <!-- This form is for entering and modifying the subjects of a particular experiment. -->
+        <div id="subjects-form" style="display: none"></div>
+
+        <!-- This form is for entering and modifying the behaviour parameters that will be scored during a particular scoring session. -->
         <div class="ui two column very relaxed grid" id="behaviour-parameters-form" style="display: none">
           <div class="column">
             <div class="ui form" id="behaviour-parameter-list">
@@ -100,19 +105,23 @@
           </div>
         </div>
 
-        <div id="subjects-form" style="display: none"></div>
+        <!-- This form is for conducting the scoring session. -->
         <div id="scoring-form" style="display: none"></div>
+
+        <!-- This form is for inputting the parameters for scoring session analysis. -->
         <div id="analysis-form" style="display: none"></div>
 
-
       </div>
+      <!-- This column contains all the video manipulation and scoring session interactions. -->
       <div class="column" id="video-column">
-        <p></p>
+        <p></p> <!-- These p tags can be removed, as they're just place holders-->
         <p></p>
         <p></p>
         <p></p>
       </div>
     </div>
+
+    <!-- This needs to come third, for some reason. -->
     <div class="ui vertical divider">&lt; &gt;</div>
   </div>
 
@@ -215,11 +224,6 @@
         )
       }
     );
-
-
   </script>
-
-
 </body>
-
 </html>
