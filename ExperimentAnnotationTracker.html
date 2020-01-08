@@ -1,305 +1,207 @@
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <script src="lib/jquery-3.4.1.min.js"></script>
-    <script src="semantic/dist/semantic.min.js"></script>
 
-    <!--- Site CSS -->
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/site.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/grid.css">
+<head>
+  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+  <script src="lib/jquery-3.4.1.min.js"></script>
+  <script src="semantic/dist/semantic.min.js"></script>
 
-    <!--- Component CSS -->
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/menu.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/input.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/dropdown.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/icon.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/button.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/components/transition.css">
+  <!--- Site CSS -->
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/site.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/grid.css">
 
-    <script type="text/javascript" src="semantic/dist/components/dropdown.js"></script>
+  <!--- Component CSS -->
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/menu.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/input.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/dropdown.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/icon.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/button.css">
+  <link rel="stylesheet" type="text/css" href="semantic/dist/components/transition.css">
 
-    <script>
-      $(document)
-        .ready(function() {
-          $('.ui.menu .ui.dropdown').dropdown({
-            on: 'hover'
-          });
-          $('.ui.menu a.item')
-            .on('click', function() {
-              $(this)
-                .addClass('active')
-                .siblings()
-                .removeClass('active')
+  <script type="text/javascript" src="semantic/dist/components/dropdown.js"></script>
+
+  <script>
+    $(document)
+      .ready(function () {
+        $('.ui.menu .ui.dropdown').dropdown({
+          on: 'hover'
+        });
+        $('.ui.menu a.item')
+          .on('click', function () {
+            $(this)
+              .addClass('active')
+              .siblings()
+              .removeClass('active')
               ;
-            })
+          })
           ;
-        })
+      })
       ;
-    </script>
-  </head>
+  </script>
+</head>
 
-  <body>
-    
-    <!-- The Menu bar -->
-    <div class="ui menu">
-      <div class="header item">COOL</div>
-      <div class="ui dropdown item">
-        Experiment
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">New</div>
-          <div class="item">Open</div>
-        </div>
+<body>
+
+  <!-- The Menu bar -->
+  <div class="ui menu">
+    <div class="header item">COOL</div>
+    <div class="ui dropdown item">
+      Experiment
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item">New</div>
+        <div class="item">Open</div>
       </div>
-      <a class="item" id="subjectsOption">Subjects</a>
-      <div class="ui dropdown item">
-        Score
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item" id="behaviourParametersOption">Behavior Parameters</div>
-          <div class="item" id="scoringOption">Start Scoring Session</div>
-        </div>
+    </div>
+    <a class="item" id="subjectsOption">Subjects</a>
+    <div class="ui dropdown item">
+      Score
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item" id="behaviourParametersOption">Behavior Parameters</div>
+        <div class="item" id="scoringOption">Start Scoring Session</div>
       </div>
-      <a class="item" id="analysisOption">Analysis</a>
     </div>
-
-    <!-- The Main Stuff -->
-    <div class="ui segment" id="experiment">
-  <div class="ui two column very relaxed grid">
-    <!-- Left Hand Side -->
-    <div class="column">
-      <!-- Start Behaviour Parameters Form -->
-      <h2 class="ui dividing header" id="left title" style="display: none"></h2>
-      <div class="ui form" id="behaviourParametersForm" style="display: none">
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>1</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>2</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>3</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>4</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>5</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>6</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>7</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>8</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>9</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>10</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>11</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>12</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>13</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>14</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>15</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-        <div class="inline fields">
-          <div class="two wide field">
-            <label>16</label>
-            <input type="text" placeholder="Key">
-          </div>
-          <div class="five wide field">
-            <input type="text" placeholder="Behaviour">
-          </div>
-        </div>
-      </div>
-      <!-- End form-->
-      <div id="subjectsForm"></div>
-      <div id="scoringForm"></div>
-      <div id="analysisForm"></div>
-
-
-    </div>
-    <div class="column">
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-    </div>
+    <a class="item" id="analysisOption">Analysis</a>
   </div>
-  <div class="ui vertical divider">&lt; &gt;</div>
-</div>
 
-    <script>
-      // Title of the left pane
-      const leftTitle = document.getElementById("left title");
-      // Objects of all the forms
-      const behaviourParametersForm = document.getElementById("behaviourParametersForm");
-      const subjectsForm            = document.getElementById("subjectsForm");
-      const scoringForm             = document.getElementById("scoringForm");
-      const analysisForm            = document.getElementById("analysisForm");
+  <!-- The Main Stuff -->
+  <div class="ui segment" id="experiment">
+    <div class="ui two column very relaxed grid">
+      <!-- Left Hand Side -->
+      <div class="column">
 
-      function clearTitleAndHideForms() {
-        let forms = [behaviourParametersForm, subjectsForm, scoringForm, analysisForm];
+        <!-- Header for the Left hand panel-->
+        <h2 class="ui dividing header" id="left title" style="display: none"></h2>
 
-        function hideForm(form) {
-          form.style.display = 'none';
-        };
+        <!-- Start Behaviour Parameters Form -->
+        <div class="ui two column very relaxed grid" id="behaviourParametersForm" style="display: none">
+          <div class="column">
+            <div class="ui form" id="behaviourParameterList">
+              <div class="inline fields">
+                <div class="two wide field">
+                  <label>1</label>
+                  <input type="text" placeholder="Key">
+                </div>
+                <div class="five wide field">
+                  <input type="text" placeholder="Behaviour">
+                </div>
+                <i class="close icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui vertical buttons">
+              <button class="ui button" id="addBehaviourParameterButton">Add</button>
+              <button class="ui secondary button" id="saveBehaviourParametersButton">Save</button>
+            </div>
+          </div>
+        </div>
 
-        leftTitle.style.display = 'none';
-        forms.forEach(hideForm);
+        <div id="subjectsForm"></div>
+        <div id="scoringForm"></div>
+        <div id="analysisForm"></div>
 
+
+      </div>
+      <div class="column">
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+      </div>
+    </div>
+    <div class="ui vertical divider">&lt; &gt;</div>
+  </div>
+
+  <script>
+    // Title of the left pane
+    const leftTitle = document.getElementById("left title");
+    // Objects of all the forms
+    const behaviourParametersForm = document.getElementById("behaviourParametersForm");
+    const subjectsForm = document.getElementById("subjectsForm");
+    const scoringForm = document.getElementById("scoringForm");
+    const analysisForm = document.getElementById("analysisForm");
+
+    function clearTitleAndHideForms() {
+      let forms = [behaviourParametersForm, subjectsForm, scoringForm, analysisForm];
+
+      function hideForm(form) {
+        form.style.display = 'none';
       };
 
-      const subjectsOption = document.getElementById("subjectsOption");
-      subjectsOption.addEventListener(
-        'click',
-        function showSubjectsForm() {
-          clearTitleAndHideForms();
-          leftTitle.innerHTML = "Subjects";
-          leftTitle.style.display = '';
-          subjectsForm.style.display = '';
-          }
-        );
+      leftTitle.style.display = 'none';
+      forms.forEach(hideForm);
 
-      const behaviourParametersOption = document.getElementById("behaviourParametersOption");
-      behaviourParametersOption.addEventListener(
-        'click',
-        function showBehaviorParametersForm() {
-          clearTitleAndHideForms();
-          leftTitle.innerHTML = "Behaviour Parameters";
-          leftTitle.style.display = '';
-          behaviourParametersForm.style.display = '';
-          }
-        );
-      
-      const scoringOption = document.getElementById("scoringOption");
-      scoringOption.addEventListener(
-        'click',
-        function showScoringForm() {
-          clearTitleAndHideForms();
-          leftTitle.innerHTML = "Scoring";
-          leftTitle.style.display = '';
-          scoringForm.style.display = '';
-          }
-        );
+    };
 
-      const analysisOption = document.getElementById("analysisOption");
-      analysisOption.addEventListener(
-        'click',
-        function showAnalysisForm() {
-          clearTitleAndHideForms();
-          leftTitle.innerHTML = "Analysis";
-          leftTitle.style.display = '';
-          analysisForm.style.display = '';
-          }
+    const subjectsOption = document.getElementById("subjectsOption");
+    subjectsOption.addEventListener(
+      'click',
+      function showSubjectsForm() {
+        clearTitleAndHideForms();
+        leftTitle.innerHTML = "Subjects";
+        leftTitle.style.display = '';
+        subjectsForm.style.display = '';
+      }
+    );
+
+    const behaviourParametersOption = document.getElementById("behaviourParametersOption");
+    behaviourParametersOption.addEventListener(
+      'click',
+      function showBehaviorParametersForm() {
+        clearTitleAndHideForms();
+        leftTitle.innerHTML = "Behaviour Parameters";
+        leftTitle.style.display = '';
+        behaviourParametersForm.style.display = '';
+      }
+    );
+
+    const scoringOption = document.getElementById("scoringOption");
+    scoringOption.addEventListener(
+      'click',
+      function showScoringForm() {
+        clearTitleAndHideForms();
+        leftTitle.innerHTML = "Scoring";
+        leftTitle.style.display = '';
+        scoringForm.style.display = '';
+      }
+    );
+
+    const analysisOption = document.getElementById("analysisOption");
+    analysisOption.addEventListener(
+      'click',
+      function showAnalysisForm() {
+        clearTitleAndHideForms();
+        leftTitle.innerHTML = "Analysis";
+        leftTitle.style.display = '';
+        analysisForm.style.display = '';
+      }
+    );
+
+    const addBehaviourParameterButton = document.getElementById("addBehaviourParameterButton");
+    let rowCounter = 1
+    addBehaviourParameterButton.addEventListener(
+      'click',
+      function addBehaviourParameterRow() {
+        let behaviourParameterList = document.querySelector("#BehaviourParameterList");
+        let index = {text: ++rowCounter};
+        behaviourParameterList.insertAdjacentHTML("beforeend",
+          `<div class="inline fields">
+                <div class="two wide field">
+                  <label>${index.text}</label>
+                  <input type="text" placeholder="Key">
+                </div>
+                <div class="five wide field">
+                  <input type="text" placeholder="Behaviour">
+                </div>
+                <i class="close icon"></i>`
         );
-    </script>
+      }
+    );
+  </script>
 
 
-  </body>
+</body>
+
 </html>
