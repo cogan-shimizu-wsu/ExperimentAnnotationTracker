@@ -53,34 +53,35 @@
         <div class="item">Open</div>
       </div>
     </div>
-    <a class="item" id="subjectsOption">Subjects</a>
+    <a class="item" id="subjects-option">Subjects</a>
     <div class="ui dropdown item">
       Score
       <i class="dropdown icon"></i>
       <div class="menu">
-        <div class="item" id="behaviourParametersOption">Behavior Parameters</div>
-        <div class="item" id="scoringOption">Start Scoring Session</div>
+        <div class="item" id="behaviour-parameters-option">Behavior Parameters</div>
+        <div class="item" id="scoring-option">Start Scoring Session</div>
       </div>
     </div>
-    <a class="item" id="analysisOption">Analysis</a>
+    <a class="item" id="analysis-option">Analysis</a>
   </div>
 
   <!-- The Main Stuff -->
-  <div class="ui segment" id="experiment">
+  <div class="ui segment" id="experiment-view">
     <div class="ui two column very relaxed grid">
-      <!-- Left Hand Side -->
-      <div class="column">
+      <!-- The Inputs Column is where most of the information is collected from the user. 
+        It can dynamically switch between the Experiment, scoring, subject, and analysis views. -->
+      <div class="column" id="inputs-column">
 
-        <!-- Header for the Left hand panel-->
-        <h2 class="ui dividing header" id="left title" style="display: none"></h2>
+        <!-- This header of the left hand column displays the title of the form being viewed -->
+        <h2 class="ui dividing header" id="left-title" style="display: none"></h2>
 
         <!-- Start Behaviour Parameters Form -->
-        <div class="ui two column very relaxed grid" id="behaviourParametersForm" style="display: none">
+        <div class="ui two column very relaxed grid" id="behaviour-parameters-form" style="display: none">
           <div class="column">
-            <div class="ui form" id="behaviourParameterList">
-              <div id="behaviourParameterRow1">
+            <div class="ui form" id="behaviour-parameter-list">
+              <div id="behaviour-parameter-row-1">
                 <div class="inline fields">
-                  <div class="two wide field">
+                  <div class="four wide field">
                     <label>1</label>
                     <input type="text" placeholder="Key">
                   </div>
@@ -93,19 +94,19 @@
           </div>
           <div class="column">
             <div class="ui vertical buttons">
-              <button class="ui button" id="addBehaviourParameterButton">Add</button>
-              <button class="ui secondary button" id="saveBehaviourParametersButton">Save</button>
+              <button class="ui button" id="add-behaviour-parameter-button">Add</button>
+              <button class="ui secondary button" id="save-behaviour-parameters-button">Save</button>
             </div>
           </div>
         </div>
 
-        <div id="subjectsForm"></div>
-        <div id="scoringForm"></div>
-        <div id="analysisForm"></div>
+        <div id="subjects-form" style="display: none"></div>
+        <div id="scoring-form" style="display: none"></div>
+        <div id="analysis-form" style="display: none"></div>
 
 
       </div>
-      <div class="column">
+      <div class="column" id="video-column">
         <p></p>
         <p></p>
         <p></p>
@@ -117,12 +118,12 @@
 
   <script>
     // Title of the left pane
-    const leftTitle = document.getElementById("left title");
+    const leftTitle = document.getElementById("left-title");
     // Objects of all the forms
-    const behaviourParametersForm = document.getElementById("behaviourParametersForm");
-    const subjectsForm = document.getElementById("subjectsForm");
-    const scoringForm = document.getElementById("scoringForm");
-    const analysisForm = document.getElementById("analysisForm");
+    const behaviourParametersForm = document.getElementById("behaviour-parameters-form");
+    const subjectsForm = document.getElementById("subjects-form");
+    const scoringForm = document.getElementById("scoring-form");
+    const analysisForm = document.getElementById("analysis-form");
 
     function clearTitleAndHideForms() {
       let forms = [behaviourParametersForm, subjectsForm, scoringForm, analysisForm];
@@ -136,7 +137,7 @@
 
     };
 
-    const subjectsOption = document.getElementById("subjectsOption");
+    const subjectsOption = document.getElementById("subjects-option");
     subjectsOption.addEventListener(
       'click',
       function showSubjectsForm() {
@@ -147,7 +148,7 @@
       }
     );
 
-    const behaviourParametersOption = document.getElementById("behaviourParametersOption");
+    const behaviourParametersOption = document.getElementById("behaviour-parameters-option");
     behaviourParametersOption.addEventListener(
       'click',
       function showBehaviorParametersForm() {
@@ -158,7 +159,7 @@
       }
     );
 
-    const scoringOption = document.getElementById("scoringOption");
+    const scoringOption = document.getElementById("scoring-option");
     scoringOption.addEventListener(
       'click',
       function showScoringForm() {
@@ -169,7 +170,7 @@
       }
     );
 
-    const analysisOption = document.getElementById("analysisOption");
+    const analysisOption = document.getElementById("analysis-option");
     analysisOption.addEventListener(
       'click',
       function showAnalysisForm() {
@@ -180,29 +181,30 @@
       }
     );
 
-    const addBehaviourParameterButton = document.getElementById("addBehaviourParameterButton");
+    const addBehaviourParameterButton = document.getElementById("add-behaviour-parameter-button");
     let rowCounter = 1;
     addBehaviourParameterButton.addEventListener(
       'click',
       function addBehaviourParameterRow() {
-        let behaviourParameterList = document.querySelector("#BehaviourParameterList");
+        let behaviourParameterList = document.querySelector("#behaviour-parameter-list");
         let index = { text: ++rowCounter };
         behaviourParameterList.insertAdjacentHTML("beforeend",
           `
-          <div id="behaviourParameterRow${index.text}">
+          <div id="behaviour-parameter-row-${index.text}">
             <div class="inline fields">
-              <div class="three wide field">
+              <div class="four wide field">
                 <label>${index.text}</label>
                 <input type="text" placeholder="Key">
               </div>
               <div class="five wide field">
                 <input type="text" placeholder="Behaviour">
               </div>
-              <i class="close icon" id="behaviourParameterRowCloseIcon${index.text}"></i>
-          </div>`
+              <i class="close icon" id="behaviour-parameter-row-close-icon-${index.text}"></i>
+          </div>
+          `
         );
-        let id = "behaviourParameterRowCloseIcon".concat(rowCounter);
-        let behaviourParameterRowCloseIcon = document.querySelector("#behaviourParameterRowCloseIcon".concat(rowCounter));
+        let id = "behaviour-parameter-row-close-icon-".concat(rowCounter);
+        let behaviourParameterRowCloseIcon = document.querySelector("#behaviour-parameter-row-close-icon-".concat(rowCounter));
         behaviourParameterRowCloseIcon.addEventListener(
           'click',
           function removeBehaviourParameterRow() {
