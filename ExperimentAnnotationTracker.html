@@ -78,15 +78,16 @@
         <div class="ui two column very relaxed grid" id="behaviourParametersForm" style="display: none">
           <div class="column">
             <div class="ui form" id="behaviourParameterList">
-              <div class="inline fields">
-                <div class="two wide field">
-                  <label>1</label>
-                  <input type="text" placeholder="Key">
+              <div id="behaviourParameterRow1">
+                <div class="inline fields">
+                  <div class="two wide field">
+                    <label>1</label>
+                    <input type="text" placeholder="Key">
+                  </div>
+                  <div class="five wide field">
+                    <input type="text" placeholder="Behaviour">
+                  </div>
                 </div>
-                <div class="five wide field">
-                  <input type="text" placeholder="Behaviour">
-                </div>
-                <i class="close icon"></i>
               </div>
             </div>
           </div>
@@ -180,25 +181,40 @@
     );
 
     const addBehaviourParameterButton = document.getElementById("addBehaviourParameterButton");
-    let rowCounter = 1
+    let rowCounter = 1;
     addBehaviourParameterButton.addEventListener(
       'click',
       function addBehaviourParameterRow() {
         let behaviourParameterList = document.querySelector("#BehaviourParameterList");
-        let index = {text: ++rowCounter};
+        let index = { text: ++rowCounter };
         behaviourParameterList.insertAdjacentHTML("beforeend",
-          `<div class="inline fields">
-                <div class="two wide field">
-                  <label>${index.text}</label>
-                  <input type="text" placeholder="Key">
-                </div>
-                <div class="five wide field">
-                  <input type="text" placeholder="Behaviour">
-                </div>
-                <i class="close icon"></i>`
+          `
+          <div id="behaviourParameterRow${index.text}">
+            <div class="inline fields">
+              <div class="three wide field">
+                <label>${index.text}</label>
+                <input type="text" placeholder="Key">
+              </div>
+              <div class="five wide field">
+                <input type="text" placeholder="Behaviour">
+              </div>
+              <i class="close icon" id="behaviourParameterRowCloseIcon${index.text}"></i>
+          </div>`
         );
+        let id = "behaviourParameterRowCloseIcon".concat(rowCounter);
+        let behaviourParameterRowCloseIcon = document.querySelector("#behaviourParameterRowCloseIcon".concat(rowCounter));
+        behaviourParameterRowCloseIcon.addEventListener(
+          'click',
+          function removeBehaviourParameterRow() {
+            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement;
+            behaviourParameterRow.remove();
+            rowCounter--;
+          }
+        )
       }
     );
+
+
   </script>
 
 
