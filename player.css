@@ -1,0 +1,36 @@
+#container{
+    padding: 10px;
+}
+
+#videoButtons, #trackerButtons
+{
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#myVideo{
+    width: 100%;
+}
+
+button{
+    padding: 10px;
+}
+
+#outputTrackerScoring, #outputCurrentVideoSpeed{
+    font-size: 18px;
+    padding: 7px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+#btnAddVideo{
+    float: right;
+}
+
+button > * {
+    pointer-events: none;
+}
