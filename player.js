@@ -51,10 +51,10 @@ function vidAction(event){
             outputCurrentVideoSpeed.innerHTML = "Video Speed: 1x";
             break;
         case "btnVideoBackwards":
-            myVideo.currentTime -= 5;
+            myVideo.currentTime -= 10;
             break;
         case "btnVideoForwards":
-            myVideo.currentTime += 5;
+            myVideo.currentTime += 10;
             break;
         case "btnVideoFastBackwards":
             myVideo.playbackRate /= 2;
