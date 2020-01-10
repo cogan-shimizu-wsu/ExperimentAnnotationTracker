@@ -27,10 +27,18 @@ button{
     border-radius: 5px;
 }
 
+#outputTrackerScoring{
+    float: left;
+}
+
 #btnAddVideo{
     float: right;
 }
 
 button > * {
     pointer-events: none;
+}
+
+input{
+    text-align: center;
 }
