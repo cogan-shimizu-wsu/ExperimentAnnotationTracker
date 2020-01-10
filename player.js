@@ -1,3 +1,8 @@
+//
+// Written by Garrett G. Goodman
+// goodman.27@hotmail.com
+//
+
 // References to the video user-interface items
 const myVideo = document.getElementById('myVideo');
 const btnVideoPlay = document.getElementById('btnVideoPlay');
@@ -10,32 +15,83 @@ const btnVideoFastForwards = document.getElementById('btnVideoFastForwards');
 const outputCurrentVideoSpeed = document.getElementById('outputCurrentVideoSpeed');
 const btnAddVideo = document.getElementById('btnAddVideo');
 const outputTrackerScoring = document.getElementById('outputTrackerScoring');
+const trackerInputBox = document.getElementById('trackerInputBox');
 const btnTrackerPlay = document.getElementById('btnTrackerPlay');
 const btnTrackerPause = document.getElementById('btnTrackerPause');
 const btnTrackerStop = document.getElementById('btnTrackerStop');
+const fileLocation = 'Videos/'; // JavaScript does not allow choosing specific locations for files (security reasons apparently). It needs a predefined file path.
 
 // Add event listeners for each of the video buttons
-btnVideoPlay.addEventListener('click',vidAction); // On click, trigger a corresponding function
-btnVideoPause.addEventListener('click',vidAction); 
-btnVideoStop.addEventListener('click',vidAction); 
-btnVideoBackwards.addEventListener('click',vidAction);
-btnVideoForwards.addEventListener('click',vidAction);
-btnVideoFastBackwards.addEventListener('click',vidAction);
-btnVideoFastForwards.addEventListener('click',vidAction);
-btnAddVideo.addEventListener('click',openVideo);
+btnVideoPlay.addEventListener('click', vidAction); // On click, trigger a corresponding function
+btnVideoPause.addEventListener('click', vidAction); 
+btnVideoStop.addEventListener('click', vidAction); 
+btnVideoBackwards.addEventListener('click', vidAction);
+btnVideoForwards.addEventListener('click', vidAction);
+btnVideoFastBackwards.addEventListener('click', vidAction);
+btnVideoFastForwards.addEventListener('click', vidAction);
+btnAddVideo.addEventListener('click', openVideo);
+btnTrackerPlay.addEventListener('click', trackerVidAction);
+btnTrackerPause.addEventListener('click', trackerVidAction);
+btnTrackerStop.addEventListener('click', trackerVidAction);
+trackerInputBox.addEventListener('input', trackerTimeTextBox);
 
-const fileLocation = 'Videos/';
+// Variables used withing the functions below
+trackerInputBox.value = 0;
+var trackerTimeInitialized = 0;
+var trackerTime = 0;
+var refreshIntervalId = null;
 
-function openVideo(event){
+// Function updates the initially entered scoring time every time a new number is entered.
+function trackerTimeTextBox(){
+    trackerTimeInitialized = trackerInputBox.value;
+    trackerTime = trackerTimeInitialized;
+}
+
+// Function is called every second to update the value within the "Scoring Time (sec)" text box.
+function updateTime(){
+    if(trackerTime != 0){
+        trackerInputBox.value = trackerTime--;
+    } else {
+        trackerInputBox.value = null;
+        myVideo.pause();
+        clearInterval(refreshIntervalId);
+    }
+}
+
+// Function handles click events for the buttons below the video player.
+function trackerVidAction(event){
+    switch(event.target.id){
+        case "btnTrackerPlay":
+            myVideo.play();
+            refreshIntervalId = setInterval(updateTime, 1000);
+            break;
+        case "btnTrackerPause":
+            myVideo.pause();
+            clearInterval(refreshIntervalId);
+            break;
+        case "btnTrackerStop":
+            clearInterval(refreshIntervalId);
+            myVideo.pause();
+            myVideo.currentTime = 0;
+            myVideo.playbackRate = 1.0;
+            trackerInputBox.value = trackerTimeInitialized;
+            trackerTime = trackerTimeInitialized;
+            outputCurrentVideoSpeed.innerHTML = "Video Speed: 1x";
+            break;
+    }
+}
+
+// Function loads the video from the opened dialog file box.
+function openVideo(){
     var input = document.createElement('input');
     input.type = 'file';
     input.onchange = e => {
         myVideo.src = fileLocation + e.target.files[0].name;
-        console.log(e.target.files[0]);
     }
     input.click();
 }
 
+// Function handles click events for the buttons above the video player
 function vidAction(event){
     switch(event.target.id){
         case "btnVideoPlay":
