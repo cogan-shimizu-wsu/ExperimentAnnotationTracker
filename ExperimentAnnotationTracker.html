@@ -5,6 +5,13 @@
   <script src="lib/jquery-3.4.1.min.js"></script>
   <script src="semantic/dist/semantic.min.js"></script>
 
+  <!-- Inputs column JS-->
+  <script type="text/javascript" src="inputs-column.js" defer></script>
+  <!-- <script>
+    $(document).getScript("input-column.js", function(){});
+  </script> -->
+
+
   <!--- Site CSS -->
   <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
   <link rel="stylesheet" type="text/css" href="semantic/dist/components/site.css">
@@ -40,12 +47,10 @@
       })
       ;
 
-    $('select.dropdown')
-      .dropdown()
-      ;
-
     $(document).ready(function () {
       $('.tabular.menu .item').tab();
+      $('select.dropdown').dropdown();
+      $('ui.dropdown').dropdown();
     });
   </script>
 </head>
@@ -61,6 +66,7 @@
       <div class="menu">
         <div class="item">New</div>
         <div class="item">Open</div>
+        <div class="item">Export</div>
       </div>
     </div>
     <div class="ui dropdown item">
@@ -80,6 +86,10 @@
       </div>
     </div>
     <a class="item" id="analysis-option">Analysis</a>
+
+    <div class="ui right menu">
+      <Button class="ui blue button">Export</Button>
+    </div>
   </div>
 
   <!-- The Main View -->
@@ -94,10 +104,63 @@
         <h2 class="ui dividing header" id="left-title" style="display: none"></h2>
 
         <!-- This form is for entering and modifying the subjects of a particular experiment. -->
-        <div id="add-new-subject-form" style="display: none">
+        <div class="ui two column very relaxed grid" id="add-new-subject-form" style="display: none">
+          <div class="column">
+            <div class="ui form">
+              <div class="six wide field">
+                <label> Subject ID </label>
+                <input type="text" id="subject-id-field" placeholder="Subject ID">
+              </div>
+              <div class="six wide field">
+                <label> Genotype </label>
+                <input type="text" id="genotype-field" placeholder="Genotype">
+              </div>
+              <div class="six wide field">
+                <label> Sex </label>
+                <select class="ui dropdown" id='sex-value-dropdown'>
+                  <option value="">Sex</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="six wide field">
+                <label> Group </label>
+                <input type="text" id="group-field" placeholder="Key">
+              </div>
+              <div class="six wide field">
+                <label> Treatment </label>
+                <input type="text" id="treatment-field" placeholder="Key">
+              </div>
+              <div class="six wide field">
+                <label> Comment </label>
+                <input type="text" id="comment-field" placeholder="Key">
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui vertical buttons">
+              <button class="ui button" id="add-new-subject-button">Save</button>
+            </div>
+          </div>
+
         </div>
 
         <div id="view-all-subjects" style="display: none">
+          <table class="ui celled table" id="view-all-subjects-table">
+            <thead>
+              <tr>
+                <th>Subject ID</th>
+                <th>Genotype</th>
+                <th>Sex</th>
+                <th>Group</th>
+                <th>Treatment</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody id="view-all-subjects-table-body">
+              <!-- Filled in by adding new subjects in other menu. -->
+            </tbody>
+          </table>
         </div>
 
         <!-- This form is for entering and modifying the behaviour parameters that will be scored during a particular scoring session. -->
@@ -119,8 +182,7 @@
           </div>
           <div class="column">
             <div class="ui vertical buttons">
-              <button class="ui button" id="add-behaviour-parameter-button">Add</button>
-              <button class="ui secondary button" id="save-behaviour-parameters-button">Save</button>
+              <button class="ui button" id="add-behaviour-parameter-button">Add Additional Behaviour Parameter</button>
             </div>
           </div>
         </div>
@@ -140,126 +202,12 @@
         <p></p>
         <p></p>
       </div>
-
-      <!-- This needs to come third, for some reason. -->
-      <div class="ui vertical divider">&lt; &gt;</div>
-    
     </div>
+
+    <!-- This needs to come second, for some reason. -->
+    <div class="ui vertical divider">&lt; &gt;</div>
+
   </div>
-
-  <script>
-    // Title of the left pane
-    const leftTitle = document.getElementById("left-title");
-    // Objects of all the forms
-    const addNewSubjectForm = document.getElementById("add-new-subject-form");
-    const viewAllSubjects = document.getElementById("view-all-subjects");
-    const behaviourParametersForm = document.getElementById("behaviour-parameters-form");
-    const scoringForm = document.getElementById("scoring-form");
-    const analysisForm = document.getElementById("analysis-form");
-
-    function clearTitleAndHideForms() {
-      let forms = [addNewSubjectForm, viewAllSubjects,
-        behaviourParametersForm, scoringForm, analysisForm];
-
-      function hideForm(form) {
-        form.style.display = 'none';
-      };
-
-      leftTitle.style.display = 'none';
-      forms.forEach(hideForm);
-
-    };
-
-    const addNewSubjectOption = document.getElementById("add-new-subject-option");
-    addNewSubjectOption.addEventListener(
-      'click',
-      function showSubjectsForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = "Add New Subject";
-        leftTitle.style.display = '';
-        addNewSubjectForm.style.display = '';
-      }
-    );
-
-    const viewAllSubjectsOption = document.getElementById("view-all-subjects-option");
-    viewAllSubjectsOption.addEventListener(
-      'click',
-      function showSubjectsForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = "All Subjects";
-        leftTitle.style.display = '';
-        viewAllSubjects.style.display = '';
-      }
-    );
-
-    const behaviourParametersOption = document.getElementById("behaviour-parameters-option");
-    behaviourParametersOption.addEventListener(
-      'click',
-      function showBehaviorParametersForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = "Behaviour Parameters";
-        leftTitle.style.display = '';
-        behaviourParametersForm.style.display = '';
-      }
-    );
-
-    const scoringOption = document.getElementById("scoring-option");
-    scoringOption.addEventListener(
-      'click',
-      function showScoringForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = "Scoring";
-        leftTitle.style.display = '';
-        scoringForm.style.display = '';
-      }
-    );
-
-    const analysisOption = document.getElementById("analysis-option");
-    analysisOption.addEventListener(
-      'click',
-      function showAnalysisForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = "Analysis";
-        leftTitle.style.display = '';
-        analysisForm.style.display = '';
-      }
-    );
-
-    const addBehaviourParameterButton = document.getElementById("add-behaviour-parameter-button");
-    let rowCounter = 1;
-    addBehaviourParameterButton.addEventListener(
-      'click',
-      function addBehaviourParameterRow() {
-        let behaviourParameterList = document.querySelector("#behaviour-parameter-list");
-        let index = { text: ++rowCounter };
-        behaviourParameterList.insertAdjacentHTML("beforeend",
-          `
-          <div id="behaviour-parameter-row-${index.text}">
-            <div class="inline fields">
-              <div class="four wide field">
-                <label>${index.text}</label>
-                <input type="text" placeholder="Key">
-              </div>
-              <div class="five wide field">
-                <input type="text" placeholder="Behaviour">
-              </div>
-              <i class="close icon" id="behaviour-parameter-row-close-icon-${index.text}"></i>
-          </div>
-          `
-        );
-        let id = "behaviour-parameter-row-close-icon-".concat(rowCounter);
-        let behaviourParameterRowCloseIcon = document.querySelector("#behaviour-parameter-row-close-icon-".concat(rowCounter));
-        behaviourParameterRowCloseIcon.addEventListener(
-          'click',
-          function removeBehaviourParameterRow() {
-            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement;
-            behaviourParameterRow.remove();
-            rowCounter--;
-          }
-        )
-      }
-    );
-  </script>
 </body>
 
 </html>
