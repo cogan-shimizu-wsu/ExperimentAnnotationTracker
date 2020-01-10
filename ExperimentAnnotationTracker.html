@@ -1,16 +1,16 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <title>Experiment Annotation Tracker</title>
   <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
   <script src="lib/jquery-3.4.1.min.js"></script>
   <script src="semantic/dist/semantic.min.js"></script>
 
   <!-- Inputs column JS-->
   <script type="text/javascript" src="inputs-column.js" defer></script>
-  <!-- <script>
-    $(document).getScript("input-column.js", function(){});
-  </script> -->
-
+  <!--- Video CSS --->
+  <link rel="stylesheet" href="player.css"/>
 
   <!--- Site CSS -->
   <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
@@ -197,10 +197,27 @@
 
       <!-- This column contains all the video manipulation and scoring session interactions. -->
       <div class="column" id="video-column">
-        <p></p> <!-- These p tags can be removed, as they're just place holders-->
-        <p></p>
-        <p></p>
-        <p></p>
+        <div id="container">
+          <div id="videoButtons">
+            <button id="btnVideoPlay"><i class="play icon"></i></button>
+            <button id="btnVideoPause"><i class="pause icon"></i></button>
+            <button id="btnVideoStop"><i class="stop icon"></i></button>
+            <button id="btnVideoBackwards"><i class="backward icon"></i></button>
+            <button id="btnVideoForwards"><i class="forward icon"></i></button>
+            <button id="btnVideoFastBackwards"><i class="fast backward icon"></i></button>
+            <button id="btnVideoFastForwards"><i class="fast forward icon"></i></button>
+            <output id="outputCurrentVideoSpeed">Video Speed: 1x</output>
+            <button id="btnAddVideo"><i class="plus square outline icon"></i></button>
+          </div>
+          <video id="myVideo" controls="controls"></video> <!--controls="controls" enables default video player controls. Delete to remove functionality.-->
+          <div id="trackerButtons">
+            <output id="outputTrackerScoring">Scoring Time (sec): 0</output>
+            <button id="btnTrackerPlay"><i class="play icon"></i></button>
+            <button id="btnTrackerPause"><i class="pause icon"></i></button>
+            <button id="btnTrackerStop"><i class="stop icon"></i></button>
+          </div>
+        </div>
+        <script src="player.js"></script>
       </div>
     </div>
 
