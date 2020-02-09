@@ -7,10 +7,12 @@
   <script src="lib/jquery-3.4.1.min.js"></script>
   <script src="semantic/dist/semantic.min.js"></script>
 
+  <!-- Core javascript -->
+  <script type="text/javascript" src="core.js" defer></script>
   <!-- Inputs column JS-->
   <script type="text/javascript" src="inputs-column.js" defer></script>
   <!--- Video CSS --->
-  <link rel="stylesheet" href="player.css"/>
+  <link rel="stylesheet" href="player.css" />
 
   <!--- Site CSS -->
   <link rel="stylesheet" type="text/css" href="semantic/dist/components/reset.css">
@@ -57,6 +59,8 @@
 
 <body>
 
+
+
   <!-- The Menu bar -->
   <div class="ui menu">
     <div class="header item">COOL</div>
@@ -64,9 +68,10 @@
       Experiment
       <i class="dropdown icon"></i>
       <div class="menu">
-        <div class="item">New</div>
-        <div class="item">Open</div>
-        <div class="item">Export</div>
+        <div class="item" id="add-new-experiment-option">Create New Experiment</div>
+        <div class="item" id="open-existing-experiment-option">Open Existing Experiment...</div>
+        <div class="item" id="current-experiment-option">Manage Current Metadata</div>
+        <div class="item">Export Current Experiment</div>
       </div>
     </div>
     <div class="ui dropdown item">
@@ -102,6 +107,48 @@
 
         <!-- This header of the left hand column displays the title of the form being viewed -->
         <h2 class="ui dividing header" id="left-title" style="display: none"></h2>
+
+        <!-- This form is for creating a new experiment -->
+        <div class="ui two column very relaxed grid" id="add-new-experiment-form" style="display: none">
+          <div class="column">
+            <div class="ui form">
+              <div class="six wide field">
+                <label> Name </label>
+                <input type="text" id="experimenter-name-field" placeholder="Name">
+              </div>
+              <div class="six wide field">
+                <label> Date </label>
+                <input type="text" id="experiment-date-field" placeholder="Date">
+              </div>
+            </div>
+            <div class="column">
+              <div class="ui vertical buttons">
+                <button class="ui button" id="save-new-experiment-button">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- This form is for viewing the current experiment's metadata -->
+        <div class="ui two column very relaxed grid" id="current-experiment-form" style="display: none">
+          <div class="column">
+            <div class="ui form">
+              <div class="six wide field">
+                <label> Name </label>
+                <input type="text" id="current-experimenter-name-field">
+              </div>
+              <div class="six wide field">
+                <label> Date </label>
+                <input type="text" id="current-experiment-date-field">
+              </div>
+            </div>
+            <div class="column">
+              <div class="ui vertical buttons">
+                <button class="ui button" id="update-experiment-button">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- This form is for entering and modifying the subjects of a particular experiment. -->
         <div class="ui two column very relaxed grid" id="add-new-subject-form" style="display: none">
@@ -139,7 +186,7 @@
           </div>
           <div class="column">
             <div class="ui vertical buttons">
-              <button class="ui button" id="add-new-subject-button">Save</button>
+              <button class="ui button" id="add-new-subject-button"> Save </button>
             </div>
           </div>
 
@@ -209,9 +256,11 @@
             <output id="outputCurrentVideoSpeed">Video Speed: 1x</output>
             <button id="btnAddVideo"><i class="plus square outline icon"></i></button>
           </div>
-          <video id="myVideo" controls="controls"></video> <!--controls="controls" enables default video player controls. Delete to remove functionality.-->
+          <video id="myVideo" controls="controls"></video>
+          <!--controls="controls" enables default video player controls. Delete to remove functionality.-->
           <div id="trackerButtons">
-            <output id="outputTrackerScoring">Scoring Time (sec): <input type="text" name="fname" id="trackerInputBox"><br></output>
+            <output id="outputTrackerScoring">Scoring Time (sec): <input type="text" name="fname"
+                id="trackerInputBox"><br></output>
             <button id="btnTrackerPlay"><i class="play icon"></i></button>
             <button id="btnTrackerPause"><i class="pause icon"></i></button>
             <button id="btnTrackerStop"><i class="stop icon"></i></button>
@@ -225,6 +274,14 @@
     <div class="ui vertical divider">&lt; &gt;</div>
 
   </div>
+
+  <!-- <input type="file" style="display: none" id="open-existing-experiment-dialog" />
+  <script>
+    $('#open-existing-experiment-option').on('click', function () {
+      $('#open-existing-experiment-dialog').trigger('click');
+
+    });
+  </script> -->
 </body>
 
 </html>
