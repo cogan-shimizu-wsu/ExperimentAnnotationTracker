@@ -77,7 +77,7 @@ function populateExperimentMetadata(experiment_data) {
 }
 
 function populateExistingSubjects(subjects_data) {
-    subjects_data.forEach(subject => enterSubject);
+    subjects_data.forEach(subject => addNewSubject('',subject));
 }
 
 const currentExperimentOption = document.getElementById('current-experiment-option');
@@ -147,14 +147,80 @@ analysisOption.addEventListener(
 );
 
 const addNewSubjectButton = document.getElementById('add-new-subject-button');
-console.log(addNewSubjectButton);
 addNewSubjectButton.addEventListener(
     'click',
-    addNewSubjectFromForm);
+    addNewSubject);
 
-function addNewSubjectFromForm() {
-    const viewAllSubjectsBody = document.querySelector('#view-all-subjects-table-body');
+function createTableCells() {
 
+    // These are the fields that we can programmatically access easily (i.e. in a loop)
+    let fields = [
+        '#subject-id-field',
+        '#genotype-field',
+        '#sex-value-dropdown',
+        '#group-field',
+        '#treatment-field',
+        '#comment-field',];
+
+    let tableCells = [];
+    function createTableCellForField(fieldID) {
+        // create table cell
+        let tableCell = document.createElement('td');
+        // create data-label
+        let temp = fieldID.split('-');
+        let dataLabel = temp.slice(1, temp.length - 1).join('-');
+        // set data-label attribute
+        tableCell.setAttribute('data-label', dataLabel);
+        // done
+        tableCells.push(tableCell);
+    }
+
+    // Create the cells (they're appended to the tableCells array)
+    fields.forEach(createTableCellForField);
+
+    // Finish
+    return tableCells;
+}
+
+function createSubjectRow(source) {
+    // Create the table cells
+    let tableCells = createTableCells();
+    // Create the table row
+    let tableRow = document.createElement('tr');
+
+    let subject_data = 1;
+
+    if (source === 'form')
+    {
+        subject_data = getSubjectDataFromForm();
+    }
+    else
+    {
+        subject_data = [];
+
+        Object.values(source).forEach(value => subject_data.push(value));
+    }
+
+    console.log(subject_data);
+
+    // Add all cells into the row
+    function addToTableRow(tableCell) {
+        tableRow.insertAdjacentHTML('beforeend', tableCell.outerHTML);
+    };
+
+    for(let i =0; i<6; i++)
+    {
+        tableCell = tableCells[i].innerText = subject_data[i];
+    }
+
+    tableCells.forEach(addToTableRow);
+
+    return tableRow;
+}
+
+/** This Function has a side effect of clearing the data from the form after collection */
+function getSubjectDataFromForm() {
+    // These are the fields that we can programmatically access easily (i.e. in a loop)
     let fields = [
         '#subject-id-field',
         '#genotype-field',
@@ -162,49 +228,37 @@ function addNewSubjectFromForm() {
         '#treatment-field',
         '#comment-field',];
 
-    let tableCells = [];
-    function createTableCellForField(fieldID) {
+    let fieldValues = [];
+    function getValueFromField(fieldID) {
         // Get field element
         let field = document.querySelector(fieldID);
         // Get data from field
         let fieldValue = field.value;
         // Clear original field
         field.value = '';
-        // create table cell
-        let tableCell = document.createElement('td');
-        // create data-label
-        let temp = fieldID.split('-');
-        let dataLabel = temp.slice(0, temp.length - 1).join('-');
-        // set data-label attribute
-        tableCell.setAttribute('data-label', dataLabel);
-        // set inner value
-        tableCell.innerText = fieldValue;
         // done
-        tableCells.push(tableCell);
-    };
+        fieldValues.push(fieldValue);
+    }
 
-    // Create the cells (they're appended to the tableCells array)
-    fields.forEach(createTableCellForField);
+    // Loop through
+    fields.forEach(getValueFromField);
 
     // Do dropdown
     let sexDropdown = $('#sex-value-dropdown');
     // Get data from form
     let sexValue = sexDropdown.dropdown('get value');
-    // Create table cell
-    let sexValueTableCell = document.createElement('td');
-    let sexValueDataLabel = 'sex-value';
-    sexValueTableCell.setAttribute('data-label', sexValueDataLabel);
-    sexValueTableCell.innerText = sexValue;
-    // Splice it into the table Cells
-    tableCells.splice(2, 0, sexValueTableCell);
 
-    // Create the table row
-    let tableRow = document.createElement('tr');
-    // Add all cells into the row
-    function addToTableRow(tableCell) {
-        tableRow.insertAdjacentHTML('beforeend', tableCell.outerHTML);
-    };
-    tableCells.forEach(addToTableRow);
+    // Splice it into the table Cells
+    fieldValues.splice(2, 0, sexValue);
+
+    // Finish
+    return fieldValues;
+}
+
+function addNewSubject(temp, target_source = 'form') {
+    const viewAllSubjectsBody = document.querySelector('#view-all-subjects-table-body');
+
+    let tableRow = createSubjectRow(target_source);
 
     // Add the table row to the table
     viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
