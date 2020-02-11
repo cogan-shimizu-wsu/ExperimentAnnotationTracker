@@ -77,7 +77,7 @@ function populateExperimentMetadata(experiment_data) {
 }
 
 function populateExistingSubjects(subjects_data) {
-    subjects_data.forEach(subject => addNewSubject('',subject));
+    subjects_data.forEach(subject => addNewSubject('', subject));
 }
 
 const currentExperimentOption = document.getElementById('current-experiment-option');
@@ -190,12 +190,10 @@ function createSubjectRow(source) {
 
     let subject_data = 1;
 
-    if (source === 'form')
-    {
+    if (source === 'form') {
         subject_data = getSubjectDataFromForm();
     }
-    else
-    {
+    else {
         subject_data = [];
 
         Object.values(source).forEach(value => subject_data.push(value));
@@ -208,8 +206,7 @@ function createSubjectRow(source) {
         tableRow.insertAdjacentHTML('beforeend', tableCell.outerHTML);
     };
 
-    for(let i =0; i<6; i++)
-    {
+    for (let i = 0; i < 6; i++) {
         tableCell = tableCells[i].innerText = subject_data[i];
     }
 
@@ -265,18 +262,20 @@ function addNewSubject(temp, target_source = 'form') {
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
-let rowCounter = 1;
+let bpRowCounter = 1;
 addBehaviourParameterButton.addEventListener(
     'click',
-    function addBehaviourParameterRow() {
-        let behaviourParameterList = document.querySelector('#behaviour-parameter-list');
-        let index = { text: ++rowCounter };
-        behaviourParameterList.insertAdjacentHTML('beforeend',
-            `
+    addBehaviourParameterRow
+    );
+
+function addBehaviourParameterRow(e, key, behaviour) {
+    let behaviourParameterList = document.querySelector('#behaviour-parameter-list');
+    let index = { text: ++bpRowCounter };
+    behaviourParameterList.insertAdjacentHTML('beforeend',
+        `
           <div id='behaviour-parameter-row-${index.text}'>
             <div class='inline fields'>
               <div class='four wide field'>
-                <label>${index.text}</label>
                 <input type='text' placeholder='Key'>
               </div>
               <div class='five wide field'>
@@ -285,16 +284,14 @@ addBehaviourParameterButton.addEventListener(
               <i class='close icon' id='behaviour-parameter-row-close-icon-${index.text}'></i>
           </div>
           `
-        );
-        let id = 'behaviour-parameter-row-close-icon-'.concat(rowCounter);
-        let behaviourParameterRowCloseIcon = document.querySelector('#behaviour-parameter-row-close-icon-'.concat(rowCounter));
-        behaviourParameterRowCloseIcon.addEventListener(
-            'click',
-            function removeBehaviourParameterRow() {
-                let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement;
-                behaviourParameterRow.remove();
-                rowCounter--;
-            }
-        )
-    }
-);
+    );
+    let id = 'behaviour-parameter-row-close-icon-'.concat(bpRowCounter);
+    let behaviourParameterRowCloseIcon = document.querySelector('#behaviour-parameter-row-close-icon-'.concat(bpRowCounter));
+    behaviourParameterRowCloseIcon.addEventListener(
+        'click',
+        function removeBehaviourParameterRow() {
+            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement;
+            behaviourParameterRow.remove();
+        }
+    )
+}
