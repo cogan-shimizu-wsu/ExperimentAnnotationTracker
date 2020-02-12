@@ -262,36 +262,123 @@ function addNewSubject(temp, target_source = 'form') {
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
-let bpRowCounter = 1;
+let bpRowCounter = 0;
+let behaviourParameters = [];
 addBehaviourParameterButton.addEventListener(
     'click',
     addBehaviourParameterRow
-    );
+);
 
 function addBehaviourParameterRow(e, key, behaviour) {
+    // Find the parameter list
     let behaviourParameterList = document.querySelector('#behaviour-parameter-list');
-    let index = { text: ++bpRowCounter };
+    // Generate a unique id for the behaviour parameter
+    let index = { text: bpRowCounter };
+    // Create the row where the behaviour parameter can be entered
     behaviourParameterList.insertAdjacentHTML('beforeend',
         `
           <div id='behaviour-parameter-row-${index.text}'>
             <div class='inline fields'>
               <div class='four wide field'>
-                <input type='text' placeholder='Key'>
+                <input type='text' id='behaviour-parameter-row-${index.text}-key' placeholder='Key'>
               </div>
               <div class='five wide field'>
-                <input type='text' placeholder='Behaviour'>
+                <input type='text' id='behaviour-parameter-row-${index.text}-behaviour' placeholder='Behaviour'>
               </div>
               <i class='close icon' id='behaviour-parameter-row-close-icon-${index.text}'></i>
           </div>
           `
     );
+    // Create a way to delete this behaviour parameter, if necessary.
     let id = 'behaviour-parameter-row-close-icon-'.concat(bpRowCounter);
     let behaviourParameterRowCloseIcon = document.querySelector('#behaviour-parameter-row-close-icon-'.concat(bpRowCounter));
     behaviourParameterRowCloseIcon.addEventListener(
         'click',
         function removeBehaviourParameterRow() {
-            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement;
+            // Get the row
+            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement.parentElement;
+            // Get the "unique" id
+            let rowid = behaviourParameterRow.id;
+            rowid = rowid.split('-');
+            rowid = rowid[rowid.length - 1];
+            // Remove it from the collection
+            behaviourParameters.splice(rowid, 1);
+            // Remove it from the DOM
             behaviourParameterRow.remove();
         }
-    )
+    );
+    // Using the unique ID, create an entry in the behaviour parameters collection
+    let behaviourParameter = { key: "", behaviour: "", id: `behaviour-parameter-row-${index.text}` };
+    behaviourParameters[bpRowCounter] = behaviourParameter;
+
+    // Increment counter
+    bpRowCounter++;
+}
+
+const registerBehaviourParametersButton = document.getElementById('register-behaviour-parameters-button');
+registerBehaviourParametersButton.addEventListener(
+    'click',
+    registerAllBehaviourParameters
+);
+
+function scoreBehaviour(behaviour) {
+    console.log(behaviour);
+}
+
+function registerAllBehaviourParameters() {
+
+    let keydownHandlers = {};
+
+    function registerBehaviourParameter(behaviourParameter) {
+
+        // Get the key and behaviour from the specific behaviourParameterRow
+        let behaviourParameterKeyField = document.getElementById(behaviourParameter.id + "-key");
+        let key = behaviourParameterKeyField.value;
+        let behaviourParameterBehaviourField = document.getElementById(behaviourParameter.id + "-behaviour");
+        let behaviour = behaviourParameterBehaviourField.value;
+
+        // Check if the key field value is reasonable (i.e. non-empty and exactly one character)
+        if (key !== "" && key.length === 1) {
+            /* Begin registration */
+
+            // Register in datastructure
+            behaviourParameter.key = key;
+            behaviourParameter.behaviour = behaviour;
+
+            // Begin Register event handlers
+            
+            
+            // Create event handler
+            let keydownHandler = function () {
+
+            }
+
+            keydownHandlers[key.toUpperCase()] = keydownHandler;
+        }
+
+
+
+        // Check to make sure that the key is reasonable (i.e. non-empty and one character)
+        if (key !== "" && key.length === 1) {
+            document.addEventListener(
+                'keydown', // when the key is pressed, rather than let go
+                function (e) {
+                    // Strip away "key" and "digit" from the key code
+                    let keyPressed = e.code;
+                    keyPressed = keyPressed.substring(keyPressed.length - 1);
+                    // If the keyPressed matches (case insensitive) the registered key
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+                    // the sensitivity is required for this to work.
+                    // This also does an ordering comparison, like strcmp in C/C++, so we have to compare to integer value
+                    if (key.localeCompare(keyPressed, 'en', { sensitivity: 'base' }) === 0) {
+                        // do the thing
+                        scoreBehaviour(behaviour);
+                    }
+
+                }
+            );
+        }
+    }
+
+    behaviourParameters.forEach(registerBehaviourParameter);
 }

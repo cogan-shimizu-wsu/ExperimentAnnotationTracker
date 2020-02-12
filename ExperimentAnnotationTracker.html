@@ -214,28 +214,54 @@
         <div class="ui two column very relaxed grid" id="behaviour-parameters-form" style="display: none">
           <div class="column">
             <div class="ui form" id="behaviour-parameter-list">
-              <div id="behaviour-parameter-row-1">
-                <div class="inline fields">
-                  <div class="four wide field">
-                    <input type="text" placeholder="Key">
-                  </div>
-                  <div class="five wide field">
-                    <input type="text" placeholder="Behaviour">
-                  </div>
-                </div>
-              </div>
+              <!-- This is dynamically populated by the addBehaviourParameter Button -->
             </div>
           </div>
           <div class="column">
             <div class="ui vertical buttons">
               <button class="ui button" id="add-behaviour-parameter-button">Add Additional Behaviour Parameter</button>
-              <button class="ui primary button" id="register-behaviour-parameters-button">Register All Behaviour Parameters</button>
+              <button class="ui primary button" id="register-behaviour-parameters-button">Register All Behaviour
+                Parameters</button>
             </div>
           </div>
         </div>
 
         <!-- This form is for conducting the scoring session. -->
-        <div id="scoring-form" style="display: none"></div>
+        <div id="scoring-form" style="display: none">
+          <table class="ui celled table" id="active-subject-table">
+            <thead>
+              <tr>
+                <th>Subject ID</th>
+                <th>Genotype</th>
+                <th>Sex</th>
+                <th>Group</th>
+                <th>Treatment</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody id="active-subject-table-body">
+              <!-- Filled in by adding new subjects in other menu. -->
+            </tbody>
+          </table>
+          
+          <div class="ui divider"></div>
+
+          <table class="ui celled table" id="scoring-session-table">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Behaviour</th>
+                <th>Frequency</th>
+                <th>Duration</th>
+                <th>Mean Dur.</th>
+                <th>SD</th>
+              </tr>
+            </thead>
+            <tbody id="scoring-session-table-body">
+              <!-- Filled in by adding new subjects in other menu. -->
+            </tbody>
+          </table>
+        </div>
 
         <!-- This form is for inputting the parameters for scoring session analysis. -->
         <div id="analysis-form" style="display: none"></div>
