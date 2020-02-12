@@ -362,7 +362,7 @@ function registerAllBehaviourParameters() {
             /* Add to scoring session table body */
             // Get the reference to the table body
             const scoringSessionTableBody = document.getElementById('scoring-session-table-body');
-            let tr = document.createElement('tr');
+            let tableRow = document.createElement('tr');
             let theads = ['key', 'behaviour', 'frequency', 'duration', 'mean-duration', 'sd'];
             let cells = [];
             function createCell(datalabel) {
@@ -376,6 +376,12 @@ function registerAllBehaviourParameters() {
             // the other cells will be populated dynamically 
             cells[0].innerText = key;
             cells[1].innerText = behaviour;
+            // Add all cells into the row
+            function addToTableRow(tableCell) {
+                tableRow.insertAdjacentHTML('beforeend', tableCell.outerHTML);
+            };
+            cells.forEach(addToTableRow);
+            scoringSessionTableBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
         }
     }
 
