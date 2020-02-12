@@ -199,8 +199,6 @@ function createSubjectRow(source) {
         Object.values(source).forEach(value => subject_data.push(value));
     }
 
-    console.log(subject_data);
-
     // Add all cells into the row
     function addToTableRow(tableCell) {
         tableRow.insertAdjacentHTML('beforeend', tableCell.outerHTML);
@@ -321,14 +319,11 @@ registerBehaviourParametersButton.addEventListener(
     registerAllBehaviourParameters
 );
 
-function scoreBehaviour(behaviour) {
-    console.log(behaviour);
-}
-
 function registerAllBehaviourParameters() {
 
     let keydownHandlers = {};
 
+    /** This private function is used for registering individual behaviour parameters */
     function registerBehaviourParameter(behaviourParameter) {
 
         // Get the key and behaviour from the specific behaviourParameterRow
@@ -346,39 +341,63 @@ function registerAllBehaviourParameters() {
             behaviourParameter.behaviour = behaviour;
 
             // Begin Register event handlers
-            
-            
+
+
             // Create event handler
             let keydownHandler = function () {
+                // debug
+                console.log(key);
+                // update frequency
 
+                // update duration
+
+                // update mean duration
+
+                // update sd
             }
 
+            // Add to the handler "multiplexer"
             keydownHandlers[key.toUpperCase()] = keydownHandler;
-        }
 
-
-
-        // Check to make sure that the key is reasonable (i.e. non-empty and one character)
-        if (key !== "" && key.length === 1) {
-            document.addEventListener(
-                'keydown', // when the key is pressed, rather than let go
-                function (e) {
-                    // Strip away "key" and "digit" from the key code
-                    let keyPressed = e.code;
-                    keyPressed = keyPressed.substring(keyPressed.length - 1);
-                    // If the keyPressed matches (case insensitive) the registered key
-                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-                    // the sensitivity is required for this to work.
-                    // This also does an ordering comparison, like strcmp in C/C++, so we have to compare to integer value
-                    if (key.localeCompare(keyPressed, 'en', { sensitivity: 'base' }) === 0) {
-                        // do the thing
-                        scoreBehaviour(behaviour);
-                    }
-
-                }
-            );
+            /* Add to scoring session table body */
+            // Get the reference to the table body
+            const scoringSessionTableBody = document.getElementById('scoring-session-table-body');
+            let tr = document.createElement('tr');
+            let theads = ['key', 'behaviour', 'frequency', 'duration', 'mean-duration', 'sd'];
+            let cells = [];
+            function createCell(datalabel) {
+                let cell = document.createElement('td');
+                cell.setAttribute('data-label', datalabel);
+                cells.push(cell);
+            }
+            // Create the cells with their data labels
+            theads.forEach(createCell);
+            // Manually set the data for the first two cells
+            // the other cells will be populated dynamically 
+            cells[0].innerText = key;
+            cells[1].innerText = behaviour;
         }
     }
 
+    // Register all the beavhiour parameters
     behaviourParameters.forEach(registerBehaviourParameter);
+
+    /** This function is the keydownMultiplexor */
+    function keydownMultiplexor(e) {
+        // Strips away the "key" and "digit" from the key code
+        let keydown = e.code;
+        keydown = keydown.substring(keydown.length - 1); // i.e. keep the last character of the code
+        // ^ it should also always be uppercase
+        // Call the specific keydownHandler;
+
+        // Only call if the key is actually in the keydownHandlers
+        if (keydownHandlers.hasOwnProperty(keydown)) {
+            keydownHandlers[keydown]();
+        }
+    }
+    // register the multiplexed keydown handler function
+    document.addEventListener(
+        'keypress',
+        keydownMultiplexor
+    );
 }
