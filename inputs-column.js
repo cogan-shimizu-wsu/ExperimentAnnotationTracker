@@ -83,6 +83,7 @@ function populateExperimentMetadata(experiment_data) {
 }
 
 function populateExistingSubjects(subjects_data) {
+    document.querySelector('#view-all-subjects-table-body').innerHTML = '';
     subjects_data.forEach(subject => addNewSubject('', subject));
 }
 
