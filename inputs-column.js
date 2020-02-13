@@ -13,6 +13,8 @@ const analysisForm = document.getElementById('analysis-form');
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
+let activeSubject;
+let scoringTabActive = false;
 
 function clearTitleAndHideForms() {
     let forms = [addNewExperimentForm, currentExperimentForm, addNewSubjectForm, viewAllSubjects,
@@ -25,6 +27,7 @@ function clearTitleAndHideForms() {
     leftTitle.style.display = 'none';
     forms.forEach(hideForm);
 
+    scoringTabActive = false;
 };
 
 const addNewExperimentOption = document.getElementById('add-new-experiment-option');
@@ -60,7 +63,7 @@ function parseExperimentFile(e) {
     let lines = e.target.result;
     let result = JSON.parse(lines);
 
-    current_experiment = result;
+    current_experiment = new Experiment(result.experiment_data, result.subjects_data, result.behaviour_parameters);
 
     // Populate Experiment Metadata
     populateExperimentMetadata(current_experiment.experiment_data);
@@ -142,6 +145,7 @@ scoringOption.addEventListener(
         leftTitle.innerHTML = 'Scoring';
         leftTitle.style.display = '';
         scoringForm.style.display = '';
+        scoringTabActive = true;
     }
 );
 
@@ -401,18 +405,20 @@ function registerAllBehaviourParameters() {
 
             // Create event handler
             let keydownHandler = function () {
-                // debug
-                console.log(key);
-                /* Update frequency */
-                // Get Frequency Cell
-                const frequencyCell = document.getElementById(key + "-frequency");
+                if (scoringTabActive === true) {
+                    // debug
+                    console.log(key);
+                    /* Update frequency */
+                    // Get Frequency Cell
+                    const frequencyCell = document.getElementById(key + "-frequency");
 
 
-                // update duration
+                    // update duration
 
-                // update mean duration
+                    // update mean duration
 
-                // update sd
+                    // update sd
+                }
             }
 
             // Add to the handler "multiplexer"
