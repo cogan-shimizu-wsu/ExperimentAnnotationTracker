@@ -11,6 +11,9 @@ const behaviourParametersForm = document.getElementById('behaviour-parameters-fo
 const scoringForm = document.getElementById('scoring-form');
 const analysisForm = document.getElementById('analysis-form');
 
+// Tracker for last scored behaviour
+let lastScoredBehaviour;
+
 function clearTitleAndHideForms() {
     let forms = [addNewExperimentForm, currentExperimentForm, addNewSubjectForm, viewAllSubjects,
         behaviourParametersForm, scoringForm, analysisForm];
@@ -64,7 +67,7 @@ function parseExperimentFile(e) {
     // Populate Existing Subjects
     populateExistingSubjects(current_experiment.subjects_data);
     // Populate with Scoring Data
-
+    populateBehaviourParameters(current_experiment.behaviour_parameters);
 }
 
 function populateExperimentMetadata(experiment_data) {
@@ -78,6 +81,13 @@ function populateExperimentMetadata(experiment_data) {
 
 function populateExistingSubjects(subjects_data) {
     subjects_data.forEach(subject => addNewSubject('', subject));
+}
+
+function populateBehaviourParameters(behaviour_parameters) {
+    // Add the behaviour parameter rows
+    behaviour_parameters.forEach(bp => addBehaviourParameterRow('', bp.key, bp.behaviour));
+    // Register them
+    registerAllBehaviourParameters();
 }
 
 const currentExperimentOption = document.getElementById('current-experiment-option');
@@ -213,7 +223,10 @@ function createSubjectRow(source) {
     return tableRow;
 }
 
-/** This Function has a side effect of clearing the data from the form after collection */
+/** 
+ * This Function has a side effect of clearing the data from the form after collection
+ * This Function has a side effect of adding the subject to the current_experiment data structure
+ */
 function getSubjectDataFromForm() {
     // These are the fields that we can programmatically access easily (i.e. in a loop)
     let fields = [
@@ -246,6 +259,11 @@ function getSubjectDataFromForm() {
     // Splice it into the table Cells
     fieldValues.splice(2, 0, sexValue);
 
+    // Add the generated subject to the current_experiment
+    let subject = new Subject();
+    subject.setFields(fieldValues);
+    current_experiment.addSubject(subject);
+
     // Finish
     return fieldValues;
 }
@@ -267,7 +285,7 @@ addBehaviourParameterButton.addEventListener(
     addBehaviourParameterRow
 );
 
-function addBehaviourParameterRow(e, key, behaviour) {
+function addBehaviourParameterRow(e, keyValue, behaviourValue) {
     // Find the parameter list
     let behaviourParameterList = document.querySelector('#behaviour-parameter-list');
     // Generate a unique id for the behaviour parameter
@@ -289,14 +307,14 @@ function addBehaviourParameterRow(e, key, behaviour) {
     );
     // Create a way to delete this behaviour parameter, if necessary.
     let id = 'behaviour-parameter-row-close-icon-'.concat(bpRowCounter);
-    let behaviourParameterRowCloseIcon = document.querySelector('#behaviour-parameter-row-close-icon-'.concat(bpRowCounter));
+    const behaviourParameterRowCloseIcon = document.querySelector('#behaviour-parameter-row-close-icon-'.concat(bpRowCounter));
     behaviourParameterRowCloseIcon.addEventListener(
         'click',
         function removeBehaviourParameterRow() {
             // Get the row
-            let behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement.parentElement;
+            const behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement.parentElement;
             // Get the "unique" id
-            let rowid = behaviourParameterRow.id;
+            const rowid = behaviourParameterRow.id;
             rowid = rowid.split('-');
             rowid = rowid[rowid.length - 1];
             // Remove it from the collection
@@ -305,8 +323,22 @@ function addBehaviourParameterRow(e, key, behaviour) {
             behaviourParameterRow.remove();
         }
     );
+
+    if (keyValue === undefined) {
+        keyValue = "";
+    }
+    else {
+        document.getElementById(`behaviour-parameter-row-${index.text}-key`).value = keyValue;
+    }
+    if (behaviourValue === undefined) {
+        behaviourValue = "";
+    }
+    else {
+        document.getElementById(`behaviour-parameter-row-${index.text}-behaviour`).value = behaviourValue;
+    }
+
     // Using the unique ID, create an entry in the behaviour parameters collection
-    let behaviourParameter = { key: "", behaviour: "", id: `behaviour-parameter-row-${index.text}` };
+    let behaviourParameter = { key: keyValue, behaviour: behaviourValue, id: `behaviour-parameter-row-${index.text}` };
     behaviourParameters[bpRowCounter] = behaviourParameter;
 
     // Increment counter
@@ -333,31 +365,7 @@ function registerAllBehaviourParameters() {
         let behaviour = behaviourParameterBehaviourField.value;
 
         // Check if the key field value is reasonable (i.e. non-empty and exactly one character)
-        if (key !== "" && key.length === 1) {
-            /* Begin registration */
-
-            // Register in datastructure
-            behaviourParameter.key = key;
-            behaviourParameter.behaviour = behaviour;
-
-            // Begin Register event handlers
-
-
-            // Create event handler
-            let keydownHandler = function () {
-                // debug
-                console.log(key);
-                // update frequency
-
-                // update duration
-
-                // update mean duration
-
-                // update sd
-            }
-
-            // Add to the handler "multiplexer"
-            keydownHandlers[key.toUpperCase()] = keydownHandler;
+        if (key.length === 1) {
 
             /* Add to scoring session table body */
             // Get the reference to the table body
@@ -368,6 +376,7 @@ function registerAllBehaviourParameters() {
             function createCell(datalabel) {
                 let cell = document.createElement('td');
                 cell.setAttribute('data-label', datalabel);
+                cell.id = key + "-" + datalabel;
                 cells.push(cell);
             }
             // Create the cells with their data labels
@@ -382,6 +391,33 @@ function registerAllBehaviourParameters() {
             };
             cells.forEach(addToTableRow);
             scoringSessionTableBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
+
+            /* Begin registration */
+            // Register in datastructure
+            behaviourParameter.key = key;
+            behaviourParameter.behaviour = behaviour;
+
+            // Begin Register event handlers
+
+            // Create event handler
+            let keydownHandler = function () {
+                // debug
+                console.log(key);
+                /* Update frequency */
+                // Get Frequency Cell
+                const frequencyCell = document.getElementById(key + "-frequency");
+
+
+                // update duration
+
+                // update mean duration
+
+                // update sd
+            }
+
+            // Add to the handler "multiplexer"
+            keydownHandlers[key.toUpperCase()] = keydownHandler;
+
         }
     }
 
@@ -407,3 +443,31 @@ function registerAllBehaviourParameters() {
         keydownMultiplexor
     );
 }
+
+// For populating the Active Subject Table
+function populateActiveSubject(subject) {
+    // Get reference to the active subject table body
+    const activeSubjectTableBody = document.getElementById('active-subject-table-body');
+    // Clear active subject table body
+    activeSubjectTableBody.innerHTML = '';
+    // Create Table Row for the subject
+    const tableRow = createSubjectRow(subject);
+    // Add it to the active subject table body
+    activeSubjectTableBody.innerHTML = tableRow.outerHTML;
+
+    // If scoring data exists, populate it.
+
+}
+
+// For finding the active subject
+$('.ui.search')
+    .search({
+        source: current_experiment.subjects_data,
+        fields: { title: 'subject_id' },
+        searchFields: [
+            'subject_id'
+        ],
+        //   fullTextSearch: false
+        onSelect: populateActiveSubject
+    })
+    ;

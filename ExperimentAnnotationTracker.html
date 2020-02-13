@@ -54,6 +54,7 @@
       $('select.dropdown').dropdown();
       $('ui.dropdown').dropdown();
     });
+
   </script>
 </head>
 
@@ -228,6 +229,15 @@
 
         <!-- This form is for conducting the scoring session. -->
         <div id="scoring-form" style="display: none">
+          <!-- This is for finding the active subject -->
+          <div class="ui search">
+            <div class="ui icon input">
+              <input class="prompt" type="text" placeholder="Search subjects...">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+          </div>
+
           <table class="ui celled table" id="active-subject-table">
             <thead>
               <tr>
@@ -243,7 +253,7 @@
               <!-- Filled in by adding new subjects in other menu. -->
             </tbody>
           </table>
-          
+
           <div class="ui divider"></div>
 
           <table class="ui celled table" id="scoring-session-table">
@@ -300,14 +310,6 @@
     <div class="ui vertical divider">&lt; &gt;</div>
 
   </div>
-
-  <!-- <input type="file" style="display: none" id="open-existing-experiment-dialog" />
-  <script>
-    $('#open-existing-experiment-option').on('click', function () {
-      $('#open-existing-experiment-dialog').trigger('click');
-
-    });
-  </script> -->
 </body>
 
 </html>

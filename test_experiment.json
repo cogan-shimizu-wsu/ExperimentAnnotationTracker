@@ -1,1 +1,52 @@
-{"experiment_data":{"name":"Cogan","date":"02/09/2020"},"subjects_data":[{"subject_id":"Mouse #1","genotype":"Blah","sex":"Male","group":"1","treatment":"SARS","comment":"N/A"},{"subject_id":"Mouse #2","genotype":"Bleh","sex":"Female","group":"2","treatment":"AIDS","comment":"N/A"}],"scoring_data":{}}
+{
+    "experiment_data": {
+        "name": "Cogan",
+        "date": "02/09/2020"
+    },
+    "subjects_data": [
+        {
+            "subject_id": "Mouse #1",
+            "genotype": "Blah",
+            "sex": "Male",
+            "group": "1",
+            "treatment": "SARS",
+            "comment": "N/A",
+            "scoring_data": [
+                {
+                    "key": "A",
+                    "behaviour_parameter": "Grooming",
+                    "frequency": 0,
+                    "duration": 1,
+                    "mean duration": 1.5,
+                    "sd": 2.0
+                },
+                {
+                    "key": "2",
+                    "behaviour_parameter": "Dining",
+                    "frequency": 0,
+                    "duration": 2,
+                    "mean duration": 2.5,
+                    "sd": 3.0
+                }
+            ]
+        },
+        {
+            "subject_id": "Mouse #2",
+            "genotype": "Bleh",
+            "sex": "Female",
+            "group": "2",
+            "treatment": "AIDS",
+            "comment": "N/A"
+        }
+    ],
+    "behaviour_parameters": [
+        {
+            "key": "A",
+            "behaviour": "Grooming"
+        },
+        {
+            "key": "2",
+            "behaviour": "Dining"
+        }
+    ]
+}
