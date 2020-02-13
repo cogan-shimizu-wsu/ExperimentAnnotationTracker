@@ -452,6 +452,8 @@ function registerAllBehaviourParameters() {
 
 // For populating the Active Subject Table
 function populateActiveSubject(subject) {
+    // Set Active Subject
+    activeSubject = subject;
     // Get reference to the active subject table body
     const activeSubjectTableBody = document.getElementById('active-subject-table-body');
     // Clear active subject table body
