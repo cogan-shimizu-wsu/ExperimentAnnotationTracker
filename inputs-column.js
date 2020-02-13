@@ -279,6 +279,9 @@ function addNewSubject(temp, target_source = 'form') {
 
     // Add the table row to the table
     viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
+
+    // Populate the search bar searcher thing
+    populateSubjectSearch();
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
@@ -467,15 +470,17 @@ function populateActiveSubject(subject) {
 
 }
 
-// For finding the active subject
-$('.ui.search')
-    .search({
-        source: current_experiment.subjects_data,
-        fields: { title: 'subject_id' },
-        searchFields: [
-            'subject_id'
-        ],
-        //   fullTextSearch: false
-        onSelect: populateActiveSubject
-    })
-    ;
+function populateSubjectSearch() {
+    // For finding the active subject
+    $('.ui.search')
+        .search({
+            source: current_experiment.subjects_data,
+            fields: { title: 'subject_id' },
+            searchFields: [
+                'subject_id'
+            ],
+            //   fullTextSearch: false
+            onSelect: populateActiveSubject
+        });
+}
+
