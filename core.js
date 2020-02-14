@@ -36,13 +36,6 @@ class Subject {
 }
 
 class BehaviourParameter {
-    // constructor(behaviour) {
-    //     this.behavior = behaviour;
-    //     this.frequency = 0;
-    //     this.durations = [];
-    //     this.mean_duration = 0;
-    //     this.sd = 0;
-    // }
     constructor(key, behaviour, id) {
         this.behavior = behaviour;
         this.frequency = 0;

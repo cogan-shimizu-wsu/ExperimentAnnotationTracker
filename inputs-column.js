@@ -414,6 +414,8 @@ function registerAllBehaviourParameters() {
 
             /* Begin registration */
             // Register in datastructure
+            behaviourParameter.key = key;
+            behaviourParameter.behaviour = behaviour;
             current_experiment.behaviour_parameters.push(behaviourParameter);
             // Begin Register event handlers
 
