@@ -11,8 +11,18 @@ const behaviourParametersForm = document.getElementById('behaviour-parameters-fo
 const scoringForm = document.getElementById('scoring-form');
 const analysisForm = document.getElementById('analysis-form');
 
+// Utilities
+const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+const sqrDif = (arr, avg) => arr.map(function (value) {
+    let diff = value - avg;
+    let sqrDiff = diff * diff;
+    return sqrDiff;
+});
+const arrSTD = arr => Math.sqrt(arrAvg(sqrDif(arr, arrAvg(arr))));
+
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
+let lastScoredTime;
 let activeSubject;
 let scoringTabActive = false;
 
@@ -409,19 +419,45 @@ function registerAllBehaviourParameters() {
 
             // Create event handler
             let keydownHandler = function () {
+                // Only do something if the scoring tab is active
                 if (scoringTabActive === true) {
-                    // debug
-                    console.log(key);
-                    /* Update frequency */
-                    // Get Frequency Cell
-                    const frequencyCell = document.getElementById(key + "-frequency");
+                    const countdownBox = document.getElementById('trackerInputBox');
+                    let scoredTime = countdownBox.value;
+                    // Scoring occurs on the SECOND keystroke.
+                    // That is, the first keystroke indicates that the behaviour has started
+                    // The second keystroke means the behaviour has ended and a new behaviour has started
+                    if (lastScoredBehaviour !== undefined) {
+                        // Update the statistics
+                        // Update Frequency
+                        activeSubject.scoring_data[key].frequency++;
+                        const frequencyCell = document.getElementById(key + '-frequency');
+                        frequencyCell.innerText = activeSubject.scoring_data[key].frequency;
+
+                        // Update the Durations
+                        // Calculate current duration
+                        const duration = lastScoredTime - scoredTime;
+                        activeSubject.scoring_data[key].durations.push(duration);
+
+                        // Update the last scored duration
+                        const durationCell = document.getElementById(key + '-duration');
+                        durationCell.innerText = duration;
+
+                        // Calculate and Update the mean duration for this behaviour
+                        const meanDurationCell = document.getElementById(key + '-mean-duration');
+                        const meanDuration = arrAvg(activeSubject.scoring_data[key].durations);
+                        meanDurationCell.innerText = meanDuration;
 
 
-                    // update duration
-
-                    // update mean duration
-
-                    // update sd
+                        // Calculate and Update the standard deviation
+                        const sdCell = document.getElementById(key+'-sd');
+                        const sdValue = arrSTD(activeSubject.scoring_data[key].durations);
+                        activeSubject.scoring_data[key].sd = sdValue;
+                        sdCell.innerText = sdValue;
+                        console.log('Scored: ' + behaviour);
+                    }
+                    // Now set the last scored behaviour
+                    lastScoredBehaviour = behaviour;
+                    lastScoredTime = scoredTime;
                 }
             }
 
