@@ -15,21 +15,16 @@
                 "A": {
                     "behaviour_parameter": "Grooming",
                     "frequency": 0,
-                    "durations": [
-                        1
-                    ],
-                    "mean duration": 1.5,
-                    "sd": 2.0
+                    "durations": [],
+                    "mean duration": 0,
+                    "sd": 0
                 },
                 "2": {
                     "behaviour_parameter": "Dining",
-                    "frequency": 2,
-                    "duration": [
-                        2,
-                        3
-                    ],
-                    "mean duration": 2.5,
-                    "sd": 0.5
+                    "frequency": 0,
+                    "durations": [],
+                    "mean duration": 0,
+                    "sd": 0
                 }
             }
         },
@@ -39,7 +34,8 @@
             "sex": "Female",
             "group": "2",
             "treatment": "AIDS",
-            "comment": "N/A"
+            "comment": "N/A",
+            "scoring_data": {}
         }
     ],
     "behaviour_parameters": [

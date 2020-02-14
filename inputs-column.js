@@ -356,7 +356,7 @@ function addBehaviourParameterRow(e, keyValue, behaviourValue) {
     }
 
     // Using the unique ID, create an entry in the behaviour parameters collection
-    let behaviourParameter = { key: keyValue, behaviour: behaviourValue, id: `behaviour-parameter-row-${index.text}` };
+    let behaviourParameter = new BehaviourParameter(keyValue, behaviourValue, `behaviour-parameter-row-${index.text}`);
     behaviourParameters[bpRowCounter] = behaviourParameter;
 
     // Increment counter
@@ -412,9 +412,7 @@ function registerAllBehaviourParameters() {
 
             /* Begin registration */
             // Register in datastructure
-            behaviourParameter.key = key;
-            behaviourParameter.behaviour = behaviour;
-
+            current_experiment.behaviour_parameters.push(behaviourParameter);
             // Begin Register event handlers
 
             // Create event handler
@@ -427,43 +425,49 @@ function registerAllBehaviourParameters() {
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
                     if (lastScoredBehaviour !== undefined) {
+                        // Add the behaviour parameter to the activeSubject if it doesn't have it.
+                        if (activeSubject.scoring_data.hasOwnProperty(key) === false) {
+                            activeSubject.scoring_data[key] = lastScoredBehaviour;
+                        }
+
+                        // Get the key from the last scored behaviour
+                        const lastKey = lastScoredBehaviour.key;
+
                         // Update the statistics
                         // Update Frequency
-                        activeSubject.scoring_data[key].frequency++;
-                        const frequencyCell = document.getElementById(key + '-frequency');
-                        frequencyCell.innerText = activeSubject.scoring_data[key].frequency;
+                        activeSubject.scoring_data[lastKey].frequency++;
+                        const frequencyCell = document.getElementById(lastKey + '-frequency');
+                        frequencyCell.innerText = activeSubject.scoring_data[lastKey].frequency;
 
                         // Update the Durations
                         // Calculate current duration
                         const duration = lastScoredTime - scoredTime;
-                        activeSubject.scoring_data[key].durations.push(duration);
+                        activeSubject.scoring_data[lastKey].durations.push(duration);
 
                         // Update the last scored duration
-                        const durationCell = document.getElementById(key + '-duration');
+                        const durationCell = document.getElementById(lastKey + '-duration');
                         durationCell.innerText = duration;
 
                         // Calculate and Update the mean duration for this behaviour
-                        const meanDurationCell = document.getElementById(key + '-mean-duration');
-                        const meanDuration = arrAvg(activeSubject.scoring_data[key].durations);
+                        const meanDurationCell = document.getElementById(lastKey + '-mean-duration');
+                        const meanDuration = arrAvg(activeSubject.scoring_data[lastKey].durations);
                         meanDurationCell.innerText = meanDuration;
 
 
                         // Calculate and Update the standard deviation
-                        const sdCell = document.getElementById(key+'-sd');
-                        const sdValue = arrSTD(activeSubject.scoring_data[key].durations);
-                        activeSubject.scoring_data[key].sd = sdValue;
+                        const sdCell = document.getElementById(lastKey + '-sd');
+                        const sdValue = arrSTD(activeSubject.scoring_data[lastKey].durations);
+                        activeSubject.scoring_data[lastKey].sd = sdValue;
                         sdCell.innerText = sdValue;
-                        console.log('Scored: ' + behaviour);
                     }
                     // Now set the last scored behaviour
-                    lastScoredBehaviour = behaviour;
+                    lastScoredBehaviour = behaviourParameter;
                     lastScoredTime = scoredTime;
                 }
             }
 
             // Add to the handler "multiplexer"
             keydownHandlers[key.toUpperCase()] = keydownHandler;
-
         }
     }
 
@@ -492,8 +496,18 @@ function registerAllBehaviourParameters() {
 
 // For populating the Active Subject Table
 function populateActiveSubject(subject) {
-    // Set Active Subject
-    activeSubject = subject;
+    // Set the active subject.
+    // This is necessary because the populateSubjectSearch function
+    // Searches a COPY of the current_experiment.subjects_data
+    // Thus disconnecting the reference chain.
+    for (let i in current_experiment.subjects_data) {
+        let temp = current_experiment.subjects_data[i];
+        let temp_id = temp.subject_id;
+
+        if (subject.subject_id === temp_id) {
+            activeSubject = temp;
+        }
+    }
     // Get reference to the active subject table body
     const activeSubjectTableBody = document.getElementById('active-subject-table-body');
     // Clear active subject table body

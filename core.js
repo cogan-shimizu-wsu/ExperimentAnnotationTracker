@@ -11,19 +11,17 @@ class Experiment {
 }
 
 class Subject {
-    constructor()
-    {
+    constructor() {
         this.subject_id = "";
         this.genotype = "";
         this.sex = "";
         this.group = "";
         this.treatment = "";
         this.comment = "";
-        this.scoring_data = [];
+        this.scoring_data = {};
     }
 
-    setFields(fieldValues)
-    {
+    setFields(fieldValues) {
         this.subject_id = fieldValues[0];
         this.genotype = fieldValues[1];
         this.sex = fieldValues[2];
@@ -31,40 +29,50 @@ class Subject {
         this.treatment = fieldValues[4];
         this.comment = fieldValues[5];
     }
+
+    addBehaviourParameter(key, behaviourParameter) {
+        scoring_data[key] = behaviourParameter;
+    }
 }
 
-let experiment_data = {name: "Crags", date:"02/09/2020"};
-let subjects_data = [
-    {
-        subject_id: "Mouse #1",
-        genotype: "Blah",
-        sex: "Male",
-        group: "1",
-        treatment: "SARS",
-        comment: "N/A"
-    },
-    {
-        subject_id: "Mouse #2",
-        genotype: "Bleh",
-        sex: "Female",
-        group: "2",
-        treatment: "AIDS",
-        comment: "N/A"
+class BehaviourParameter {
+    // constructor(behaviour) {
+    //     this.behavior = behaviour;
+    //     this.frequency = 0;
+    //     this.durations = [];
+    //     this.mean_duration = 0;
+    //     this.sd = 0;
+    // }
+    constructor(key, behaviour, id) {
+        this.behavior = behaviour;
+        this.frequency = 0;
+        this.durations = [];
+        this.mean_duration = 0;
+        this.sd = 0;
+        this.key = key;
+        this.id = id;
     }
-]
+}
 
-let behaviour_parameters = [
-    {
-        "key": "A",
-        "behaviour": "Grooming",
-    },
-    {
-        "key": "2",
-        "behaviour": "Dining",
-    }
-];
+// Global variable for the experiment
+let current_experiment;
 
-let current_experiment = new Experiment(experiment_data,subjects_data,behaviour_parameters);
+// Export functionality
+const exportCurrentExperimentOption = document.getElementById('export-current-experiment-option');
+const exportButton = document.getElementById('export-button');
 
-console.log(JSON.stringify(current_experiment));
+function exportCurrentExperiment() {
+    const experiment_as_json = JSON.stringify(current_experiment);
 
+    console.log(experiment_as_json);
+}
+
+exportCurrentExperimentOption.addEventListener(
+    'click',
+    exportCurrentExperiment
+)
+
+exportButton.addEventListener(
+    'click',
+    exportCurrentExperiment
+)
