@@ -373,6 +373,10 @@ function registerAllBehaviourParameters() {
 
     let keydownHandlers = {};
 
+    // Get the reference to the table body
+    const scoringSessionTableBody = document.getElementById('scoring-session-table-body');
+    scoringSessionTableBody.innerHTML = '';
+
     /** This private function is used for registering individual behaviour parameters */
     function registerBehaviourParameter(behaviourParameter) {
 
@@ -386,8 +390,6 @@ function registerAllBehaviourParameters() {
         if (key.length === 1) {
 
             /* Add to scoring session table body */
-            // Get the reference to the table body
-            const scoringSessionTableBody = document.getElementById('scoring-session-table-body');
             let tableRow = document.createElement('tr');
             let theads = ['key', 'behaviour', 'frequency', 'duration', 'mean-duration', 'sd'];
             let cells = [];

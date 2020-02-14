@@ -55,7 +55,7 @@ class BehaviourParameter {
 }
 
 // Global variable for the experiment
-let current_experiment;
+let current_experiment = new Experiment([],[],[]);
 
 // Export functionality
 const exportCurrentExperimentOption = document.getElementById('export-current-experiment-option');
