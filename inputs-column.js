@@ -332,7 +332,7 @@ function addBehaviourParameterRow(e, keyValue, behaviourValue) {
             // Get the row
             const behaviourParameterRow = behaviourParameterRowCloseIcon.parentElement.parentElement;
             // Get the "unique" id
-            const rowid = behaviourParameterRow.id;
+            let rowid = behaviourParameterRow.id;
             rowid = rowid.split('-');
             rowid = rowid[rowid.length - 1];
             // Remove it from the collection
