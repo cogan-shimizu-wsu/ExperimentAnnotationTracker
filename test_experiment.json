@@ -35,7 +35,22 @@
             "group": "2",
             "treatment": "AIDS",
             "comment": "N/A",
-            "scoring_data": {}
+            "scoring_data": {
+                "A": {
+                    "behaviour_parameter": "Grooming",
+                    "frequency": 1,
+                    "durations": [],
+                    "mean duration": 1,
+                    "sd": 1
+                },
+                "2": {
+                    "behaviour_parameter": "Dining",
+                    "frequency": 1,
+                    "durations": [],
+                    "mean duration": 1,
+                    "sd": 1
+                }
+            }
         }
     ],
     "behaviour_parameters": [

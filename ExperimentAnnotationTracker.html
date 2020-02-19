@@ -9,6 +9,7 @@
 
   <!-- Core javascript -->
   <script type="text/javascript" src="core.js" defer></script>
+  <script type="text/javascript" src="csv.js" defer></script>
   <!-- Inputs column JS-->
   <script type="text/javascript" src="inputs-column.js" defer></script>
   <!--- Video CSS --->
@@ -29,53 +30,34 @@
 
   <script type="text/javascript" src="semantic/dist/components/transition.js"></script>
   <script type="text/javascript" src="semantic/dist/components/dropdown.js"></script>
-
-  <!-- This is the code for opening and closing dropdowns. -->
-  <script>
-    $(document)
-      .ready(function () {
-        $('.ui.menu .ui.dropdown').dropdown({
-          on: 'hover'
-        });
-        $('.ui.menu a.item')
-          .on('click', function () {
-            $(this)
-              .addClass('active')
-              .siblings()
-              .removeClass('active')
-              ;
-          })
-          ;
-      })
-      ;
-
-    $(document).ready(function () {
-      $('.tabular.menu .item').tab();
-      $('select.dropdown').dropdown();
-      $('ui.dropdown').dropdown();
-    });
-
-  </script>
 </head>
 
 <body>
-
-
-
   <!-- The Menu bar -->
   <div class="ui menu">
     <div class="header item">COOL</div>
-    <div class="ui dropdown item">
+    <!-- Experiment Menu -->
+    <div class="ui pointing dropdown item">
       Experiment
       <i class="dropdown icon"></i>
       <div class="menu">
         <div class="item" id="add-new-experiment-option">Create New Experiment</div>
         <div class="item" id="open-existing-experiment-option">Open Existing Experiment...</div>
         <div class="item" id="current-experiment-option">Manage Current Metadata</div>
-        <div class="item" id="export-current-experiment-option">Export Current Experiment</div>
+        <!-- Export Options -->
+        <div class="ui left pointing item">
+          <i class="dropdown icon"></i>
+          <span class="text">Export</span>
+          <div class="menu">
+            <div class="item" id="export-experiment-console-option">Console</div>
+            <div class="item" id="export-experiment-json-option">JSON</div>
+            <div class="item" id="export-experiment-csv-option">CSV</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="ui dropdown item">
+    <!-- Subjects Menu -->
+    <div class="ui pointing dropdown item">
       Subjects
       <i class="dropdown icon"></i>
       <div class="menu">
@@ -83,7 +65,8 @@
         <div class="item" id="view-all-subjects-option">View All Subjects</div>
       </div>
     </div>
-    <div class="ui dropdown item">
+    <!-- Scoring Menu -->
+    <div class="ui pointing dropdown item">
       Score
       <i class="dropdown icon"></i>
       <div class="menu">
@@ -91,8 +74,9 @@
         <div class="item" id="scoring-option">Start Scoring Session</div>
       </div>
     </div>
+    <!-- Analysis menu -->
     <a class="item" id="analysis-option">Analysis</a>
-
+    <!-- Exporting Button -->
     <div class="ui right menu">
       <Button class="ui blue button" id="export-button">Export</Button>
     </div>
@@ -274,7 +258,7 @@
         </div>
 
         <!-- This form is for inputting the parameters for scoring session analysis. -->
-        <div id="analysis-form" style="display: none"></div>
+        <div id="analysis-form" style="display: none"> </div>
 
       </div>
 

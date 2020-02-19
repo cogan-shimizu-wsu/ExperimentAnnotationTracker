@@ -475,6 +475,9 @@ function registerAllBehaviourParameters() {
         }
     }
 
+    // Clear the Behaviour Parameters from current_experiment, they're about to be added back
+    current_experiment.behaviour_parameters = [];
+
     // Register all the beavhiour parameters
     behaviourParameters.forEach(registerBehaviourParameter);
 

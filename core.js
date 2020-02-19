@@ -48,24 +48,98 @@ class BehaviourParameter {
 }
 
 // Global variable for the experiment
-let current_experiment = new Experiment([],[],[]);
+let current_experiment = new Experiment([], [], []);
 
-// Export functionality
-const exportCurrentExperimentOption = document.getElementById('export-current-experiment-option');
+/* Export Functionality */
+
+// Get References to the menu options
+const exportExperimentConsoleOption = document.getElementById('export-experiment-console-option');
+const exportExperimentJsonOption = document.getElementById('export-experiment-json-option');
+const exportExperimentCsvOption = document.getElementById('export-experiment-csv-option');
+// Get reference to the export button
 const exportButton = document.getElementById('export-button');
 
-function exportCurrentExperiment() {
+// Function for packaging the current_experiment into a file
+function packageDownload(filename, text) {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Specific export medium handlers
+function exportExperimentConsole() {
     const experiment_as_json = JSON.stringify(current_experiment);
 
     console.log(experiment_as_json);
 }
 
-exportCurrentExperimentOption.addEventListener(
+function exportExperimentJson() {
+    const filename = 'experiment.json'; // default name
+    const text = JSON.stringify(current_experiment);
+
+    packageDownload(filename, text);
+}
+
+function exportExperimentCsv() {
+    const filename = 'experiment.csv'; // default name
+    const text = JSON.stringify(current_experiment);
+
+    // TODO insert csv specific code
+
+    const csv_string = create_header_row() + create_subject_rows();
+    console.log(csv_string);
+    // packageDownload(filename, csv_string);
+}
+
+// Register the event handlers per option
+exportExperimentConsoleOption.addEventListener(
     'click',
-    exportCurrentExperiment
+    exportExperimentConsole
+);
+
+exportExperimentJsonOption.addEventListener(
+    'click',
+    exportExperimentJson
+);
+
+exportExperimentCsvOption.addEventListener(
+    'click',
+    exportExperimentCsv
 )
 
 exportButton.addEventListener(
     'click',
-    exportCurrentExperiment
+    exportExperimentCsv
 )
+
+/* Drop Down Functionality */
+$(document)
+    .ready(function () {
+        $('.ui.menu .ui.dropdown').dropdown({
+            on: 'hover'
+        });
+
+        $('.ui.menu a.item')
+            .on('click', function () {
+                $(this)
+                    .addClass('active')
+                    .siblings()
+                    .removeClass('active')
+                    ;
+            })
+            ;
+    })
+    ;
+
+$(document).ready(function () {
+    $('.tabular.menu .item').tab();
+    $('select.dropdown').dropdown();
+    $('ui.dropdown').dropdown();
+});
