@@ -542,9 +542,62 @@ function populateSubjectSearch() {
         });
 }
 
+/* Synchrony of Subjects in Analysis Tab */
+// Get references
+const syncButton = document.getElementById('sync-subjects');
+const analysisSubjectsForm = document.getElementById('analysis-subjects-form');
+syncButton.addEventListener(
+    'click',
+    populateAnalysisSubjects
+);
+
+// Function for populating the interface.
+function populateAnalysisSubjects() {
+    console.log('button pressed');
+    // Initially remove everything
+    analysisSubjectsForm.innerHTML = '';
+    // Repopulate
+    current_experiment.subjects_data.forEach(subject => {
+        createCheckBoxForSubject(subject);
+    });
+}
+
+function createCheckBoxForSubject(subject) {
+    // Create field div
+    const inline_field = document.createElement('div');
+    inline_field.setAttribute('class', 'inline field');
+    // Create checkbox div
+    const checkbox_holder = document.createElement('div');
+    checkbox_holder.setAttribute('class', 'ui checkbox');
+    // Create checkbox
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    // Get the label for the subject
+    const subject_label = document.createElement('label');
+    subject_label.innerHTML = subjectToString(subject);
+    // Construct holder
+    checkbox_holder.innerHTML = checkbox.outerHTML;
+    checkbox_holder.innerHTML += subject_label.outerHTML;
+    // Construct the Field
+    inline_field.innerHTML = checkbox_holder.outerHTML;
+    // Add to the form
+    analysisSubjectsForm.innerHTML += inline_field.outerHTML;
+}
+
+function subjectToString(subject) {
+    // Start
+    let subject_string = '';
+    // Construct
+    subject_string += subject.subject_id + ' ';
+    subject_string += subject.genotype + ' ';
+    subject_string += subject.sex + ' ';
+    // Return
+    return subject_string;
+}
+
 /* Analysis code */
 const analyzeButton = document.getElementById('analyze-button');
 analyzeButton.addEventListener(
     'click',
-    function() {window.alert('boo!')}
+    function () { window.alert('boo!') }
 );
