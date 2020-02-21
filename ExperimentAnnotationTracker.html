@@ -177,6 +177,7 @@
 
         </div>
 
+        <!-- This form is for viewing all subjects that have been loaded/entered. -->
         <div id="view-all-subjects" style="display: none">
           <table class="ui celled table" id="view-all-subjects-table">
             <thead>
@@ -261,15 +262,119 @@
         <div class="ui two column very relaxed grid" id="analysis-form" style="display: none">
           <!-- Selectable Subjects -->
           <div class="column">
-          
+            <h3>Subjects <i class="sync icon" id="sync-subjects"></i></h3>
+            <div class="ui form" id="analysis-subjects-form">
+              <!-- Will be dynamically populated when the sync button is clicked. -->
+            </div>
           </div>
           <!-- Analysis Options -->
           <div class="column">
-
-          </div>
-        </div>
-
-      </div>
+            <!-- Title -->
+            <h3> Analyze Data</h3>
+            <!-- Form? -->
+            <div class="ui form">
+              <div class="grouped fields">
+                <!-- 1-way Analysis -->
+                <div class="field">
+                  <!-- We use a two column grid to reduce the
+                  width of the dropdown box- probably not the most elegant solution. -->
+                  <div class="ui two column relaxed grid">
+                    <div class="column">
+                      <div class="ui slider checkbox">
+                        <input type="radio" name="analysis-type">
+                        <label>1-way Analysis</label>
+                      </div>
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                    <!-- Begin Second Row -->
+                    <div class="column">
+                      <div class="ui selection dropdown">
+                        <input type="hidden" name="group-by-param">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Group By</div>
+                        <div class="menu">
+                          <div class="item" data-value="1">Sex</div>
+                          <div class="item" data-value="2">Genotype</div>
+                          <div class="item" data-value="3">Treatment</div>
+                          <div class="item" data-value="4">Group</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                  </div>
+                </div> <!-- End 1-way-analysis -->
+                <!--2-way Analysis  -->
+                <div class="field">
+                  <!-- We use a two column grid to reduce the
+                  width of the dropdown box- probably not the most elegant solution. -->
+                  <div class="ui two column relaxed grid">
+                    <div class="column">
+                      <div class="ui slider checkbox">
+                        <input type="radio" name="analysis-type">
+                        <label>1-way Analysis</label>
+                      </div>
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                    <!-- Begins Second Row -->
+                    <div class="column">
+                      <div class="ui selection dropdown">
+                        <input type="hidden" name="group-by-param">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Group By</div>
+                        <div class="menu">
+                          <div class="item" data-value="1">Sex</div>
+                          <div class="item" data-value="2">Genotype</div>
+                          <div class="item" data-value="3">Treatment</div>
+                          <div class="item" data-value="4">Group</div>
+                        </div>
+                      </div>
+                      <label>and</label>
+                      <div class="ui selection dropdown">
+                        <input type="hidden" name="group-by-param">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Group By</div>
+                        <div class="menu">
+                          <div class="item" data-value="1">Sex</div>
+                          <div class="item" data-value="2">Genotype</div>
+                          <div class="item" data-value="3">Treatment</div>
+                          <div class="item" data-value="4">Group</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                  </div>
+                </div> <!-- End 2-way-analysis -->
+                <!-- Per Minute Analysis -->
+                <div class="field">
+                  <!-- We use a two column grid to reduce the
+                  width of the dropdown box- probably not the most elegant solution. -->
+                  <div class="ui two column relaxed grid">
+                    <div class="column">
+                      <div class="ui slider checkbox">
+                        <input type="radio" name="analysis-type">
+                        <label>Per Minute Analysis</label>
+                      </div>
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                    <!-- Begins Second Row -->
+                    <div class="column">
+                        <input type="text" placeholder="Time Interval (secs)">
+                    </div>
+                    <!-- Empty column for width purposes. -->
+                    <div class="column"> </div>
+                    <button class="ui blue button" id='analyze-button'>Analyze!</button>
+                  </div>
+                </div> <!-- End per-minute-analysis -->
+              </div> <!-- End grouped fields -->
+            </div> <!-- End ui form -->
+          </div> <!-- End analysis-options-form -->
+        </div> <!-- End analysis-form -->
+      </div> <!-- End inputs-column -->
 
       <!-- This column contains all the video manipulation and scoring session interactions. -->
       <div class="column" id="video-column">

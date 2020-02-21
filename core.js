@@ -126,6 +126,10 @@ $(document)
             on: 'hover'
         });
 
+        $('.ui.form .ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        
         $('.ui.menu a.item')
             .on('click', function () {
                 $(this)
