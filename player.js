@@ -55,6 +55,7 @@ function updateTime(){
         trackerInputBox.value = null;
         myVideo.pause();
         clearInterval(refreshIntervalId);
+        scoringTabActive = false;
     }
 }
 
@@ -62,14 +63,19 @@ function updateTime(){
 function trackerVidAction(event){
     switch(event.target.id){
         case "btnTrackerPlay":
-            myVideo.play();
-            refreshIntervalId = setInterval(updateTime, 1000);
-            break;
+            if(trackerTime !== 0 || trackerTime !== null){
+                scoringTabActive = true;
+                myVideo.play();
+                refreshIntervalId = setInterval(updateTime, 1000);
+                break;
+            }
         case "btnTrackerPause":
+            scoringTabActive = false;
             myVideo.pause();
             clearInterval(refreshIntervalId);
             break;
         case "btnTrackerStop":
+            scoringTabActive = false;
             clearInterval(refreshIntervalId);
             myVideo.pause();
             myVideo.currentTime = 0;

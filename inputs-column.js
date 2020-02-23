@@ -156,7 +156,6 @@ scoringOption.addEventListener(
         leftTitle.innerHTML = 'Scoring';
         leftTitle.style.display = '';
         scoringForm.style.display = '';
-        scoringTabActive = true;
     }
 );
 
