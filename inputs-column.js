@@ -594,10 +594,3 @@ function subjectToString(subject) {
     // Return
     return subject_string;
 }
-
-/* Analysis code */
-const analyzeButton = document.getElementById('analyze-button');
-analyzeButton.addEventListener(
-    'click',
-    function () { window.alert('boo!') }
-);

@@ -10,6 +10,7 @@
   <!-- Core javascript -->
   <script type="text/javascript" src="core.js" defer></script>
   <script type="text/javascript" src="csv.js" defer></script>
+  <script type="text/javascript" src="analysis.js" defer></script>
   <!-- Inputs column JS-->
   <script type="text/javascript" src="inputs-column.js" defer></script>
   <!--- Video CSS --->
@@ -281,7 +282,7 @@
                   <div class="ui two column relaxed grid">
                     <div class="column">
                       <div class="ui slider checkbox">
-                        <input type="radio" name="analysis-type">
+                        <input type="radio" name="analysis-type" id="1-way-analysis">
                         <label>1-way Analysis</label>
                       </div>
                     </div>
@@ -289,15 +290,15 @@
                     <div class="column"> </div>
                     <!-- Begin Second Row -->
                     <div class="column">
-                      <div class="ui selection dropdown">
-                        <input type="hidden" name="group-by-param">
+                      <div class="ui selection dropdown" id='1-way-analysis-dropdown'>
+                        <input type="hidden" name="group-by-param" id='1-way-analysis-parameter'>
                         <i class="dropdown icon"></i>
                         <div class="default text">Group By</div>
                         <div class="menu">
-                          <div class="item" data-value="1">Sex</div>
-                          <div class="item" data-value="2">Genotype</div>
-                          <div class="item" data-value="3">Treatment</div>
-                          <div class="item" data-value="4">Group</div>
+                          <div class="item" data-value="sex">Sex</div>
+                          <div class="item" data-value="genotype">Genotype</div>
+                          <div class="item" data-value="treatment">Treatment</div>
+                          <div class="item" data-value="group">Group</div>
                         </div>
                       </div>
                     </div>
@@ -312,35 +313,35 @@
                   <div class="ui two column relaxed grid">
                     <div class="column">
                       <div class="ui slider checkbox">
-                        <input type="radio" name="analysis-type">
-                        <label>1-way Analysis</label>
+                        <input type="radio" name="analysis-type" id="2-way-analysis">
+                        <label>2-way Analysis</label>
                       </div>
                     </div>
                     <!-- Empty column for width purposes. -->
                     <div class="column"> </div>
                     <!-- Begins Second Row -->
                     <div class="column">
-                      <div class="ui selection dropdown">
-                        <input type="hidden" name="group-by-param">
+                      <div class="ui selection dropdown" id="2-way-analysis-dropdown-1">
+                        <input type="hidden" name="2-way-group-by-param">
                         <i class="dropdown icon"></i>
                         <div class="default text">Group By</div>
                         <div class="menu">
-                          <div class="item" data-value="1">Sex</div>
-                          <div class="item" data-value="2">Genotype</div>
-                          <div class="item" data-value="3">Treatment</div>
-                          <div class="item" data-value="4">Group</div>
+                          <div class="item" data-value="sex">Sex</div>
+                          <div class="item" data-value="genotype">Genotype</div>
+                          <div class="item" data-value="treatment">Treatment</div>
+                          <div class="item" data-value="group">Group</div>
                         </div>
                       </div>
                       <label>and</label>
-                      <div class="ui selection dropdown">
-                        <input type="hidden" name="group-by-param">
+                      <div class="ui selection dropdown" id="2-way-analysis-dropdown-2">
+                        <input type="hidden" name="2-way-group-by-param">
                         <i class="dropdown icon"></i>
                         <div class="default text">Group By</div>
                         <div class="menu">
-                          <div class="item" data-value="1">Sex</div>
-                          <div class="item" data-value="2">Genotype</div>
-                          <div class="item" data-value="3">Treatment</div>
-                          <div class="item" data-value="4">Group</div>
+                          <div class="item" data-value="sex">Sex</div>
+                          <div class="item" data-value="genotype">Genotype</div>
+                          <div class="item" data-value="treatment">Treatment</div>
+                          <div class="item" data-value="group">Group</div>
                         </div>
                       </div>
                     </div>
@@ -355,7 +356,7 @@
                   <div class="ui two column relaxed grid">
                     <div class="column">
                       <div class="ui slider checkbox">
-                        <input type="radio" name="analysis-type">
+                        <input type="radio" name="analysis-type" id="per-minute-analysis">
                         <label>Per Minute Analysis</label>
                       </div>
                     </div>
@@ -363,7 +364,7 @@
                     <div class="column"> </div>
                     <!-- Begins Second Row -->
                     <div class="column">
-                        <input type="text" placeholder="Time Interval (secs)">
+                        <input type="text" placeholder="Time Interval (secs)" id="analysis-interval-field">
                     </div>
                     <!-- Empty column for width purposes. -->
                     <div class="column"> </div>
