@@ -55,6 +55,7 @@ function updateTime(){
         trackerInputBox.value = null;
         myVideo.pause();
         clearInterval(refreshIntervalId);
+        keydownHandlers[lastScoredBehaviour.key]();
         scoringTabActive = false;
     }
 }

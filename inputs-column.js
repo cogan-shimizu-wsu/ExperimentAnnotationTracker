@@ -368,9 +368,9 @@ registerBehaviourParametersButton.addEventListener(
     registerAllBehaviourParameters
 );
 
-function registerAllBehaviourParameters() {
+let keydownHandlers = {};
 
-    let keydownHandlers = {};
+function registerAllBehaviourParameters() {
 
     // Get the reference to the table body
     const scoringSessionTableBody = document.getElementById('scoring-session-table-body');
@@ -424,6 +424,7 @@ function registerAllBehaviourParameters() {
                 if (scoringTabActive === true) {
                     const countdownBox = document.getElementById('trackerInputBox');
                     let scoredTime = countdownBox.value;
+                    
                     // Scoring occurs on the SECOND keystroke.
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
