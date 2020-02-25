@@ -59,6 +59,7 @@ const exportExperimentCsvOption = document.getElementById('export-experiment-csv
 // Get reference to the export button
 const exportButton = document.getElementById('export-button');
 const saveButton = document.getElementById('save-button');
+const manualButton = document.getElementById('manual-button');
 
 // Function for packaging the current_experiment into a file
 function packageDownload(filename, text) {
@@ -98,6 +99,10 @@ function exportExperimentCsv() {
     packageDownload(filename, csv_string);
 }
 
+function openUserManual() {
+    window.open('User Manual.pdf');
+}
+
 // Register the event handlers per option
 exportExperimentConsoleOption.addEventListener(
     'click',
@@ -122,6 +127,11 @@ exportButton.addEventListener(
 saveButton.addEventListener(
     'click',
     exportExperimentJson
+)
+
+manualButton.addEventListener(
+    'click',
+    openUserManual
 )
 
 /* Drop Down Functionality */
