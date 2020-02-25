@@ -51,6 +51,30 @@
                     "sd": 1
                 }
             }
+        },
+        {
+            "subject_id": "Mouse #3",
+            "genotype": "Bleh",
+            "sex": "Female",
+            "group": "2",
+            "treatment": "CORVID19",
+            "comment": "N/A",
+            "scoring_data": {
+                "A": {
+                    "behaviour_parameter": "Grooming",
+                    "frequency": 1,
+                    "durations": [],
+                    "mean duration": 1,
+                    "sd": 1
+                },
+                "2": {
+                    "behaviour_parameter": "Dining",
+                    "frequency": 1,
+                    "durations": [],
+                    "mean duration": 1,
+                    "sd": 1
+                }
+            }
         }
     ],
     "behaviour_parameters": [

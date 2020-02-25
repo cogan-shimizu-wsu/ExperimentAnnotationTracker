@@ -40,10 +40,10 @@ function create_header_row() {
     return header_row_string;
 }
 
-function create_subject_rows() {
+function create_subject_rows(source) {
     let subject_rows_string = '';
 
-    current_experiment.subjects_data.forEach(s => {
+    source.forEach(s => {
         subject_rows_string += create_subject_row(s);
     });
 
@@ -73,3 +73,45 @@ function create_subject_row(subject) {
     return subject_row_string;
 }
 
+function create_basic_stat_rows(basic_stats) {
+    let basic_stat_rows_string = '';
+
+    for (let basic_stat of Object.values(basic_stats))
+    {
+        basic_stat_rows_string += create_basic_stat_row(basic_stat);
+    }
+
+    return basic_stat_rows_string;
+}
+
+function create_basic_stat_row(basic_stat) {
+    const buffer = ','.repeat(6);
+    
+    const basic_stat_string = basic_stat.join(',');
+
+    const full_string = buffer + basic_stat_string + '\n';
+
+    return full_string;
+}
+
+function createBlankLine()
+{
+    let blank_line = ',';
+    blank_line = blank_line.repeat(6 + 3 * current_experiment.behaviour_parameters.length);
+    blank_line += '\n';
+
+    return blank_line;
+}
+
+function create_analysis_csv(subject_groups) {
+    let csv_string = create_header_row();
+    const blank_line = createBlankLine();
+    for (let subject_group of subject_groups)
+    {
+        const subject_group_string = create_subject_rows(subject_group.subject_group);
+        const subject_group_stats_string = create_basic_stat_rows(subject_group.basic_stats);
+        csv_string += subject_group_string + subject_group_stats_string + blank_line;
+    }
+
+    return csv_string;
+}
