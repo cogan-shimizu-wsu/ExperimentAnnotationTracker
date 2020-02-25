@@ -1,12 +1,11 @@
 class SubjectGroup {
-    constructor(subject_group)
-    {
+    constructor(subject_group) {
         this.subject_group = subject_group;
         this.basic_stats = computeBasicStats(subject_group);
     }
 }
 
-
+/************************************************************************ */
 // Reference to the analysis button
 const analyzeButton = document.getElementById('analyze-button');
 
@@ -20,7 +19,16 @@ function getAnalysisType() {
     return analysisOption.id;
 }
 
-function oneWayAnalysis() {
+function checkPma() {
+    const checkedElement = $('input[id=per-minute-analysis]:checked');
+    if (checkedElement) {
+      return true;
+    }
+  
+    return false;
+  }
+
+function oneWayAnalysisGrouping() {
     // Get the reference to the dropdown and extract the value
     const oneWayAnalysisDropdown = $('#1-way-analysis-dropdown');
     const parameter = oneWayAnalysisDropdown.dropdown('get value');
@@ -53,28 +61,116 @@ function twoWayAnalysis() {
     }
 }
 
-function perMinuteAnalysis() {
+function perMinuteAnalysis(grouping) {
+    // Get reference and extract interval value
     const analysisIntervalField = document.getElementById('analysis-interval-field');
     const interval = analysisIntervalField.value;
+
+    // For each subject group
+    for (let group of grouping) {
+        // For each subject in that group
+        for (let subject of group) {
+            let pmaStats = pmaForSubject(interval, subject);
+        }
+    }
+}
+
+function pmaForSubject(interval, subject) {
+    // construct the pma data structure
+    pmaStats = constructPmaStats(interval);
+
+    // We want a reversed version of the timeline, 
+    // but we don't want to mutate the original one
+    const timeline = subject.scoring_timeline.slice(0).reverse().map(event => {
+        // We also want the time to ascend, so we flip the event times around the 
+        // max score length
+        // i.e. 300 - 298 = 2nd second
+        event.time = current_experiment.scoring_session_length - event.time;
+        return event;
+    });
+    // It might be possible to remove splice, and switch reverse and map to get the same result
+
+    let curr_minute = 0;
+    let prev_behaviour;
+    for (let event of timeline) {
+        // This means the behaviour has ended
+        if (prev_behaviour !== undefined) {
+            // Check to see what minute the event is taking place in
+            let event_minute = Math.floor(event.time / 60);
+            if (curr_minute === event_minute) {
+                // Update the frequency for scored behaviour with 
+                // respect to the minute.
+                pmaStats[curr_minute]['frequency-' + event.event] += 1;
+            }
+            else {
+                // If it does not match, we need to catch up
+                for (; curr_minute < event_minute; curr_minute++) {
+                    pmaStats[curr_minute]['frequency-' + event.event] += 1;
+                }
+            }
+        }
+        // Update
+        prev_behaviour = event.event;
+    }
+
+    return pmaStats;
+}
+
+/*
+This creates a data struture of the form
+pmaStats = {
+    0: {
+        f-bp1: 0,
+        f-bp2: 0,
+        .
+        .
+        .
+    },
+    .
+    .
+    .
+}
+*/
+function constructPmaStats(interval) {
+    // Calculate number of minutes
+    const num_minutes = interval / 60; // it is assumed that interval is always a multiple of 60
+
+    let pmaStats = [];
+
+    for (let i = 0; i < num_minutes; i++) {
+        // 
+        let minute = {};
+        for (bp of current_experiment.behaviour_parameters) {
+            let bpString = 'frequency-' + bp.behaviour;
+            minute[bpString] = 0;
+        }
+        // add to pmaStats
+        pmaStats.push(minute);
+    }
+
+    return pmaStats;
 }
 
 function analyzeExperiment() {
     const analysisType = getAnalysisType();
+    const isPma = checkPma();
 
     let results;
     if (analysisType === '1-way-analysis') {
-        results = oneWayAnalysis();
+        const grouping = oneWayAnalysisGrouping();
 
-        let csv_string = create_analysis_csv(results);
-
+        let csv_string;
+        if (isPma) {
+            csv_string = perMinuteAnalysis(grouping);
+        }
+        else {
+            csv_string = create_analysis_csv(grouping);
+        }
+        // debug
         console.log(csv_string);
-
     }
     else if (analysisType === '2-way-analysis') {
         results = twoWayAnalysis();
-    }
-    else if (analysisType === 'per-minute-analysis') {
-        results = perMinuteAnalysis();
     }
     else {
         console.error('Something went wrong with analysis type.');

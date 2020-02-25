@@ -424,7 +424,9 @@ function registerAllBehaviourParameters() {
                 if (scoringTabActive === true) {
                     const countdownBox = document.getElementById('trackerInputBox');
                     let scoredTime = countdownBox.value;
-                    
+                    if (scoredTime === '') {
+                        scoredTime = 0;
+                    }
                     // Scoring occurs on the SECOND keystroke.
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
@@ -436,6 +438,14 @@ function registerAllBehaviourParameters() {
 
                         // Get the key from the last scored behaviour
                         const lastKey = lastScoredBehaviour.key;
+
+                        // Add this 'event' to the timeline
+                        const event = { time: scoredTime, event: lastScoredBehaviour.behaviour };
+                        // Add the behaviour parameter to the activeSubject if it doesn't have it.
+                        if (activeSubject.scoring_data.hasOwnProperty('scoring_timeline') === false) {
+                            activeSubject.scoring_data['scoring_timeline'] = [];
+                        }
+                        activeSubject.timeline.push(event);
 
                         // Update the statistics
                         // Update Frequency

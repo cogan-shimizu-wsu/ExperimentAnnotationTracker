@@ -3,6 +3,8 @@ class Experiment {
         this.experiment_data = experiment_data;
         this.subjects_data = subjects_data;
         this.behaviour_parameters = behaviour_parameters;
+        this.scoring_session_length = -1;
+        this.timeline = [];
     };
 
     addSubject(subject) {

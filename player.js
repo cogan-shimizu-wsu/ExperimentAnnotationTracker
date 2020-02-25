@@ -23,8 +23,8 @@ const fileLocation = 'Videos/'; // JavaScript does not allow choosing specific l
 
 // Add event listeners for each of the video buttons
 btnVideoPlay.addEventListener('click', vidAction); // On click, trigger a corresponding function
-btnVideoPause.addEventListener('click', vidAction); 
-btnVideoStop.addEventListener('click', vidAction); 
+btnVideoPause.addEventListener('click', vidAction);
+btnVideoStop.addEventListener('click', vidAction);
 btnVideoBackwards.addEventListener('click', vidAction);
 btnVideoForwards.addEventListener('click', vidAction);
 btnVideoFastBackwards.addEventListener('click', vidAction);
@@ -42,14 +42,15 @@ var trackerTime = 0;
 var refreshIntervalId = null;
 
 // Function updates the initially entered scoring time every time a new number is entered.
-function trackerTimeTextBox(){
+function trackerTimeTextBox() {
     trackerTimeInitialized = trackerInputBox.value;
     trackerTime = trackerTimeInitialized;
 }
 
 // Function is called every second to update the value within the "Scoring Time (sec)" text box.
-function updateTime(){
-    if(trackerTime != 0){
+function updateTime() {
+    if (trackerTime != 0) {
+        // Update the time
         trackerInputBox.value = trackerTime--;
     } else {
         trackerInputBox.value = null;
@@ -57,15 +58,20 @@ function updateTime(){
         clearInterval(refreshIntervalId);
         keydownHandlers[lastScoredBehaviour.key]();
         scoringTabActive = false;
+        console.log(current_experiment.timeline);
     }
 }
 
 // Function handles click events for the buttons below the video player.
-function trackerVidAction(event){
-    switch(event.target.id){
+function trackerVidAction(event) {
+    switch (event.target.id) {
         case "btnTrackerPlay":
-            if(trackerTime !== 0 || trackerTime !== null){
+            if (trackerTime !== 0 || trackerTime !== null) {
                 scoringTabActive = true;
+                // Capture the max length of the tracker, i.e. the session length
+                if (current_experiment.scoring_session_length < trackerTime) {
+                    current_experiment.scoring_session_length = trackerTime;
+                }
                 myVideo.play();
                 refreshIntervalId = setInterval(updateTime, 1000);
                 break;
@@ -89,7 +95,7 @@ function trackerVidAction(event){
 }
 
 // Function loads the video from the opened dialog file box.
-function openVideo(){
+function openVideo() {
     var input = document.createElement('input');
     input.type = 'file';
     input.onchange = e => {
@@ -99,8 +105,8 @@ function openVideo(){
 }
 
 // Function handles click events for the buttons above the video player
-function vidAction(event){
-    switch(event.target.id){
+function vidAction(event) {
+    switch (event.target.id) {
         case "btnVideoPlay":
             myVideo.play();
             break;
