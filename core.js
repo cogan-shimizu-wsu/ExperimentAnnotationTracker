@@ -93,7 +93,7 @@ function exportExperimentCsv() {
 
     // TODO insert csv specific code
 
-    const csv_string = create_header_row() + create_subject_rows();
+    const csv_string = create_header_row() + create_subject_rows(current_experiment.subjects_data);
     console.log(csv_string);
     // packageDownload(filename, csv_string);
 }
