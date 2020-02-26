@@ -20,13 +20,12 @@ function getAnalysisType() {
 }
 
 function checkPma() {
-    const checkedElement = $('input[id=per-minute-analysis]:checked');
-    if (checkedElement) {
-      return true;
-    }
-  
-    return false;
-  }
+    let temp = false;
+    $.each($('input[id=per-minute-analysis]:checked'), function() {
+       temp = true; 
+    })
+    return temp;
+}
 
 function oneWayAnalysisGrouping() {
     // Get the reference to the dropdown and extract the value
@@ -160,7 +159,7 @@ function analyzeExperiment() {
         const grouping = oneWayAnalysisGrouping();
 
         let csv_string;
-        if (isPma) {
+        if (isPma === true) {
             csv_string = perMinuteAnalysis(grouping);
         }
         else {
