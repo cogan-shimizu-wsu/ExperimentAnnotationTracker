@@ -2,6 +2,7 @@ class SubjectGroup {
     constructor(subject_group) {
         this.subject_group = subject_group;
         this.basic_stats = computeBasicStats(subject_group);
+        this.pma_stats = '';
     }
 }
 
@@ -21,8 +22,8 @@ function getAnalysisType() {
 
 function checkPma() {
     let temp = false;
-    $.each($('input[id=per-minute-analysis]:checked'), function() {
-       temp = true; 
+    $.each($('input[id=per-minute-analysis]:checked'), function () {
+        temp = true;
     })
     return temp;
 }
@@ -56,71 +57,109 @@ function twoWayAnalysis() {
     else {
         let results;
 
+        let twoWayGrouping = [];
+
+        // Get 
+        let oneWayGrouping = groupSubjects(firstParameter);
+
+
+
         return results;
     }
 }
 
 function perMinuteAnalysis(grouping) {
     // Get reference and extract interval value
-    const analysisIntervalField = document.getElementById('analysis-interval-field');
-    const interval = analysisIntervalField.value;
+    // const analysisIntervalField = document.getElementById('analysis-interval-field');
+    // const interval = Number.parseInt(analysisIntervalField.value);
+    const interval = 60;
+    const num_intervals = current_experiment.scoring_session_length / interval;
 
     // For each subject group
-    for (let group of grouping) {
+    for (let group of Object.values(grouping)) {
+
         // For each subject in that group
-        for (let subject of group) {
-            let pmaStats = pmaForSubject(interval, subject);
+        for (let subject of Object.values(group.subject_group)) {
+            // Add the requisite pma stats to the subject
+            pmaForSubject(num_intervals, interval, subject);
         }
+
+        // Add the combined pma_stats to the group
+        computePmaStats(group, num_intervals);
     }
+
+    return grouping;
 }
 
-function pmaForSubject(interval, subject) {
+function pmaForSubject(num_intervals, interval, subject) {
     // construct the pma data structure
-    pmaStats = constructPmaStats(interval);
+    let pmaStats = constructPmaStats(num_intervals);
 
-    // We want a reversed version of the timeline, 
-    // but we don't want to mutate the original one
-    const timeline = subject.scoring_timeline.slice(0).reverse().map(event => {
-        // We also want the time to ascend, so we flip the event times around the 
+    const timeline = subject.scoring_timeline.map(event => {
+        // We want the time to ascend, so we flip the event times around the 
         // max score length
         // i.e. 300 - 298 = 2nd second
         event.time = current_experiment.scoring_session_length - event.time;
         return event;
     });
-    // It might be possible to remove splice, and switch reverse and map to get the same result
 
-    let curr_minute = 0;
-    let prev_behaviour;
+    let curr_interval = 0;
+    let prev_event;
     for (let event of timeline) {
         // This means the behaviour has ended
-        if (prev_behaviour !== undefined) {
-            // Check to see what minute the event is taking place in
-            let event_minute = Math.floor(event.time / 60);
-            if (curr_minute === event_minute) {
+        if (prev_event !== undefined) {
+            // Check to see what interval the event is taking place in
+            let event_interval = Math.floor(event.time / interval);
+            if (curr_interval === event_interval) {
                 // Update the frequency for scored behaviour with 
-                // respect to the minute.
-                pmaStats[curr_minute]['frequency-' + event.event] += 1;
+                // respect to the interval.
+                pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
+                pmaStats[curr_interval]['duration-' + prev_event.event] += event.time - prev_event.time;
             }
             else {
-                // If it does not match, we need to catch up
-                for (; curr_minute < event_minute; curr_minute++) {
-                    pmaStats[curr_minute]['frequency-' + event.event] += 1;
+                // Finish current interval
+                // Caclulates the end boundary of the current interval (in seconds)
+                const end_interval = (curr_interval + 1) * interval;
+                // What is the remaining time in the current interval
+                const finish_interval_time = end_interval - prev_event.time;
+                pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
+                pmaStats[curr_interval]['duration-' + prev_event.event] += finish_interval_time;
+                // Increase the curr_interval
+                curr_interval += 1;
+
+                // Catch up all full intervals
+                for (; curr_interval < event_interval; curr_interval++) {
+                    pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
+                    pmaStats[curr_interval]['duration-' + prev_event.event] += interval;
+                }
+
+                // Finish remainder
+                const rem_time = event.time - (curr_interval * interval)
+                if (rem_time > 0) {
+                    pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
+                    pmaStats[curr_interval]['duration-' + prev_event.event] += rem_time;
                 }
             }
         }
         // Update
-        prev_behaviour = event.event;
+        prev_event = event;
     }
-
-    return pmaStats;
+    // Add the pmaStats to the subject
+    subject['pma_stats'] = pmaStats;
 }
 
 /*
 This creates a data struture of the form
+the number is a 
 pmaStats = {
     0: {
         f-bp1: 0,
         f-bp2: 0,
+        .
+        .
+        .
+        d-bp1: 0,
+        d-bp2: 0,
         .
         .
         .
@@ -130,26 +169,36 @@ pmaStats = {
     .
 }
 */
-function constructPmaStats(interval) {
-    // Calculate number of minutes
-    const num_minutes = interval / 60; // it is assumed that interval is always a multiple of 60
-
+function constructPmaStats(num_intervals) {
     let pmaStats = [];
-
-    for (let i = 0; i < num_minutes; i++) {
-        // 
+    for (let i = 0; i < num_intervals; i++) {
         let minute = {};
         for (bp of current_experiment.behaviour_parameters) {
-            let bpString = 'frequency-' + bp.behaviour;
-            minute[bpString] = 0;
+            let fbpString = 'frequency-' + bp.behaviour;
+            const dbpString = 'duration-' + bp.behaviour;
+            minute[fbpString] = 0;
+            minute[dbpString] = 0;
         }
-        // add to pmaStats
+        // Add to pmaStats
         pmaStats.push(minute);
     }
 
     return pmaStats;
 }
 
+/**
+ * The program flow is as follows:
+ * 
+ * For pma:
+ * First, we do one or two way grouping,
+ * (technically, during this process the basic stats are also computed)
+ * Then, we check if the per-minute-analysis checkbox is checked,
+ * if it is, we pass the subject groups (grouping) to the perMinuteAnalysis
+ * each subject in each group is newly equipped with pma stats
+ * next, the subject_group is equipped with aggregate pma stats
+ * these subject groups are then passed to the csv constructor in csv.js
+ * 
+ */
 function analyzeExperiment() {
     const analysisType = getAnalysisType();
     const isPma = checkPma();
@@ -160,13 +209,14 @@ function analyzeExperiment() {
 
         let csv_string;
         if (isPma === true) {
-            csv_string = perMinuteAnalysis(grouping);
+            // Calcuate and add the PMA stats to the groups
+            const pma_grouping = perMinuteAnalysis(grouping);
+
+            csv_string = create_analysis_pma_csv(pma_grouping);
         }
         else {
             csv_string = create_analysis_csv(grouping);
         }
-        // debug
-        console.log(csv_string);
     }
     else if (analysisType === '2-way-analysis') {
         results = twoWayAnalysis();
@@ -196,9 +246,6 @@ function groupSubjects(parameter) {
     let grouped_subjects = {};
 
     for (let subject of subjects_data) {
-
-        console.log(subject);
-
         // What is the value of the parameter (e.g. Male, Female)
         let parameter_value = subject[parameter];
 
@@ -278,4 +325,35 @@ function computeBasicStats(subject_group) {
     const basic_stats = { avgs: avgs, stds: stds, sems: sems };
 
     return basic_stats;
+}
+
+function computePmaStats(subject_group, num_intervals) {
+    const avgs = [];
+    const stds = [];
+    const sems = [];
+
+    const metric_names = ['frequency-', 'duration-'];
+    for (let metric_name of metric_names) {
+        for (let bp of current_experiment.behaviour_parameters) { // for each parameter
+            for (let interval = 0; interval < num_intervals; interval++) { // for each interval
+                const metrics = [];
+                for (subject of subject_group.subject_group) { // for each subject
+                    const metric = subject.pma_stats[interval][metric_name + bp.behaviour];
+
+                    metrics.push(metric);
+                }
+
+                const avg = arrAvg(metrics);
+                const std = arrSTD(metrics);
+                const sem = std / Math.sqrt(metrics.length);
+
+                avgs.push(avg);
+                stds.push(std);
+                sems.push(sem);
+            }
+
+        }
+    }
+
+    subject_group['pma_stats'] = { avgs: avgs, stds: stds, sems: sems };
 }

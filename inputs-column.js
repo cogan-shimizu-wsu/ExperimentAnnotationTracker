@@ -75,7 +75,7 @@ function parseExperimentFile(e) {
     let result = JSON.parse(lines);
 
     current_experiment = new Experiment(result.experiment_data, result.subjects_data, result.behaviour_parameters);
-
+    current_experiment.scoring_session_length = result.scoring_session_length;
     // Populate Experiment Metadata
     populateExperimentMetadata(current_experiment.experiment_data);
     // Populate Existing Subjects
