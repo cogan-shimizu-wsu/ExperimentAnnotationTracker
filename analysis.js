@@ -238,7 +238,7 @@ function computeBasicStats(subject_group) {
 
 
             frequencies.push(individual_bp.frequency);
-            mean_durations.push(individual_bp['mean duration']);
+            mean_durations.push(individual_bp['mean_duration']);
             sds.push(individual_bp.sd);
         }
 
