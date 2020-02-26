@@ -56,9 +56,16 @@ function updateTime() {
         trackerInputBox.value = null;
         myVideo.pause();
         clearInterval(refreshIntervalId);
+
+        // We want to make sure that the last interval is scored.
+        // In order to trigger this, we need to make sure that another key is pressed.
+        // However, it can not be the same as the last key that was pressed.
+        // However, we can short cut this by adding an additional boolean
+        isScoringEnd = true;
         keydownHandlers[lastScoredBehaviour.key]();
+        isEnd = false;
+
         scoringTabActive = false;
-        console.log(current_experiment.timeline);
     }
 }
 

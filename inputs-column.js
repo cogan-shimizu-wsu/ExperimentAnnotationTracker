@@ -22,6 +22,7 @@ const arrSTD = arr => Math.sqrt(arrAvg(sqrDif(arr, arrAvg(arr))));
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
+let isScoringEnd = false;
 let lastScoredTime;
 let activeSubject;
 let scoringTabActive = false;
@@ -421,7 +422,8 @@ function registerAllBehaviourParameters() {
             // Create event handler
             let keydownHandler = function () {
                 // Only do something if the scoring tab is active
-                if (scoringTabActive === true) {
+                // We also want to not do anything if the same key has been struck twice in a row
+                if (scoringTabActive === true && ((isScoringEnd === true) || (lastScoredBehaviour === undefined) || (lastScoredBehaviour.key !== key))) {
                     const countdownBox = document.getElementById('trackerInputBox');
                     let scoredTime = countdownBox.value;
                     if (scoredTime === '') {
