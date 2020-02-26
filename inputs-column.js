@@ -451,8 +451,8 @@ function registerAllBehaviourParameters() {
 
                         // Update the statistics
                         // Update Frequency
-                        activeSubject.scoring_data[lastKey].frequency++;
                         const frequencyCell = document.getElementById(lastKey + '-frequency');
+                        activeSubject.scoring_data[lastKey].frequency++;
                         frequencyCell.innerText = activeSubject.scoring_data[lastKey].frequency;
 
                         // Update the Durations
@@ -462,7 +462,8 @@ function registerAllBehaviourParameters() {
 
                         // Update the last scored duration
                         const durationCell = document.getElementById(lastKey + '-duration');
-                        durationCell.innerText = duration;
+                        activeSubject.scoring_data[lastKey].total_duration += duration;
+                        durationCell.innerText = activeSubject.scoring_data[lastKey].total_duration;
 
                         // Calculate and Update the mean duration for this behaviour
                         const meanDurationCell = document.getElementById(lastKey + '-mean-duration');

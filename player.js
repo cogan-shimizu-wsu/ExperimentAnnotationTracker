@@ -63,7 +63,7 @@ function updateTime() {
         // However, we can short cut this by adding an additional boolean
         isScoringEnd = true;
         keydownHandlers[lastScoredBehaviour.key]();
-        isEnd = false;
+        isScoringEnd = false;
 
         scoringTabActive = false;
     }

@@ -42,6 +42,7 @@ class BehaviourParameter {
         this.behavior = behaviour;
         this.frequency = 0;
         this.durations = [];
+        this.total_duration = 0;
         this.mean_duration = 0;
         this.sd = 0;
         this.key = key;

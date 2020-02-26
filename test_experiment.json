@@ -16,6 +16,7 @@
                     "behaviour_parameter": "Grooming",
                     "frequency": 0,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 0,
                     "sd": 0
                 },
@@ -23,6 +24,7 @@
                     "behaviour_parameter": "Dining",
                     "frequency": 0,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 0,
                     "sd": 0
                 }
@@ -40,6 +42,7 @@
                     "behaviour_parameter": "Grooming",
                     "frequency": 1,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 1,
                     "sd": 1
                 },
@@ -47,6 +50,7 @@
                     "behaviour_parameter": "Dining",
                     "frequency": 1,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 1,
                     "sd": 1
                 }
@@ -64,6 +68,7 @@
                     "behaviour_parameter": "Grooming",
                     "frequency": 1,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 1,
                     "sd": 1
                 },
@@ -71,6 +76,7 @@
                     "behaviour_parameter": "Dining",
                     "frequency": 1,
                     "durations": [],
+                    "total_duration": 0,
                     "mean_duration": 1,
                     "sd": 1
                 }
