@@ -431,13 +431,13 @@ function registerAllBehaviourParameters() {
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
                     if (lastScoredBehaviour !== undefined) {
-                        // Add the behaviour parameter to the activeSubject if it doesn't have it.
-                        if (activeSubject.scoring_data.hasOwnProperty(key) === false) {
-                            activeSubject.scoring_data[key] = lastScoredBehaviour;
-                        }
-
                         // Get the key from the last scored behaviour
                         const lastKey = lastScoredBehaviour.key;
+
+                        // Add the behaviour parameter to the activeSubject if it doesn't have it.
+                        if (activeSubject.scoring_data.hasOwnProperty(lastKey) === false) {
+                            activeSubject.scoring_data[lastKey] = lastScoredBehaviour;
+                        }
 
                         // Add this 'event' to the timeline
                         const event = { time: scoredTime, event: lastScoredBehaviour.behaviour };
