@@ -230,6 +230,7 @@ function computeBasicStats(subject_group) {
 
     for (let bp of current_experiment.behaviour_parameters) {
         let frequencies = [];
+        let total_durations = [];
         let mean_durations = [];
         let sds = [];
 
@@ -238,31 +239,38 @@ function computeBasicStats(subject_group) {
 
 
             frequencies.push(individual_bp.frequency);
-            mean_durations.push(individual_bp['mean_duration']);
+            total_durations.push(individual_bp.total_duration);
+            mean_durations.push(individual_bp.mean_duration);
             sds.push(individual_bp.sd);
         }
 
         const avg_frequency = arrAvg(frequencies);
+        const avg_total_duration = arrAvg(total_durations);
         const avg_mean_duration = arrAvg(mean_durations);
         const avg_sd = arrAvg(sds);
 
         avgs.push(avg_frequency);
+        avgs.push(avg_total_duration);
         avgs.push(avg_mean_duration);
         avgs.push(avg_sd);
 
         const std_frequency = arrSTD(frequencies);
+        const std_total_duration = arrSTD(total_durations);
         const std_mean_duration = arrSTD(mean_durations);
         const std_sd = arrSTD(sds);
 
         stds.push(std_frequency);
+        stds.push(std_total_duration);
         stds.push(std_mean_duration);
         stds.push(std_sd);
 
         const sem_frequency = std_frequency / Math.sqrt(frequencies.length);
+        const sem_total_duration = std_total_duration / Math.sqrt(total_durations.length);
         const sem_mean_duration = std_mean_duration / Math.sqrt(mean_durations.length);
         const sem_sd = std_sd / Math.sqrt(sds.length);
 
         sems.push(sem_frequency);
+        sems.push(sem_total_duration);
         sems.push(sem_mean_duration);
         sems.push(sem_sd);
     }
