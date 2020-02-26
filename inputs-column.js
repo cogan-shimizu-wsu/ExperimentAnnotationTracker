@@ -465,6 +465,7 @@ function registerAllBehaviourParameters() {
                         // Calculate and Update the mean duration for this behaviour
                         const meanDurationCell = document.getElementById(lastKey + '-mean-duration');
                         const meanDuration = arrAvg(activeSubject.scoring_data[lastKey].durations);
+                        activeSubject.score_data[lastKey].mean_duration = meanDuration;
                         meanDurationCell.innerText = meanDuration;
 
 

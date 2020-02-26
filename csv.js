@@ -64,7 +64,7 @@ function create_subject_row(subject) {
 
         // Extract desired info
         subject_row_string += bp['frequency'] + ',';
-        subject_row_string += bp['mean duration'] + ',';
+        subject_row_string += bp['mean_duration'] + ',';
         subject_row_string += bp['sd'] + ',';
     })
 
