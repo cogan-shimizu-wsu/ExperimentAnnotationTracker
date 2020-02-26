@@ -58,7 +58,7 @@
         },
         {
             "subject_id": "Mouse #2",
-            "genotype": "Bleh",
+            "genotype": "Blah",
             "sex": "Female",
             "group": "2",
             "treatment": "AIDS",
@@ -145,6 +145,98 @@
                 {
                     "time": 0,
                     "event": "grooming"
+                }
+            ]
+        },
+        {
+            "subject_id": "Mouse #4",
+            "genotype": "Bleh",
+            "sex": "Male",
+            "group": "2",
+            "treatment": "CORVID19",
+            "comment": "N/A",
+            "scoring_data": {
+                "A": {
+                    "behaviour_parameter": "grooming",
+                    "frequency": 1,
+                    "durations": [],
+                    "total_duration": 0,
+                    "mean_duration": 1,
+                    "sd": 1
+                },
+                "2": {
+                    "behaviour_parameter": "non-grooming",
+                    "frequency": 1,
+                    "durations": [],
+                    "total_duration": 0,
+                    "mean_duration": 1,
+                    "sd": 1
+                }
+            },
+            "scoring_timeline": [
+                {
+                    "time": 120,
+                    "event": "grooming"
+                },
+                {
+                    "time": 110,
+                    "event": "non-grooming"
+                },
+                {
+                    "time": 0,
+                    "event": "grooming"
+                }
+            ]
+        },
+        {
+            "subject_id": "Mouse #5",
+            "genotype": "Blah",
+            "sex": "Male",
+            "group": "1",
+            "treatment": "SARS",
+            "comment": "N/A",
+            "scoring_data": {
+                "A": {
+                    "behaviour_parameter": "grooming",
+                    "frequency": 0,
+                    "durations": [],
+                    "total_duration": 0,
+                    "mean_duration": 0,
+                    "sd": 0
+                },
+                "2": {
+                    "behaviour_parameter": "non-grooming",
+                    "frequency": 0,
+                    "durations": [],
+                    "total_duration": 0,
+                    "mean_duration": 0,
+                    "sd": 0
+                }
+            },
+            "scoring_timeline": [
+                {
+                    "time": 120,
+                    "event": "non-grooming"
+                },
+                {
+                    "time": 85,
+                    "event": "grooming"
+                },
+                {
+                    "time": 70,
+                    "event": "non-grooming"
+                },
+                {
+                    "time": 55,
+                    "event": "grooming"
+                },
+                {
+                    "time": 50,
+                    "event": "non-grooming"
+                },
+                {
+                    "time": 0,
+                    "event": "non-grooming"
                 }
             ]
         }

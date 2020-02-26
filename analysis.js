@@ -28,21 +28,21 @@ function checkPma() {
     return temp;
 }
 
-function oneWayAnalysisGrouping() {
+function oneWayAnalysisGrouping(subjects_data) {
     // Get the reference to the dropdown and extract the value
     const oneWayAnalysisDropdown = $('#1-way-analysis-dropdown');
     const parameter = oneWayAnalysisDropdown.dropdown('get value');
 
     if (parameter !== "") {
         // Group the subjects by the parameter
-        return groupSubjects(parameter);
+        return groupSubjects(subjects_data, parameter);
     }
     else {
         window.alert('Please choose a parameter.');
     }
 }
 
-function twoWayAnalysis() {
+function twoWayAnalysis(subjects_data) {
     const twoWayAnalysisFirstDropdown = $('#2-way-analysis-dropdown-1');
     const firstParameter = twoWayAnalysisFirstDropdown.dropdown('get value');
     const twoWayAnalysisSecondDropdown = $('#2-way-analysis-dropdown-2');
@@ -55,16 +55,18 @@ function twoWayAnalysis() {
         window.alert('Please choose two parameters.');
     }
     else {
-        let results;
-
-        let twoWayGrouping = [];
+        let two_way_groups = [];
 
         // Get 
-        let oneWayGrouping = groupSubjects(firstParameter);
+        let one_way_grouping = groupSubjects(subjects_data, firstParameter);
 
+        for(let one_way_group of one_way_grouping) {
+            const two_way_grouping = groupSubjects(one_way_group.subject_group, secondParameter);
 
+            two_way_grouping.forEach(twg => two_way_groups.push(twg));
+        }
 
-        return results;
+        return two_way_groups;
     }
 }
 
@@ -186,6 +188,23 @@ function constructPmaStats(num_intervals) {
     return pmaStats;
 }
 
+function collectSubjectsToAnalyze() {
+    let subjects_data = [];
+
+    $.each($('input[name=subject-checkbox]:checked'), function () {
+        const subject_id = this.getAttribute('data-value');
+
+        for (let subject of current_experiment.subjects_data) {
+            if (subject.subject_id === subject_id) {
+                subjects_data.push(subject);
+                break;
+            }
+        }
+    });
+
+    return subjects_data;
+}
+
 /**
  * The program flow is as follows:
  * 
@@ -203,31 +222,47 @@ function analyzeExperiment() {
     const analysisType = getAnalysisType();
     const isPma = checkPma();
 
-    let results;
-    if (analysisType === '1-way-analysis') {
-        const grouping = oneWayAnalysisGrouping();
+    const subjects_data = collectSubjectsToAnalyze();
 
-        let csv_string;
-        if (isPma === true) {
-            // Calcuate and add the PMA stats to the groups
-            const pma_grouping = perMinuteAnalysis(grouping);
-
-            csv_string = create_analysis_pma_csv(pma_grouping);
-        }
-        else {
-            csv_string = create_analysis_csv(grouping);
-        }
-    }
-    else if (analysisType === '2-way-analysis') {
-        results = twoWayAnalysis();
+    let csv_string;
+    if (subjects_data.length === 0) {
+        console.error('no subjects chosen');
     }
     else {
-        console.error('Something went wrong with analysis type.');
+        if (analysisType === '1-way-analysis') {
+            const grouping = oneWayAnalysisGrouping(subjects_data);
+
+            if (isPma === true) {
+                // Calcuate and add the PMA stats to the groups
+                const pma_grouping = perMinuteAnalysis(grouping);
+
+                csv_string = create_analysis_pma_csv(pma_grouping);
+            }
+            else {
+                csv_string = create_analysis_csv(grouping);
+            }
+        }
+        else if (analysisType === '2-way-analysis') {
+            const grouping = twoWayAnalysis(subjects_data);
+
+            if (isPma === true) {
+                // Calcuate and add the PMA stats to the groups
+                const pma_grouping = perMinuteAnalysis(grouping);
+
+                csv_string = create_analysis_pma_csv(pma_grouping);
+            }
+            else {
+                csv_string = create_analysis_csv(grouping);
+            }
+        }
+        else {
+            console.error('Something went wrong with analysis type.');
+        }
     }
 
-    if (results !== undefined) {
+    if (csv_string !== undefined) {
         console.log('Experiment is Analyzed!');
-        console.log(results);
+        console.log(csv_string);
     }
 }
 
@@ -239,9 +274,9 @@ analyzeButton.addEventListener(
 );
 
 /****************************************************************************/
-function groupSubjects(parameter) {
+function groupSubjects(subjects_data, parameter) {
     // Get a reference to all the subjects in the current_experiment
-    const subjects_data = current_experiment.subjects_data;
+    // const subjects_data = current_experiment.subjects_data;
     // This will hold all the distinct groups
     let grouped_subjects = {};
 

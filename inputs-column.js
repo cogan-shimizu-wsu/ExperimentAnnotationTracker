@@ -567,7 +567,6 @@ syncButton.addEventListener(
 
 // Function for populating the interface.
 function populateAnalysisSubjects() {
-    console.log('button pressed');
     // Initially remove everything
     analysisSubjectsForm.innerHTML = '';
     // Repopulate
@@ -586,6 +585,8 @@ function createCheckBoxForSubject(subject) {
     // Create checkbox
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('name', 'subject-checkbox');
+    checkbox.setAttribute('data-value', subject.subject_id);
     // Get the label for the subject
     const subject_label = document.createElement('label');
     subject_label.innerHTML = subjectToString(subject);
