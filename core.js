@@ -21,6 +21,7 @@ class Subject {
         this.treatment = "";
         this.comment = "";
         this.scoring_data = {};
+        this.scoring_timeline = [];
     }
 
     setFields(fieldValues) {

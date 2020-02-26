@@ -28,7 +28,8 @@
                     "mean_duration": 0,
                     "sd": 0
                 }
-            }
+            },
+            "scoring_timeline": []
         },
         {
             "subject_id": "Mouse #2",
