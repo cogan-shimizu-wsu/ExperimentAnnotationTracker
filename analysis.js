@@ -263,6 +263,7 @@ function analyzeExperiment() {
     if (csv_string !== undefined) {
         console.log('Experiment is Analyzed!');
         console.log(csv_string);
+        packageDownload('analysis.csv', csv_string);
     }
 }
 
