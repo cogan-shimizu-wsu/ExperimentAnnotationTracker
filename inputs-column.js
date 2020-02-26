@@ -442,10 +442,10 @@ function registerAllBehaviourParameters() {
                         // Add this 'event' to the timeline
                         const event = { time: scoredTime, event: lastScoredBehaviour.behaviour };
                         // Add the behaviour parameter to the activeSubject if it doesn't have it.
-                        if (activeSubject.scoring_data.hasOwnProperty('scoring_timeline') === false) {
-                            activeSubject.scoring_data['scoring_timeline'] = [];
+                        if (activeSubject.hasOwnProperty('scoring_timeline') === false) {
+                            activeSubject['scoring_timeline'] = [];
                         }
-                        activeSubject.timeline.push(event);
+                        activeSubject.scoring_timeline.push(event);
 
                         // Update the statistics
                         // Update Frequency
