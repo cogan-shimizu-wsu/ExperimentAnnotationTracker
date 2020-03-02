@@ -55,7 +55,7 @@ addNewExperimentOption.addEventListener(
 const updateNewExperimentButton = document.getElementById('update-new-experiment-button');
 updateNewExperimentButton.addEventListener(
     'click',
-    function() {
+    function () {
         const experimentNameLabel = document.getElementById('experiment-name-label');
         const experimentNameField = document.getElementById('experiment-name-field');
         const experimentDateField = document.getElementById('experiment-date-field');
@@ -106,11 +106,11 @@ function parseExperimentFile(e) {
 
 function populateExperimentMetadata(experiment_data) {
     // Name
-    const currentExperimenterNameField = document.getElementById('current-experimenter-name-field');
-    currentExperimenterNameField.value = experiment_data.name;
+    const experimentNameField = document.getElementById('experiment-name-field');
+    experimentNameField.value = experiment_data.name;
     // Date
-    const currentExperimentDateField = document.getElementById('current-experiment-date-field');
-    currentExperimentDateField.value = experiment_data.date;
+    const experimentDateField = document.getElementById('experiment-date-field');
+    experimentDateField.value = experiment_data.date;
 }
 
 function populateExistingSubjects(subjects_data) {
@@ -411,7 +411,7 @@ function registerAllBehaviourParameters() {
 
             /* Add to scoring session table body */
             let tableRow = document.createElement('tr');
-            let theads = ['key', 'behaviour', 'frequency', 'duration', 'mean-duration', 'sd'];
+            let theads = ['key', 'behaviour', 'frequency', 'total_duration', 'mean_duration', 'sd'];
             let cells = [];
             function createCell(datalabel) {
                 let cell = document.createElement('td');
@@ -481,12 +481,12 @@ function registerAllBehaviourParameters() {
                         activeSubject.scoring_data[lastKey].durations.push(duration);
 
                         // Update the last scored duration
-                        const durationCell = document.getElementById(lastKey + '-duration');
+                        const durationCell = document.getElementById(lastKey + '-total_duration');
                         activeSubject.scoring_data[lastKey].total_duration += duration;
                         durationCell.innerText = activeSubject.scoring_data[lastKey].total_duration;
 
                         // Calculate and Update the mean duration for this behaviour
-                        const meanDurationCell = document.getElementById(lastKey + '-mean-duration');
+                        const meanDurationCell = document.getElementById(lastKey + '-mean_duration');
                         const meanDuration = arrAvg(activeSubject.scoring_data[lastKey].durations);
                         activeSubject.scoring_data[lastKey].mean_duration = meanDuration;
                         meanDurationCell.innerText = meanDuration;
@@ -510,10 +510,22 @@ function registerAllBehaviourParameters() {
     }
 
     // Clear the Behaviour Parameters from current_experiment, they're about to be added back
+    // in the following for loop. every time a behaviour parameter is registered,
+    // We add it ot the current experiment. We clear it so that we don't accidentally
+    // add multiple copies of the same bp to the list.
     current_experiment.behaviour_parameters = [];
 
     // Register all the beavhiour parameters
     behaviourParameters.forEach(registerBehaviourParameter);
+
+    // Now that all behaviour parameters are updated, make sure all the subjects have them
+    for(let subject of current_experiment.subjects_data) {
+        for(let bp of current_experiment.behaviour_parameters) {
+            if(subject.scoring_data.hasOwnProperty(bp.key) === false) {
+                subject.scoring_data[bp.key] = bp;
+            }
+        }
+    }
 
     /** This function is the keydownMultiplexor */
     function keydownMultiplexor(e) {
@@ -536,7 +548,7 @@ function registerAllBehaviourParameters() {
 }
 
 // For populating the Active Subject Table
-function populateActiveSubject(subject) {
+function activeSubjectSelected(subject) {
     // Set the active subject.
     // This is necessary because the populateSubjectSearch function
     // Searches a COPY of the current_experiment.subjects_data
@@ -559,7 +571,16 @@ function populateActiveSubject(subject) {
     activeSubjectTableBody.innerHTML = tableRow.outerHTML;
 
     // If scoring data exists, populate it.
-
+    // For each behaviour parameter
+    for (let bp of current_experiment.behaviour_parameters) {
+        const metric_labels = ['frequency', 'total_duration', 'mean_duration', 'sd'];
+        // For each metric
+        for (let metric_label of metric_labels) {
+            const metric_cell = document.getElementById(bp.key + '-' + metric_label);
+            const metric_value = activeSubject.scoring_data[bp.key][metric_label];
+            metric_cell.innerHTML = metric_value;
+        }
+    }
 }
 
 function populateSubjectSearch() {
@@ -572,7 +593,7 @@ function populateSubjectSearch() {
                 'subject_id'
             ],
             //   fullTextSearch: false
-            onSelect: populateActiveSubject
+            onSelect: activeSubjectSelected
         });
 }
 
@@ -585,7 +606,7 @@ syncButton.addEventListener(
     populateAnalysisSubjects
 );
 
-// Function for populating the interface.
+// Function for populating the analysis interface with the subjects.
 function populateAnalysisSubjects() {
     // Initially remove everything
     analysisSubjectsForm.innerHTML = '';
