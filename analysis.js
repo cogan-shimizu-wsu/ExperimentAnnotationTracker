@@ -101,8 +101,12 @@ function pmaForSubject(num_intervals, interval, subject) {
         // We want the time to ascend, so we flip the event times around the 
         // max score length
         // i.e. 300 - 298 = 2nd second
-        event.time = current_experiment.scoring_session_length - event.time;
-        return event;
+        const flipped_time = current_experiment.scoring_session_length - event.time;
+        const new_event = {time: flipped_time, event: event.event};
+        // The two above lines of code are for prevent a reference error
+        // previously event.time was flipped, but this was propagated to the base instead
+        // of only to the copy.
+        return new_event;
     });
 
     let curr_interval = 0;
