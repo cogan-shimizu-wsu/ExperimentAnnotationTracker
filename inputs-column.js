@@ -323,6 +323,8 @@ addBehaviourParameterButton.addEventListener(
     addBehaviourParameterRow
 );
 
+addBehaviourParameterButton.style.margin = "10px";
+
 function addBehaviourParameterRow(e, keyValue, behaviourValue) {
     // Find the parameter list
     let behaviourParameterList = document.querySelector('#behaviour-parameter-list');
@@ -337,9 +339,10 @@ function addBehaviourParameterRow(e, keyValue, behaviourValue) {
                 <input type='text' id='behaviour-parameter-row-${index.text}-key' placeholder='Key'>
               </div>
               <div class='five wide field'>
-                <input type='text' id='behaviour-parameter-row-${index.text}-behaviour' placeholder='Behaviour'>
+                <input type='text' id='behaviour-parameter-row-${index.text}-behaviour' placeholder='Behaviour' style="width: 500px">
+                <i class='close icon' id='behaviour-parameter-row-close-icon-${index.text}'></i>
               </div>
-              <i class='close icon' id='behaviour-parameter-row-close-icon-${index.text}'></i>
+              
           </div>
           `
     );
@@ -388,6 +391,8 @@ registerBehaviourParametersButton.addEventListener(
     'click',
     registerAllBehaviourParameters
 );
+
+registerBehaviourParametersButton.style.margin = "10px";
 
 let keydownHandlers = {};
 
