@@ -100,6 +100,9 @@ function parseExperimentFile(e) {
     populateExistingSubjects(current_experiment.subjects_data);
     // Populate with Scoring Data
     populateBehaviourParameters(current_experiment.behaviour_parameters);
+    // Update Label
+    const experimentNameLabel = document.getElementById('experiment-name-label');
+    experimentNameLabel.innerHTML = current_experiment.experiment_data.name;
 }
 
 function populateExperimentMetadata(experiment_data) {
