@@ -66,6 +66,7 @@ function updateTime() {
         isScoringEnd = false;
 
         scoringTabActive = false;
+        lastScoredBehaviour = undefined;
     }
 }
 

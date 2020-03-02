@@ -459,7 +459,9 @@ function registerAllBehaviourParameters() {
                         // Add the behaviour parameter to the activeSubject if it doesn't have it.
                         if (activeSubject.scoring_data.hasOwnProperty(lastKey) === false) {
                             activeSubject.scoring_data[lastKey] = lastScoredBehaviour;
-                        }
+                        } // This should technically never be called, due to changes in how 
+                        // behaviour parameters are added to subjects during registration.
+                        // TODO: remove the above block.
 
                         // Add this 'event' to the timeline
                         const event = { time: scoredTime, event: lastScoredBehaviour.behaviour };
