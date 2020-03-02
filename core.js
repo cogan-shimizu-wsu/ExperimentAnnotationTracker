@@ -104,20 +104,20 @@ function openUserManual() {
 }
 
 // Register the event handlers per option
-exportExperimentConsoleOption.addEventListener(
-    'click',
-    exportExperimentConsole
-);
+//exportExperimentConsoleOption.addEventListener(
+//    'click',
+//    exportExperimentConsole
+//);
 
-exportExperimentJsonOption.addEventListener(
-    'click',
-    exportExperimentJson
-);
+//exportExperimentJsonOption.addEventListener(
+//    'click',
+//    exportExperimentJson
+//);
 
-exportExperimentCsvOption.addEventListener(
-    'click',
-    exportExperimentCsv
-)
+//exportExperimentCsvOption.addEventListener(
+//    'click',
+//    exportExperimentCsv
+//)
 
 exportButton.addEventListener(
     'click',
