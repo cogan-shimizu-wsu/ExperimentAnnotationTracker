@@ -66,7 +66,6 @@ updateNewExperimentButton.addEventListener(
         current_experiment.experiment_data.date = experimentDateValue;
         // update label
         experimentNameLabel.innerHTML = experimentNameValue;
-        console.log(experimentNameValue);
     }
 );
 
@@ -126,16 +125,16 @@ function populateBehaviourParameters(behaviour_parameters) {
     registerAllBehaviourParameters();
 }
 
-const currentExperimentOption = document.getElementById('current-experiment-option');
-currentExperimentOption.addEventListener(
-    'click',
-    function showNewExperimentForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = 'Modify Current Experiment';
-        leftTitle.style.display = '';
-        currentExperimentForm.style.display = '';
-    }
-);
+// const currentExperimentOption = document.getElementById('current-experiment-option');
+// currentExperimentOption.addEventListener(
+//     'click',
+//     function showNewExperimentForm() {
+//         clearTitleAndHideForms();
+//         leftTitle.innerHTML = 'Modify Current Experiment';
+//         leftTitle.style.display = '';
+//         currentExperimentForm.style.display = '';
+//     }
+// );
 
 const addNewSubjectOption = document.getElementById('add-new-subject-option');
 addNewSubjectOption.addEventListener(
