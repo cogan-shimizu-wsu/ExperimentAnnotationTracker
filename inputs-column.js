@@ -52,6 +52,24 @@ addNewExperimentOption.addEventListener(
     }
 );
 
+const updateNewExperimentButton = document.getElementById('update-new-experiment-button');
+updateNewExperimentButton.addEventListener(
+    'click',
+    function() {
+        const experimentNameLabel = document.getElementById('experiment-name-label');
+        const experimentNameField = document.getElementById('experiment-name-field');
+        const experimentDateField = document.getElementById('experiment-date-field');
+        // update current_experiment
+        const experimentNameValue = experimentNameField.value;
+        const experimentDateValue = experimentDateField.value;
+        current_experiment.experiment_data.name = experimentNameValue;
+        current_experiment.experiment_data.date = experimentDateValue;
+        // update label
+        experimentNameLabel.innerHTML = experimentNameValue;
+        console.log(experimentNameValue);
+    }
+);
+
 const openExistingExperimentOption = document.getElementById('open-existing-experiment-option');
 openExistingExperimentOption.addEventListener(
     'click',
