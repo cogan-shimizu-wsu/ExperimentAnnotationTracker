@@ -522,7 +522,7 @@ function registerAllBehaviourParameters() {
     for(let subject of current_experiment.subjects_data) {
         for(let bp of current_experiment.behaviour_parameters) {
             if(subject.scoring_data.hasOwnProperty(bp.key) === false) {
-                subject.scoring_data[bp.key] = bp;
+                subject.scoring_data[bp.key] = Object.assign({}, bp);
             }
         }
     }
@@ -572,6 +572,7 @@ function activeSubjectSelected(subject) {
 
     // If scoring data exists, populate it.
     // For each behaviour parameter
+    let debug_str = '';
     for (let bp of current_experiment.behaviour_parameters) {
         const metric_labels = ['frequency', 'total_duration', 'mean_duration', 'sd'];
         // For each metric
@@ -579,8 +580,11 @@ function activeSubjectSelected(subject) {
             const metric_cell = document.getElementById(bp.key + '-' + metric_label);
             const metric_value = activeSubject.scoring_data[bp.key][metric_label];
             metric_cell.innerHTML = metric_value;
+            debug_str += metric_value + ' ';
         }
+        debug_str += '\n';
     }
+    console.log(debug_str);
 }
 
 function populateSubjectSearch() {
