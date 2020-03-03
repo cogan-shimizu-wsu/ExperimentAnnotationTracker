@@ -396,6 +396,8 @@ registerBehaviourParametersButton.style.margin = "10px";
 
 let keydownHandlers = {};
 
+const currentBehaviorOutput = document.getElementById('currentBehaviorOutput');
+
 function registerAllBehaviourParameters() {
 
     // Get the reference to the table body
@@ -443,7 +445,7 @@ function registerAllBehaviourParameters() {
             behaviourParameter.behaviour = behaviour;
             current_experiment.behaviour_parameters.push(behaviourParameter);
             // Begin Register event handlers
-
+            
             // Create event handler
             let keydownHandler = function () {
                 // Only do something if the scoring tab is active
@@ -454,13 +456,15 @@ function registerAllBehaviourParameters() {
                     if (scoredTime === '') {
                         scoredTime = 0;
                     }
+                    currentBehaviorOutput.innerHTML = 'Current Behaviour Key: ' + key;
+                    
                     // Scoring occurs on the SECOND keystroke.
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
                     if (lastScoredBehaviour !== undefined) {
                         // Get the key from the last scored behaviour
                         const lastKey = lastScoredBehaviour.key;
-
+                        
                         // Add the behaviour parameter to the activeSubject if it doesn't have it.
                         if (activeSubject.scoring_data.hasOwnProperty(lastKey) === false) {
                             activeSubject.scoring_data[lastKey] = lastScoredBehaviour;
@@ -538,6 +542,7 @@ function registerAllBehaviourParameters() {
     function keydownMultiplexor(e) {
         // Strips away the "key" and "digit" from the key code
         let keydown = e.code;
+        
         keydown = keydown.substring(keydown.length - 1); // i.e. keep the last character of the code
         // ^ it should also always be uppercase
         // Call the specific keydownHandler;
