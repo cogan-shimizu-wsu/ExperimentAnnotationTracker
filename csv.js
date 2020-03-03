@@ -64,6 +64,7 @@ function create_subject_row(subject) {
 
         // Extract desired info
         subject_row_string += bp['frequency'] + ',';
+        subject_row_string += bp['total_duration'] + ',';
         subject_row_string += bp['mean_duration'] + ',';
         subject_row_string += bp['sd'] + ',';
     })
@@ -174,18 +175,18 @@ function create_subject_pma_row(subject) {
     // first do frequencies
     for (let interval = 0; interval < num_intervals; interval++) {
         let stat = subject.pma_stats[interval];
-        
-        for(let bp of current_experiment.behaviour_parameters) {
-            subject_string += stat['frequency-'+bp.behaviour] + ',';
+
+        for (let bp of current_experiment.behaviour_parameters) {
+            subject_string += stat['frequency-' + bp.behaviour] + ',';
         }
     }
-    
+
     // then do durations
     for (let interval = 0; interval < num_intervals; interval++) {
         let stat = subject.pma_stats[interval];
-        
-        for(let bp of current_experiment.behaviour_parameters) {
-            subject_string += stat['duration-'+bp.behaviour] + ',';
+
+        for (let bp of current_experiment.behaviour_parameters) {
+            subject_string += stat['duration-' + bp.behaviour] + ',';
         }
     }
 
