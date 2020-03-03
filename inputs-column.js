@@ -18,7 +18,12 @@ const sqrDif = (arr, avg) => arr.map(function (value) {
     let sqrDiff = diff * diff;
     return sqrDiff;
 });
-const arrSTD = arr => Math.sqrt(arrAvg(sqrDif(arr, arrAvg(arr))));
+const arrSTD = arr =>
+    Math.sqrt(sqrDif(arr, arrAvg(arr)) // Create list of the sqr differences
+    .reduce((a, b) => a + b, 0) // Sum them
+    / (arr.length - 1)); // Divide by N- 1
+    // SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
+    
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
@@ -445,7 +450,7 @@ function registerAllBehaviourParameters() {
             behaviourParameter.behaviour = behaviour;
             current_experiment.behaviour_parameters.push(behaviourParameter);
             // Begin Register event handlers
-            
+
             // Create event handler
             let keydownHandler = function () {
                 // Only do something if the scoring tab is active
@@ -457,14 +462,14 @@ function registerAllBehaviourParameters() {
                         scoredTime = 0;
                     }
                     currentBehaviorOutput.innerHTML = 'Current Behaviour Key: ' + key;
-                    
+
                     // Scoring occurs on the SECOND keystroke.
                     // That is, the first keystroke indicates that the behaviour has started
                     // The second keystroke means the behaviour has ended and a new behaviour has started
                     if (lastScoredBehaviour !== undefined) {
                         // Get the key from the last scored behaviour
                         const lastKey = lastScoredBehaviour.key;
-                        
+
                         // Add the behaviour parameter to the activeSubject if it doesn't have it.
                         if (activeSubject.scoring_data.hasOwnProperty(lastKey) === false) {
                             activeSubject.scoring_data[lastKey] = lastScoredBehaviour;
@@ -530,9 +535,9 @@ function registerAllBehaviourParameters() {
     behaviourParameters.forEach(registerBehaviourParameter);
 
     // Now that all behaviour parameters are updated, make sure all the subjects have them
-    for(let subject of current_experiment.subjects_data) {
-        for(let bp of current_experiment.behaviour_parameters) {
-            if(subject.scoring_data.hasOwnProperty(bp.key) === false) {
+    for (let subject of current_experiment.subjects_data) {
+        for (let bp of current_experiment.behaviour_parameters) {
+            if (subject.scoring_data.hasOwnProperty(bp.key) === false) {
                 subject.scoring_data[bp.key] = Object.assign({}, bp);
             }
         }
@@ -542,7 +547,7 @@ function registerAllBehaviourParameters() {
     function keydownMultiplexor(e) {
         // Strips away the "key" and "digit" from the key code
         let keydown = e.code;
-        
+
         keydown = keydown.substring(keydown.length - 1); // i.e. keep the last character of the code
         // ^ it should also always be uppercase
         // Call the specific keydownHandler;

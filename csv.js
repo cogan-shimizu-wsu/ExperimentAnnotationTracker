@@ -2,7 +2,7 @@
 
 const subject_characteristics = ['subject_id', 'genotype', 'sex', 'treatment',
     'group', 'comment'];
-const stat_types = ['frequency', 'duration', 'sd'];
+const stat_types = ['frequency', 'total_duration', 'mean_duration', 'sd'];
 
 let key_order;
 
