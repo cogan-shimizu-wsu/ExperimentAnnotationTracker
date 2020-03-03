@@ -311,9 +311,9 @@ function groupSubjects(subjects_data, parameter) {
 
 function computeBasicStats(subject_group) {
     // These lists will track the means, standard deviations, and standard errors of means.
-    const avgs = [];
-    const stds = [];
-    const sems = [];
+    const avgs = ['mean'];
+    const stds = ['std'];
+    const sems = ['sem'];
 
     for (let bp of current_experiment.behaviour_parameters) {
         let frequencies = [];
@@ -368,9 +368,9 @@ function computeBasicStats(subject_group) {
 }
 
 function computePmaStats(subject_group, num_intervals) {
-    const avgs = [];
-    const stds = [];
-    const sems = [];
+    const avgs = ['mean'];
+    const stds = ['std'];
+    const sems = ['sem'];
 
     const metric_names = ['frequency-', 'duration-'];
     for (let metric_name of metric_names) {

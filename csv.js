@@ -84,7 +84,7 @@ function create_basic_stat_rows(basic_stats) {
 }
 
 function create_basic_stat_row(basic_stat) {
-    const buffer = ','.repeat(6);
+    const buffer = ','.repeat(5);
 
     const basic_stat_string = basic_stat.join(',');
 
@@ -196,7 +196,7 @@ function create_subject_pma_row(subject) {
 
 function create_subject_pma_stat_rows(subject_group) {
     let subject_pma_stat_rows_string = '';
-    const buffer = ','.repeat(6);
+    const buffer = ','.repeat(5);
 
     for (let aggregate_pma_stat of Object.values(subject_group.pma_stats)) {
         subject_pma_stat_rows_string += buffer + aggregate_pma_stat.join(',') + '\n';
