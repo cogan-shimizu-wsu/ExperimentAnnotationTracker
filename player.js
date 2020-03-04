@@ -34,6 +34,7 @@ btnTrackerPlay.addEventListener('click', trackerVidAction);
 btnTrackerPause.addEventListener('click', trackerVidAction);
 btnTrackerStop.addEventListener('click', trackerVidAction);
 trackerInputBox.addEventListener('input', trackerTimeTextBox);
+myVideo.addEventListener('ended', videoEnded, false);
 
 // Variables used withing the functions below
 trackerInputBox.value = 0;
@@ -45,6 +46,18 @@ var refreshIntervalId = null;
 function trackerTimeTextBox() {
     trackerTimeInitialized = trackerInputBox.value;
     trackerTime = trackerTimeInitialized;
+}
+
+// Function is called when the video ends
+function videoEnded() {
+    clearInterval(refreshIntervalId);
+    isScoringEnd = true;
+    keydownHandlers[lastScoredBehaviour.key]();
+    isScoringEnd = false;
+    scoringTabActive = false;
+    lastScoredBehaviour = undefined;
+    trackerInputBox.value = null;
+    currentBehaviorOutput.innerHTML = 'No Current Behaviour Being Scored';
 }
 
 // Function is called every second to update the value within the "Scoring Time (sec)" text box.
@@ -67,6 +80,7 @@ function updateTime() {
 
         scoringTabActive = false;
         lastScoredBehaviour = undefined;
+        currentBehaviorOutput.innerHTML = 'No Current Behaviour Being Scored';
     }
 }
 
@@ -81,6 +95,7 @@ function trackerVidAction(event) {
                     current_experiment.scoring_session_length = trackerTime;
                 }
                 myVideo.play();
+                updateTime();
                 refreshIntervalId = setInterval(updateTime, 1000);
                 break;
             }
@@ -98,6 +113,7 @@ function trackerVidAction(event) {
             trackerInputBox.value = trackerTimeInitialized;
             trackerTime = trackerTimeInitialized;
             outputCurrentVideoSpeed.innerHTML = "Video Speed: 1x";
+            currentBehaviorOutput.innerHTML = 'No Current Behaviour Being Scored';
             break;
     }
 }
