@@ -88,7 +88,7 @@ function updateTime() {
 function trackerVidAction(event) {
     switch (event.target.id) {
         case "btnTrackerPlay":
-            if (trackerTime !== 0 || trackerTime !== null) {
+            if ((trackerTime !== 0 || trackerTime !== null) && (myVideo.paused)) {
                 scoringTabActive = true;
                 // Capture the max length of the tracker, i.e. the session length
                 if (current_experiment.scoring_session_length < trackerTime) {
