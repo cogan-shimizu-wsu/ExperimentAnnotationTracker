@@ -513,6 +513,24 @@ function registerAllBehaviourParameters() {
                         const sdValue = arrSTD(activeSubject.scoring_data[lastKey].durations);
                         activeSubject.scoring_data[lastKey].sd = sdValue;
                         sdCell.innerText = sdValue;
+
+                        const scoringResetButton = document.getElementById('scoring-reset-data-button');
+                        scoringResetButton.addEventListener('click', resetScoringData);
+                    
+                        // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
+                        function resetScoringData() {
+                            frequencyCell.innerText = 0;
+                            activeSubject.scoring_data[lastKey].frequency = 0;
+
+                            durationCell.innerText = 0;
+                            activeSubject.scoring_data[lastKey].total_duration = 0;
+
+                            meanDurationCell.innerText = 0;
+                            activeSubject.scoring_data[lastKey].mean_duration = 0;
+
+                            sdCell.innerText = 0;
+                            activeSubject.scoring_data[lastKey].sd = 0;
+                        }
                     }
                     // Now set the last scored behaviour
                     lastScoredBehaviour = behaviourParameter;
