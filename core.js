@@ -64,6 +64,7 @@ const exportExperimentCsvOption = document.getElementById('export-experiment-csv
 const exportButton = document.getElementById('export-button');
 const saveButton = document.getElementById('save-button');
 const manualButton = document.getElementById('manual-button');
+const converterButton = document.getElementById('converter-button');
 
 // Function for packaging the current_experiment into a file
 function packageDownload(filename, text) {
@@ -103,6 +104,10 @@ function openUserManual() {
     window.open('User Manual.pdf');
 }
 
+function openConverterWebsite(){
+    window.open('https://www.videolan.org/vlc/index.html');
+}
+
 // Register the event handlers per option
 //exportExperimentConsoleOption.addEventListener(
 //    'click',
@@ -132,6 +137,11 @@ saveButton.addEventListener(
 manualButton.addEventListener(
     'click',
     openUserManual
+)
+
+converterButton.addEventListener(
+    'click',
+    openConverterWebsite
 )
 
 /* Drop Down Functionality */
