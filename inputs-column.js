@@ -33,7 +33,7 @@ let activeSubject;
 let scoringTabActive = false;
 
 function clearTitleAndHideForms() {
-    let forms = [addNewExperimentForm, currentExperimentForm, addNewSubjectForm, viewAllSubjects,
+    let forms = [addNewExperimentForm, currentExperimentForm, addNewSubjectForm, //viewAllSubjects,
         behaviourParametersForm, scoringForm, analysisForm];
 
     function hideForm(form) {
@@ -146,22 +146,22 @@ addNewSubjectOption.addEventListener(
     'click',
     function showSubjectsForm() {
         clearTitleAndHideForms();
-        leftTitle.innerHTML = 'Add New Subject';
+        leftTitle.innerHTML = 'Add or Change Subject';
         leftTitle.style.display = '';
         addNewSubjectForm.style.display = '';
     }
 );
 
-const viewAllSubjectsOption = document.getElementById('view-all-subjects-option');
-viewAllSubjectsOption.addEventListener(
-    'click',
-    function showSubjectsForm() {
-        clearTitleAndHideForms();
-        leftTitle.innerHTML = 'All Subjects';
-        leftTitle.style.display = '';
-        viewAllSubjects.style.display = '';
-    }
-);
+// const viewAllSubjectsOption = document.getElementById('view-all-subjects-option');
+// viewAllSubjectsOption.addEventListener(
+//     'click',
+//     function showSubjectsForm() {
+//         clearTitleAndHideForms();
+//         leftTitle.innerHTML = 'All Subjects';
+//         leftTitle.style.display = '';
+//         viewAllSubjects.style.display = '';
+//     }
+// );
 
 const behaviourParametersOption = document.getElementById('behaviour-parameters-option');
 behaviourParametersOption.addEventListener(

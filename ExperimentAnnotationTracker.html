@@ -58,14 +58,14 @@
       </div>
     </div>
     <!-- Subjects Menu -->
-    <div class="ui pointing dropdown item">
+    <a class="item" id="add-new-subject-option">
       Subjects
-      <i class="dropdown icon"></i>
+      <!-- <i class="dropdown icon"></i>
       <div class="menu">
         <div class="item" id="add-new-subject-option">Add New Subject</div>
         <div class="item" id="view-all-subjects-option">View All Subjects</div>
-      </div>
-    </div>
+      </div> -->
+    </a>
     <!-- Scoring Menu -->
     <div class="ui pointing dropdown item">
       Score
@@ -140,17 +140,17 @@
 
         <!-- This form is for entering and modifying the subjects of a particular experiment. -->
         <div class="ui two column very relaxed grid" id="add-new-subject-form" style="display: none">
-          <div class="column">
+          <div class="four wide column">
             <div class="ui form">
-              <div class="six wide field">
+              <div class="field">
                 <label> Subject ID </label>
                 <input type="text" id="subject-id-field" placeholder="Subject ID">
               </div>
-              <div class="six wide field">
+              <div class="field">
                 <label> Genotype </label>
                 <input type="text" id="genotype-field" placeholder="Genotype">
               </div>
-              <div class="six wide field">
+              <div class="field">
                 <label> Sex </label>
                 <select class="ui dropdown" id='sex-value-dropdown'>
                   <option value="">Sex</option>
@@ -158,46 +158,49 @@
                   <option value="Female">Female</option>
                 </select>
               </div>
-              <div class="six wide field">
+              <div class="field">
                 <label> Group </label>
-                <input type="text" id="group-field" placeholder="Key">
+                <input type="text" id="group-field" placeholder="Group">
               </div>
-              <div class="six wide field">
+              <div class="field">
                 <label> Treatment </label>
-                <input type="text" id="treatment-field" placeholder="Key">
+                <input type="text" id="treatment-field" placeholder="Treatment">
               </div>
-              <div class="six wide field">
+              <div class="field">
                 <label> Comment </label>
-                <input type="text" id="comment-field" placeholder="Key">
+                <input type="text" id="comment-field" placeholder="Comment">
               </div>
-            </div>
-          </div>
-          <div class="column">
             <div class="ui vertical buttons">
-              <button class="ui button" id="add-new-subject-button"> Save </button>
+              <button class="ui button" id="add-new-subject-button"> Add Subject </button>
+            </div>
+          </div>
+        </div>
+
+          <div class="twelve wide column">
+            <!-- This form is for viewing all subjects that have been loaded/entered. -->
+            <div id="view-all-subjects">
+              <table class="ui celled table" id="view-all-subjects-table">
+                <thead>
+                  <tr>
+                    <th>Subject ID</th>
+                    <th>Genotype</th>
+                    <th>Sex</th>
+                    <th>Group</th>
+                    <th>Treatment</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody id="view-all-subjects-table-body">
+                  <!-- Filled in by adding new subjects in other menu. -->
+                </tbody>
+              </table>
             </div>
           </div>
 
         </div>
 
-        <!-- This form is for viewing all subjects that have been loaded/entered. -->
-        <div id="view-all-subjects" style="display: none">
-          <table class="ui celled table" id="view-all-subjects-table">
-            <thead>
-              <tr>
-                <th>Subject ID</th>
-                <th>Genotype</th>
-                <th>Sex</th>
-                <th>Group</th>
-                <th>Treatment</th>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody id="view-all-subjects-table-body">
-              <!-- Filled in by adding new subjects in other menu. -->
-            </tbody>
-          </table>
-        </div>
+
+
 
         <!-- This form is for entering and modifying the behaviour parameters that will be scored during a particular scoring session. -->
         <div class="ui two column very relaxed grid" id="behaviour-parameters-form" style="display: none">
@@ -211,9 +214,9 @@
               <!-- This is dynamically populated by the addBehaviourParameter Button -->
             </div>
           </div>
-          
-            
-          
+
+
+
         </div>
 
         <!-- This form is for conducting the scoring session. -->
@@ -266,11 +269,12 @@
         <div class="ui two column very relaxed grid" id="analysis-form" style="display: none">
           <!-- Selectable Subjects -->
           <div class="column">
-            <h3>Subjects <button class="button" id="sync-subjects" style="width:50px;height:45px;"><i class="sync icon"></i></button>
+            <h3>Subjects <button class="button" id="sync-subjects" style="width:50px;height:45px;"><i
+                  class="sync icon"></i></button>
               <br><br>
-            <div class="ui form" id="analysis-subjects-form">
-              <!-- Will be dynamically populated when the sync button is clicked. -->
-            </div>
+              <div class="ui form" id="analysis-subjects-form">
+                <!-- Will be dynamically populated when the sync button is clicked. -->
+              </div>
           </div>
           <!-- Analysis Options -->
           <div class="column">
@@ -408,7 +412,7 @@
         </div>
         <script src="player.js" defer></script>
       </div>
-      
+
     </div>
 
 
