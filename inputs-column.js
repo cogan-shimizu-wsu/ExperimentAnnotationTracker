@@ -402,6 +402,7 @@ registerBehaviourParametersButton.style.margin = "10px";
 let keydownHandlers = {};
 
 const currentBehaviorOutput = document.getElementById('currentBehaviorOutput');
+const scoringResetButton = document.getElementById('scoring-reset-data-button');
 
 function registerAllBehaviourParameters() {
 
@@ -514,11 +515,10 @@ function registerAllBehaviourParameters() {
                         activeSubject.scoring_data[lastKey].sd = sdValue;
                         sdCell.innerText = sdValue;
 
-                        const scoringResetButton = document.getElementById('scoring-reset-data-button');
-                        scoringResetButton.addEventListener('click', resetScoringData);
+                        scoringResetButton.addEventListener('click', resetScoringDataInner);
                     
                         // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
-                        function resetScoringData() {
+                        function resetScoringDataInner() {
                             frequencyCell.innerText = 0;
                             activeSubject.scoring_data[lastKey].frequency = 0;
 
