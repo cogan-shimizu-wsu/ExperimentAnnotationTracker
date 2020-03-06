@@ -626,8 +626,119 @@ function populateSubjectSearches() {
         });
 }
 
-function editSubjectSelected(subject)
-{
+// Edit Subject Button
+const editSubjectButton = document.getElementById('edit-subject-button');
+editSubjectButton.addEventListener(
+    'click',
+    function () {
+        // get name
+        const subjectIdField = document.getElementById('subject-id-field');
+        subject_id = subjectIdField.value;
+
+        // get subject from subjects data
+        let subject;
+        for (let temp of current_experiment.subjects_data) {
+            if(subject_id === temp.subject_id)
+            {
+                subject = temp;
+                break;
+            }
+        }
+        
+        // Edit
+        const genotypeField = document.getElementById('genotype-field');
+        subject.genotype = genotypeField.value;
+    
+        const sexDropdown = $('#sex-value-dropdown');
+        const sexValue = sexDropdown.dropdown('get value');
+        subject.sex = sexValue;
+
+        const groupField = document.getElementById('group-field');
+        subject.group = groupField.value;
+    
+        const treatmentField = document.getElementById('treatment-field');
+        subject.treatment = treatmentField.value;
+    
+        const commentField = document.getElementById('comment-field');
+        subject.comment = commentField.value;
+
+        // fix tables
+        populateExistingSubjects(current_experiment.subjects_data);
+
+        // clean up
+        hideAndClearEditSubjectForm();
+    }
+);
+
+// Cancel Edit Subject Button
+const cancelEditSubjectButton = document.getElementById('cancel-edit-subject-button');
+cancelEditSubjectButton.addEventListener(
+    'click',
+    hideAndClearEditSubjectForm
+);
+
+function hideAndClearEditSubjectForm() {
+    // Show subject button
+    addNewSubjectButton.style.display = '';
+    
+    // Hide Edit Button
+    editSubjectButton.style.display = 'none';
+
+    // Hide Cancel Button
+    cancelEditSubjectButton.style.display = 'none';
+
+    // Hide Delete Button
+    deleteSubjectButton.style.display = 'none';
+
+    // Clear form
+    const field_ids = [
+        '#subject-id-field',
+        '#genotype-field',
+        '#group-field',
+        '#treatment-field',
+        '#comment-field',];
+    for(let field_id of field_ids)
+    {
+        const field = document.querySelector(field_id);
+        field.value = '';
+    }
+
+    const sexDropdown = $('#sex-value-dropdown');
+    sexDropdown.dropdown('restore placeholder text');
+
+    const editSubjectInput = document.getElementById('edit-subject-input');
+    editSubjectInput.value = '';
+}
+
+const deleteSubjectButton = document.getElementById('delete-subject-button');
+deleteSubjectButton.addEventListener(
+    'click',
+    function() {
+        const subjectIdField = document.getElementById('subject-id-field');
+        const subject_id = subjectIdField.value;
+
+        // Delete from data structure
+        let delete_index;
+        current_experiment.subjects_data.forEach( function(item, index, array) {
+            if(item.subject_id === subject_id)
+            {
+                delete_index = index;
+            }
+        });
+        current_experiment.subjects_data.splice(delete_index, 1);
+
+        // clean up table
+        populateExistingSubjects(current_experiment.subjects_data);
+
+        // update the search bars so that you can't find it any more
+        populateSubjectSearches();
+
+        // clean up
+        hideAndClearEditSubjectForm();
+    }
+);
+
+function editSubjectSelected(subject) {
     // POPULATE
     const subjectIdField = document.getElementById('subject-id-field');
     subjectIdField.value = subject.subject_id;
@@ -652,18 +763,16 @@ function editSubjectSelected(subject)
     addNewSubjectButton.style.display = 'none';
 
     // make the edit button visible
-    const editSubjectButton = document.getElementById('edit-subject-button');
     editSubjectButton.style.display = '';
-    
+
     // make the cancel button visible
-    const cancelEditSubjectButton = document.getElementById('cancel-edit-subject-button');
     cancelEditSubjectButton.style.display = '';
 
     // make the delete button visible
-    const deleteSubjectButton = document.getElementById('delete-subject-button');
     deleteSubjectButton.style.display = '';
-
 }
+
+
 
 /* Synchrony of Subjects in Analysis Tab */
 // Get references
