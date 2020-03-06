@@ -20,10 +20,10 @@ const sqrDif = (arr, avg) => arr.map(function (value) {
 });
 const arrSTD = arr =>
     Math.sqrt(sqrDif(arr, arrAvg(arr)) // Create list of the sqr differences
-    .reduce((a, b) => a + b, 0) // Sum them
-    / (arr.length - 1)); // Divide by N- 1
-    // SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
-    
+        .reduce((a, b) => a + b, 0) // Sum them
+        / (arr.length - 1)); // Divide by N- 1
+// SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
+
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
@@ -403,6 +403,30 @@ let keydownHandlers = {};
 
 const currentBehaviorOutput = document.getElementById('currentBehaviorOutput');
 const scoringResetButton = document.getElementById('scoring-reset-data-button');
+scoringResetButton.addEventListener(
+    'click',
+    function () {
+        // Nuke the scoring data for the Subject
+        for (let bp of current_experiment.behaviour_parameters) {
+            if (activeSubject.scoring_data.hasOwnProperty(bp.key) === false) {
+                activeSubject.scoring_data[bp.key] = Object.assign({}, bp);
+            }
+        }
+
+        // Repopulate scoring data?
+        // For each behaviour parameter
+        for (let bp of current_experiment.behaviour_parameters) {
+            const metric_labels = ['frequency', 'total_duration', 'mean_duration', 'sd'];
+            // For each metric
+            for (let metric_label of metric_labels) {
+                const metric_cell = document.getElementById(bp.key + '-' + metric_label);
+                const metric_value = activeSubject.scoring_data[bp.key][metric_label];
+                metric_cell.innerHTML = metric_value;
+            }
+        }
+    }
+)
+
 
 function registerAllBehaviourParameters() {
 
@@ -515,21 +539,21 @@ function registerAllBehaviourParameters() {
                         activeSubject.scoring_data[lastKey].sd = sdValue;
                         sdCell.innerText = sdValue;
 
-                        scoringResetButton.addEventListener('click', resetScoringDataInner);
-                        // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
-                        function resetScoringDataInner() {
-                            frequencyCell.innerText = 0;
-                            activeSubject.scoring_data[lastKey].frequency = 0;
-                        
-                            durationCell.innerText = 0;
-                            activeSubject.scoring_data[lastKey].total_duration = 0;
-                        
-                            meanDurationCell.innerText = 0;
-                            activeSubject.scoring_data[lastKey].mean_duration = 0;
-                        
-                            sdCell.innerText = 0;
-                            activeSubject.scoring_data[lastKey].sd = 0;
-                        }
+                        // scoringResetButton.addEventListener('click', resetScoringDataInner);
+                        // // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
+                        // function resetScoringDataInner() {
+                        //     frequencyCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].frequency = 0;
+
+                        //     durationCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].total_duration = 0;
+
+                        //     meanDurationCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].mean_duration = 0;
+
+                        //     sdCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].sd = 0;
+                        // }
                     }
                     // Now set the last scored behaviour
                     lastScoredBehaviour = behaviourParameter;
@@ -682,7 +706,7 @@ selectAllAnalysisSubjectsButton.addEventListener(
 
 function selectAllCheckBoxes() {
     checkboxes = document.getElementsByName('subject-checkbox');
-    for(var i = 0; i < checkboxes.length; i++) {
+    for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = true;
     }
 }
