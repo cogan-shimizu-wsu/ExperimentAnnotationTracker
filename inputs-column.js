@@ -305,6 +305,12 @@ function getSubjectDataFromForm() {
     subject.setFields(fieldValues);
     current_experiment.addSubject(subject);
 
+    for (let bp of current_experiment.behaviour_parameters) {
+        if (subject.scoring_data.hasOwnProperty(bp.key) === false) {
+            subject.scoring_data[bp.key] = Object.assign({}, bp);
+        }
+    }
+
     // Finish
     return fieldValues;
 }
@@ -403,6 +409,33 @@ registerBehaviourParametersButton.style.margin = "10px";
 let keydownHandlers = {};
 
 const currentBehaviorOutput = document.getElementById('currentBehaviorOutput');
+const scoringResetButton = document.getElementById('scoring-reset-data-button');
+scoringResetButton.addEventListener(
+    'click',
+    function () {
+
+        // Nuke the scoring data for the Subject
+        activeSubject.scoring_data = {};
+        for (let bp of current_experiment.behaviour_parameters) {
+            if (activeSubject.scoring_data.hasOwnProperty(bp.key) === false) {
+                activeSubject.scoring_data[bp.key] = Object.assign({}, bp);
+            }
+        }
+
+        // Repopulate scoring data?
+        // For each behaviour parameter
+        for (let bp of current_experiment.behaviour_parameters) {
+            const metric_labels = ['frequency', 'total_duration', 'mean_duration', 'sd'];
+            // For each metric
+            for (let metric_label of metric_labels) {
+                const metric_cell = document.getElementById(bp.key + '-' + metric_label);
+                const metric_value = activeSubject.scoring_data[bp.key][metric_label];
+                metric_cell.innerHTML = metric_value;
+            }
+        }
+    }
+)
+
 
 function registerAllBehaviourParameters() {
 
@@ -514,6 +547,22 @@ function registerAllBehaviourParameters() {
                         const sdValue = arrSTD(activeSubject.scoring_data[lastKey].durations);
                         activeSubject.scoring_data[lastKey].sd = sdValue;
                         sdCell.innerText = sdValue;
+
+                        // scoringResetButton.addEventListener('click', resetScoringDataInner);
+                        // // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
+                        // function resetScoringDataInner() {
+                        //     frequencyCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].frequency = 0;
+
+                        //     durationCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].total_duration = 0;
+
+                        //     meanDurationCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].mean_duration = 0;
+
+                        //     sdCell.innerText = 0;
+                        //     activeSubject.scoring_data[lastKey].sd = 0;
+                        // }
                     }
                     // Now set the last scored behaviour
                     lastScoredBehaviour = behaviourParameter;
@@ -815,6 +864,19 @@ function createCheckBoxForSubject(subject) {
     inline_field.innerHTML = checkbox_holder.outerHTML;
     // Add to the form
     analysisSubjectsForm.innerHTML += inline_field.outerHTML;
+}
+
+const selectAllAnalysisSubjectsButton = document.getElementById('select-all-analysis-subjects');
+selectAllAnalysisSubjectsButton.addEventListener(
+    'click',
+    selectAllCheckBoxes
+);
+
+function selectAllCheckBoxes() {
+    checkboxes = document.getElementsByName('subject-checkbox');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+    }
 }
 
 function subjectToString(subject) {

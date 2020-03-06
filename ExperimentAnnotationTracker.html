@@ -244,6 +244,7 @@
               <input class="prompt" type="text" placeholder="Choose Active Subject">
               <i class="search icon"></i>
             </div>
+            <button class="ui button" id="scoring-reset-data-button">Reset Current Subject Data</button>
             <div class="results"></div>
           </div>
 
@@ -286,8 +287,9 @@
         <div class="ui two column very relaxed grid" id="analysis-form" style="display: none">
           <!-- Selectable Subjects -->
           <div class="column">
-            <h3>Subjects <button class="button" id="sync-subjects" style="width:50px;height:45px;"><i
+            <h3>Subjects <button class="ui button" id="sync-subjects" style="width:50px;height:45px;"><i
                   class="sync icon"></i></button>
+              <button class="ui button" id="select-all-analysis-subjects">Select All</button>
               <br><br>
               <div class="ui form" id="analysis-subjects-form">
                 <!-- Will be dynamically populated when the sync button is clicked. -->
