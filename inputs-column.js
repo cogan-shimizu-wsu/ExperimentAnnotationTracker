@@ -406,7 +406,9 @@ const scoringResetButton = document.getElementById('scoring-reset-data-button');
 scoringResetButton.addEventListener(
     'click',
     function () {
+
         // Nuke the scoring data for the Subject
+        activeSubject.scoring_data = {};
         for (let bp of current_experiment.behaviour_parameters) {
             if (activeSubject.scoring_data.hasOwnProperty(bp.key) === false) {
                 activeSubject.scoring_data[bp.key] = Object.assign({}, bp);
