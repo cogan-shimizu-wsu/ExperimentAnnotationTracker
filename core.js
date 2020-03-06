@@ -52,7 +52,7 @@ class BehaviourParameter {
 }
 
 // Global variable for the experiment
-let current_experiment = new Experiment([], [], []);
+let current_experiment = new Experiment({}, [], []);
 
 /* Export Functionality */
 

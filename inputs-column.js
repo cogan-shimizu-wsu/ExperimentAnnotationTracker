@@ -67,8 +67,8 @@ updateNewExperimentButton.addEventListener(
         // update current_experiment
         const experimentNameValue = experimentNameField.value;
         const experimentDateValue = experimentDateField.value;
-        current_experiment.experiment_data.name = experimentNameValue;
-        current_experiment.experiment_data.date = experimentDateValue;
+        current_experiment.experiment_data["name"] = experimentNameValue;
+        current_experiment.experiment_data["date"] = experimentDateValue;
         // update label
         experimentNameLabel.innerHTML = experimentNameValue;
     }
@@ -104,9 +104,6 @@ function parseExperimentFile(e) {
     populateExistingSubjects(current_experiment.subjects_data);
     // Populate with Scoring Data
     populateBehaviourParameters(current_experiment.behaviour_parameters);
-    // Update Label
-    const experimentNameLabel = document.getElementById('experiment-name-label');
-    experimentNameLabel.innerHTML = current_experiment.experiment_data.name;
 }
 
 function populateExperimentMetadata(experiment_data) {
@@ -116,6 +113,9 @@ function populateExperimentMetadata(experiment_data) {
     // Date
     const experimentDateField = document.getElementById('experiment-date-field');
     experimentDateField.value = experiment_data.date;
+    // Update Label
+    const experimentNameLabel = document.getElementById('experiment-name-label');
+    experimentNameLabel.innerHTML = experiment_data.name;
 }
 
 function populateExistingSubjects(subjects_data) {
