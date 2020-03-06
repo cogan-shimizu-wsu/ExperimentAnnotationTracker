@@ -20,10 +20,10 @@ const sqrDif = (arr, avg) => arr.map(function (value) {
 });
 const arrSTD = arr =>
     Math.sqrt(sqrDif(arr, arrAvg(arr)) // Create list of the sqr differences
-    .reduce((a, b) => a + b, 0) // Sum them
-    / (arr.length - 1)); // Divide by N- 1
-    // SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
-    
+        .reduce((a, b) => a + b, 0) // Sum them
+        / (arr.length - 1)); // Divide by N- 1
+// SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
+
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
@@ -197,6 +197,7 @@ analysisOption.addEventListener(
 );
 
 const addNewSubjectButton = document.getElementById('add-new-subject-button');
+addNewSubjectButton.style.display = '';
 addNewSubjectButton.addEventListener(
     'click',
     addNewSubject);
@@ -317,7 +318,7 @@ function addNewSubject(temp, target_source = 'form') {
     viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
 
     // Populate the search bar searcher thing
-    populateSubjectSearch();
+    populateSubjectSearches();
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
@@ -567,7 +568,7 @@ function registerAllBehaviourParameters() {
 // For populating the Active Subject Table
 function activeSubjectSelected(subject) {
     // Set the active subject.
-    // This is necessary because the populateSubjectSearch function
+    // This is necessary because the populateSubjectSearches function
     // Searches a COPY of the current_experiment.subjects_data
     // Thus disconnecting the reference chain.
     for (let i in current_experiment.subjects_data) {
@@ -600,9 +601,9 @@ function activeSubjectSelected(subject) {
     }
 }
 
-function populateSubjectSearch() {
+function populateSubjectSearches() {
     // For finding the active subject
-    $('.ui.search')
+    $('#active-subject-search')
         .search({
             source: current_experiment.subjects_data,
             fields: { title: 'subject_id' },
@@ -612,6 +613,56 @@ function populateSubjectSearch() {
             //   fullTextSearch: false
             onSelect: activeSubjectSelected
         });
+
+    $('#edit-subject-search')
+        .search({
+            source: current_experiment.subjects_data,
+            fields: { title: 'subject_id' },
+            searchFields: [
+                'subject_id'
+            ],
+            //   fullTextSearch: false
+            onSelect: editSubjectSelected
+        });
+}
+
+function editSubjectSelected(subject)
+{
+    // POPULATE
+    const subjectIdField = document.getElementById('subject-id-field');
+    subjectIdField.value = subject.subject_id;
+
+    const genotypeField = document.getElementById('genotype-field');
+    genotypeField.value = subject.genotype;
+
+    const sexDropdown = $('#sex-value-dropdown');
+    sexDropdown.dropdown('set text', subject.sex);
+    sexDropdown.dropdown('set value', subject.sex);
+
+    const groupField = document.getElementById('group-field');
+    groupField.value = subject.group;
+
+    const treatmentField = document.getElementById('treatment-field');
+    treatmentField.value = subject.treatment;
+
+    const commentField = document.getElementById('comment-field');
+    commentField.value = subject.comment;
+
+    // Hide the add new subject button
+    addNewSubjectButton.style.display = 'none';
+
+    // make the edit button visible
+    const editSubjectButton = document.getElementById('edit-subject-button');
+    editSubjectButton.style.display = '';
+    
+    // make the cancel button visible
+    const cancelEditSubjectButton = document.getElementById('cancel-edit-subject-button');
+    cancelEditSubjectButton.style.display = '';
+
+    // make the delete button visible
+    const deleteSubjectButton = document.getElementById('delete-subject-button');
+    deleteSubjectButton.style.display = '';
+
 }
 
 /* Synchrony of Subjects in Analysis Tab */
