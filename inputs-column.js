@@ -674,6 +674,19 @@ function createCheckBoxForSubject(subject) {
     analysisSubjectsForm.innerHTML += inline_field.outerHTML;
 }
 
+const selectAllAnalysisSubjectsButton = document.getElementById('select-all-analysis-subjects');
+selectAllAnalysisSubjectsButton.addEventListener(
+    'click',
+    selectAllCheckBoxes
+);
+
+function selectAllCheckBoxes() {
+    checkboxes = document.getElementsByName('subject-checkbox');
+    for(var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+    }
+}
+
 function subjectToString(subject) {
     // Start
     let subject_string = '';
