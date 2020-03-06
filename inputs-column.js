@@ -20,10 +20,10 @@ const sqrDif = (arr, avg) => arr.map(function (value) {
 });
 const arrSTD = arr =>
     Math.sqrt(sqrDif(arr, arrAvg(arr)) // Create list of the sqr differences
-    .reduce((a, b) => a + b, 0) // Sum them
-    / (arr.length - 1)); // Divide by N- 1
-    // SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
-    
+        .reduce((a, b) => a + b, 0) // Sum them
+        / (arr.length - 1)); // Divide by N- 1
+// SEE https://wikimedia.org/api/rest_v1/media/math/render/svg/067067e579e43b39ca1e57d9be52bda5b80cd284
+
 
 // Tracker for last scored behaviour
 let lastScoredBehaviour;
@@ -197,6 +197,7 @@ analysisOption.addEventListener(
 );
 
 const addNewSubjectButton = document.getElementById('add-new-subject-button');
+addNewSubjectButton.style.display = '';
 addNewSubjectButton.addEventListener(
     'click',
     addNewSubject);
@@ -317,7 +318,7 @@ function addNewSubject(temp, target_source = 'form') {
     viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
 
     // Populate the search bar searcher thing
-    populateSubjectSearch();
+    populateSubjectSearches();
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
@@ -567,7 +568,7 @@ function registerAllBehaviourParameters() {
 // For populating the Active Subject Table
 function activeSubjectSelected(subject) {
     // Set the active subject.
-    // This is necessary because the populateSubjectSearch function
+    // This is necessary because the populateSubjectSearches function
     // Searches a COPY of the current_experiment.subjects_data
     // Thus disconnecting the reference chain.
     for (let i in current_experiment.subjects_data) {
@@ -600,9 +601,9 @@ function activeSubjectSelected(subject) {
     }
 }
 
-function populateSubjectSearch() {
+function populateSubjectSearches() {
     // For finding the active subject
-    $('.ui.search')
+    $('#active-subject-search')
         .search({
             source: current_experiment.subjects_data,
             fields: { title: 'subject_id' },
@@ -612,7 +613,166 @@ function populateSubjectSearch() {
             //   fullTextSearch: false
             onSelect: activeSubjectSelected
         });
+
+    $('#edit-subject-search')
+        .search({
+            source: current_experiment.subjects_data,
+            fields: { title: 'subject_id' },
+            searchFields: [
+                'subject_id'
+            ],
+            //   fullTextSearch: false
+            onSelect: editSubjectSelected
+        });
 }
+
+// Edit Subject Button
+const editSubjectButton = document.getElementById('edit-subject-button');
+editSubjectButton.addEventListener(
+    'click',
+    function () {
+        // get name
+        const subjectIdField = document.getElementById('subject-id-field');
+        subject_id = subjectIdField.value;
+
+        // get subject from subjects data
+        let subject;
+        for (let temp of current_experiment.subjects_data) {
+            if(subject_id === temp.subject_id)
+            {
+                subject = temp;
+                break;
+            }
+        }
+        
+        // Edit
+        const genotypeField = document.getElementById('genotype-field');
+        subject.genotype = genotypeField.value;
+    
+        const sexDropdown = $('#sex-value-dropdown');
+        const sexValue = sexDropdown.dropdown('get value');
+        subject.sex = sexValue;
+
+        const groupField = document.getElementById('group-field');
+        subject.group = groupField.value;
+    
+        const treatmentField = document.getElementById('treatment-field');
+        subject.treatment = treatmentField.value;
+    
+        const commentField = document.getElementById('comment-field');
+        subject.comment = commentField.value;
+
+        // fix tables
+        populateExistingSubjects(current_experiment.subjects_data);
+
+        // clean up
+        hideAndClearEditSubjectForm();
+    }
+);
+
+// Cancel Edit Subject Button
+const cancelEditSubjectButton = document.getElementById('cancel-edit-subject-button');
+cancelEditSubjectButton.addEventListener(
+    'click',
+    hideAndClearEditSubjectForm
+);
+
+function hideAndClearEditSubjectForm() {
+    // Show subject button
+    addNewSubjectButton.style.display = '';
+    
+    // Hide Edit Button
+    editSubjectButton.style.display = 'none';
+
+    // Hide Cancel Button
+    cancelEditSubjectButton.style.display = 'none';
+
+    // Hide Delete Button
+    deleteSubjectButton.style.display = 'none';
+
+    // Clear form
+    const field_ids = [
+        '#subject-id-field',
+        '#genotype-field',
+        '#group-field',
+        '#treatment-field',
+        '#comment-field',];
+    for(let field_id of field_ids)
+    {
+        const field = document.querySelector(field_id);
+        field.value = '';
+    }
+
+    const sexDropdown = $('#sex-value-dropdown');
+    sexDropdown.dropdown('restore placeholder text');
+
+    const editSubjectInput = document.getElementById('edit-subject-input');
+    editSubjectInput.value = '';
+}
+
+const deleteSubjectButton = document.getElementById('delete-subject-button');
+deleteSubjectButton.addEventListener(
+    'click',
+    function() {
+        const subjectIdField = document.getElementById('subject-id-field');
+        const subject_id = subjectIdField.value;
+
+        // Delete from data structure
+        let delete_index;
+        current_experiment.subjects_data.forEach( function(item, index, array) {
+            if(item.subject_id === subject_id)
+            {
+                delete_index = index;
+            }
+        });
+        current_experiment.subjects_data.splice(delete_index, 1);
+
+        // clean up table
+        populateExistingSubjects(current_experiment.subjects_data);
+
+        // update the search bars so that you can't find it any more
+        populateSubjectSearches();
+
+        // clean up
+        hideAndClearEditSubjectForm();
+    }
+);
+
+function editSubjectSelected(subject) {
+    // POPULATE
+    const subjectIdField = document.getElementById('subject-id-field');
+    subjectIdField.value = subject.subject_id;
+
+    const genotypeField = document.getElementById('genotype-field');
+    genotypeField.value = subject.genotype;
+
+    const sexDropdown = $('#sex-value-dropdown');
+    sexDropdown.dropdown('set text', subject.sex);
+    sexDropdown.dropdown('set value', subject.sex);
+
+    const groupField = document.getElementById('group-field');
+    groupField.value = subject.group;
+
+    const treatmentField = document.getElementById('treatment-field');
+    treatmentField.value = subject.treatment;
+
+    const commentField = document.getElementById('comment-field');
+    commentField.value = subject.comment;
+
+    // Hide the add new subject button
+    addNewSubjectButton.style.display = 'none';
+
+    // make the edit button visible
+    editSubjectButton.style.display = '';
+
+    // make the cancel button visible
+    cancelEditSubjectButton.style.display = '';
+
+    // make the delete button visible
+    deleteSubjectButton.style.display = '';
+}
+
+
 
 /* Synchrony of Subjects in Analysis Tab */
 // Get references

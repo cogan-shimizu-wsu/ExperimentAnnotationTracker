@@ -141,6 +141,18 @@
 
         <!-- This form is for entering and modifying the subjects of a particular experiment. -->
         <div class="ui two column very relaxed grid" id="add-new-subject-form" style="display: none">
+          <div class="four wide column"></div>
+          <div class="eight wide column">
+            <div class="ui search" id="edit-subject-search">
+              <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Choose Subject to Edit" id='edit-subject-input'>
+                <i class="search icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+          </div>
+          <div class="four wide column"></div>
+
           <div class="four wide column">
             <div class="ui form">
               <div class="field">
@@ -171,11 +183,15 @@
                 <label> Comment </label>
                 <input type="text" id="comment-field" placeholder="Comment">
               </div>
-            <div class="ui vertical buttons">
-              <button class="ui button" id="add-new-subject-button"> Add Subject </button>
+              <div class="ui vertical buttons">
+                <button class="ui button" id="add-new-subject-button" style="display: none"> Add Subject </button>
+                <button class="ui button" id="edit-subject-button" style="display: none"> Edit Subject </button>
+                <button class="ui red button" id="delete-subject-button" style="display: none"> Delete Subject
+                </button>
+                <button class="ui blue button" id="cancel-edit-subject-button" style="display: none"> Cancel </button>
+              </div>
             </div>
           </div>
-        </div>
 
           <div class="twelve wide column">
             <!-- This form is for viewing all subjects that have been loaded/entered. -->
@@ -223,7 +239,7 @@
         <!-- This form is for conducting the scoring session. -->
         <div id="scoring-form" style="display: none">
           <!-- This is for finding the active subject -->
-          <div class="ui search">
+          <div class="ui search" id="active-subject-search">
             <div class="ui icon input">
               <input class="prompt" type="text" placeholder="Choose Active Subject">
               <i class="search icon"></i>
