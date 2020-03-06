@@ -304,6 +304,12 @@ function getSubjectDataFromForm() {
     subject.setFields(fieldValues);
     current_experiment.addSubject(subject);
 
+    for (let bp of current_experiment.behaviour_parameters) {
+        if (subject.scoring_data.hasOwnProperty(bp.key) === false) {
+            subject.scoring_data[bp.key] = Object.assign({}, bp);
+        }
+    }
+
     // Finish
     return fieldValues;
 }
