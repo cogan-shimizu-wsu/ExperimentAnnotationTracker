@@ -516,18 +516,17 @@ function registerAllBehaviourParameters() {
                         sdCell.innerText = sdValue;
 
                         scoringResetButton.addEventListener('click', resetScoringDataInner);
-                    
                         // Function resets data to 0 for frequency, duration, mean duration, and standard deviation when the corresponding button is pressed
                         function resetScoringDataInner() {
                             frequencyCell.innerText = 0;
                             activeSubject.scoring_data[lastKey].frequency = 0;
-
+                        
                             durationCell.innerText = 0;
                             activeSubject.scoring_data[lastKey].total_duration = 0;
-
+                        
                             meanDurationCell.innerText = 0;
                             activeSubject.scoring_data[lastKey].mean_duration = 0;
-
+                        
                             sdCell.innerText = 0;
                             activeSubject.scoring_data[lastKey].sd = 0;
                         }
