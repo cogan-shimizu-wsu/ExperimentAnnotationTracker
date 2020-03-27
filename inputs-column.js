@@ -433,6 +433,8 @@ scoringResetButton.addEventListener(
                 metric_cell.innerHTML = metric_value;
             }
         }
+        // Nuke scoring_timeline
+        activeSubject.scoring_timeline = [];
     }
 )
 
