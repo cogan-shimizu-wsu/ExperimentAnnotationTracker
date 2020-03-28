@@ -316,15 +316,21 @@ function getSubjectDataFromForm() {
 }
 
 function addNewSubject(temp, target_source = 'form') {
-    const viewAllSubjectsBody = document.querySelector('#view-all-subjects-table-body');
+    const subjectIdField = document.getElementById('subject-id-field');
 
-    let tableRow = createSubjectRow(target_source);
+    if(subjectIdField.value == null || subjectIdField.value.length == 0 || subjectIdField.value == undefined || subjectIdField.value == '') {
+        alert("Please enter a Subject ID and try again.");
+    } else {
+        const viewAllSubjectsBody = document.querySelector('#view-all-subjects-table-body');
 
-    // Add the table row to the table
-    viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
-
-    // Populate the search bar searcher thing
-    populateSubjectSearches();
+        let tableRow = createSubjectRow(target_source);
+    
+        // Add the table row to the table
+        viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
+    
+        // Populate the search bar searcher thing
+        populateSubjectSearches();
+    }
 }
 
 const addBehaviourParameterButton = document.getElementById('add-behaviour-parameter-button');
