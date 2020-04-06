@@ -318,16 +318,16 @@ function getSubjectDataFromForm() {
 function addNewSubject(temp, target_source = 'form') {
     const subjectIdField = document.getElementById('subject-id-field');
 
-    if(subjectIdField.value == null || subjectIdField.value.length == 0 || subjectIdField.value == undefined || subjectIdField.value == '') {
+    if (target_source === 'form' && (subjectIdField.value == null || subjectIdField.value.length == 0 || subjectIdField.value == undefined || subjectIdField.value == '')) {
         alert("Please enter a Subject ID and try again.");
     } else {
         const viewAllSubjectsBody = document.querySelector('#view-all-subjects-table-body');
 
         let tableRow = createSubjectRow(target_source);
-    
+
         // Add the table row to the table
         viewAllSubjectsBody.insertAdjacentHTML('beforeend', tableRow.outerHTML);
-    
+
         // Populate the search bar searcher thing
         populateSubjectSearches();
     }
@@ -695,27 +695,26 @@ editSubjectButton.addEventListener(
         // get subject from subjects data
         let subject;
         for (let temp of current_experiment.subjects_data) {
-            if(subject_id === temp.subject_id)
-            {
+            if (subject_id === temp.subject_id) {
                 subject = temp;
                 break;
             }
         }
-        
+
         // Edit
         const genotypeField = document.getElementById('genotype-field');
         subject.genotype = genotypeField.value;
-    
+
         const sexDropdown = $('#sex-value-dropdown');
         const sexValue = sexDropdown.dropdown('get value');
         subject.sex = sexValue;
 
         const groupField = document.getElementById('group-field');
         subject.group = groupField.value;
-    
+
         const treatmentField = document.getElementById('treatment-field');
         subject.treatment = treatmentField.value;
-    
+
         const commentField = document.getElementById('comment-field');
         subject.comment = commentField.value;
 
@@ -737,7 +736,7 @@ cancelEditSubjectButton.addEventListener(
 function hideAndClearEditSubjectForm() {
     // Show subject button
     addNewSubjectButton.style.display = '';
-    
+
     // Hide Edit Button
     editSubjectButton.style.display = 'none';
 
@@ -754,8 +753,7 @@ function hideAndClearEditSubjectForm() {
         '#group-field',
         '#treatment-field',
         '#comment-field',];
-    for(let field_id of field_ids)
-    {
+    for (let field_id of field_ids) {
         const field = document.querySelector(field_id);
         field.value = '';
     }
@@ -770,15 +768,14 @@ function hideAndClearEditSubjectForm() {
 const deleteSubjectButton = document.getElementById('delete-subject-button');
 deleteSubjectButton.addEventListener(
     'click',
-    function() {
+    function () {
         const subjectIdField = document.getElementById('subject-id-field');
         const subject_id = subjectIdField.value;
 
         // Delete from data structure
         let delete_index;
-        current_experiment.subjects_data.forEach( function(item, index, array) {
-            if(item.subject_id === subject_id)
-            {
+        current_experiment.subjects_data.forEach(function (item, index, array) {
+            if (item.subject_id === subject_id) {
                 delete_index = index;
             }
         });
