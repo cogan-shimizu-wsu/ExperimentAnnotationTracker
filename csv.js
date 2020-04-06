@@ -173,19 +173,17 @@ function create_subject_pma_row(subject) {
     }
 
     // first do frequencies
-    for (let interval = 0; interval < num_intervals; interval++) {
-        let stat = subject.pma_stats[interval];
-
-        for (let bp of current_experiment.behaviour_parameters) {
+    for (let bp of current_experiment.behaviour_parameters) {
+        for (let interval = 0; interval < num_intervals; interval++) {
+            let stat = subject.pma_stats[interval];
             subject_string += stat['frequency-' + bp.behaviour] + ',';
         }
     }
 
     // then do durations
-    for (let interval = 0; interval < num_intervals; interval++) {
-        let stat = subject.pma_stats[interval];
-
-        for (let bp of current_experiment.behaviour_parameters) {
+    for (let bp of current_experiment.behaviour_parameters) {
+        for (let interval = 0; interval < num_intervals; interval++) {
+            let stat = subject.pma_stats[interval];
             subject_string += stat['duration-' + bp.behaviour] + ',';
         }
     }

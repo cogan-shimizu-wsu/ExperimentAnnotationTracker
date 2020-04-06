@@ -316,8 +316,9 @@ function getSubjectDataFromForm() {
 }
 
 function addNewSubject(temp, target_source = 'form') {
+    // Reference to the subject id field
     const subjectIdField = document.getElementById('subject-id-field');
-
+    // If the source is the form, check to make sure that there is a subject id of some sort
     if (target_source === 'form' && (subjectIdField.value == null || subjectIdField.value.length == 0 || subjectIdField.value == undefined || subjectIdField.value == '')) {
         alert("Please enter a Subject ID and try again.");
     } else {

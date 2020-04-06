@@ -60,7 +60,7 @@ function twoWayAnalysis(subjects_data) {
         // Get 
         let one_way_grouping = groupSubjects(subjects_data, firstParameter);
 
-        for(let one_way_group of one_way_grouping) {
+        for (let one_way_group of one_way_grouping) {
             const two_way_grouping = groupSubjects(one_way_group.subject_group, secondParameter);
 
             two_way_grouping.forEach(twg => two_way_groups.push(twg));
@@ -102,7 +102,7 @@ function pmaForSubject(num_intervals, interval, subject) {
         // max score length
         // i.e. 300 - 298 = 2nd second
         const flipped_time = current_experiment.scoring_session_length - event.time;
-        const new_event = {time: flipped_time, event: event.event};
+        const new_event = { time: flipped_time, event: event.event };
         // The two above lines of code are for prevent a reference error
         // previously event.time was flipped, but this was propagated to the base instead
         // of only to the copy.
@@ -113,40 +113,42 @@ function pmaForSubject(num_intervals, interval, subject) {
     let prev_event;
     for (let event of timeline) {
         // This means the behaviour has ended
-        if (prev_event !== undefined) {
-            // Check to see what interval the event is taking place in
-            let event_interval = Math.floor(event.time / interval);
-            if (curr_interval === event_interval) {
-                // Update the frequency for scored behaviour with 
-                // respect to the interval.
-                pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
-                pmaStats[curr_interval]['duration-' + prev_event.event] += event.time - prev_event.time;
+        if (prev_event === undefined) {
+            prev_event = {time: 0};
+        }
+        // Check to see what interval the event is taking place in
+        let event_interval = Math.floor(event.time / interval);
+        if (curr_interval === event_interval) {
+            // Update the frequency for scored behaviour with 
+            // respect to the interval.
+            pmaStats[curr_interval]['frequency-' + event.event] += 1;
+            pmaStats[curr_interval]['duration-' + event.event] += event.time - prev_event.time;
+        }
+        else {
+            // Finish current interval
+            // Caclulates the end boundary of the current interval (in seconds)
+            const end_interval = (curr_interval + 1) * interval;
+            // What is the remaining time in the current interval
+            const finish_interval_time = end_interval - prev_event.time;
+            pmaStats[curr_interval]['frequency-' + event.event] += 1;
+            pmaStats[curr_interval]['duration-' + event.event] += finish_interval_time;
+            // Increase the curr_interval
+            curr_interval += 1;
+
+            // Catch up all full intervals
+            for (; curr_interval < event_interval; curr_interval++) {
+                pmaStats[curr_interval]['frequency-' + event.event] += 1;
+                pmaStats[curr_interval]['duration-' + event.event] += interval;
             }
-            else {
-                // Finish current interval
-                // Caclulates the end boundary of the current interval (in seconds)
-                const end_interval = (curr_interval + 1) * interval;
-                // What is the remaining time in the current interval
-                const finish_interval_time = end_interval - prev_event.time;
-                pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
-                pmaStats[curr_interval]['duration-' + prev_event.event] += finish_interval_time;
-                // Increase the curr_interval
-                curr_interval += 1;
 
-                // Catch up all full intervals
-                for (; curr_interval < event_interval; curr_interval++) {
-                    pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
-                    pmaStats[curr_interval]['duration-' + prev_event.event] += interval;
-                }
-
-                // Finish remainder
-                const rem_time = event.time - (curr_interval * interval)
-                if (rem_time > 0) {
-                    pmaStats[curr_interval]['frequency-' + prev_event.event] += 1;
-                    pmaStats[curr_interval]['duration-' + prev_event.event] += rem_time;
-                }
+            // Finish remainder
+            const rem_time = event.time - (curr_interval * interval)
+            if (rem_time > 0) {
+                pmaStats[curr_interval]['frequency-' + event.event] += 1;
+                pmaStats[curr_interval]['duration-' + event.event] += rem_time;
             }
         }
+
         // Update
         prev_event = event;
     }
