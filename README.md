@@ -1,19 +1,16 @@
-# ExperimentAnnotationTracker
+# ScoreMore
 
-## Dev environment
-Maybe. I don't know how much is needed to actually build and set stuff up. I think that this might be it? Otherwise, here are the instructions to set it up locally.
-
-You will need node installed.
-
-```
-sudo apt-get install nodejs
-sudo npm install -g n
-sudo n 10
-sudo npm install -g gulp
-```
-Navigate to the project folder, the following command will have you answer some questions
-```
-sudo npm install semantic-ui --save
-cd semantic
-gulp build
-```
+## Usage
+* Open the **ScoreMore.html** file in your browser.
+* Click on the _Experiment_ dropdown menu and select _Create New Experiment_.
+* Fill in the information.
+* Click on the _Subjects_ menu item.
+* Fill in subject information.
+* Click on the _Score_ dropdown menu and select _Behaviour Parameters_.
+* Fill in the information by clicking on _Add Additional Behaviour Parameter_.
+  * You may do this many times.
+  * When you have finished entering the behaviour parameters press the _Register All Behaviour Parameters_ Button.
+* On the right side of the screen, press the box with the plus sign in it to _Load the video that you will score_.
+* Fill in the amount of time you will be scoring the session in the bottom of the screen.
+* Click on the _Score_ dropdown menu and select _Start Scoring Session_.
+* Scoring is done by pressing the keys that were previously linked to the behaviour parameters screen.
